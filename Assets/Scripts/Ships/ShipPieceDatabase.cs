@@ -6,9 +6,9 @@ using UnityEngine;
 public class ShipPieceDatabase : ScriptableObject
 {
     [SerializeField]
-    private ShipPiece[] pieces;
+    private ShipPieceTemplate[] pieces;
     
-    public ShipPiece GetPiece(int index)
+    public ShipPieceTemplate GetPiece(int index)
     {
         return pieces[index];
     }

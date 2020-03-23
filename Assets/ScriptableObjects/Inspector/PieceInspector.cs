@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(ShipPiece))]
+[CustomEditor(typeof(ShipPieceTemplate))]
 public class PieceInspector : Editor
 {
     private Sprite aSprite;
-    private ShipPiece comp;
+    private ShipPieceTemplate comp;
 
     // TexPos
     private Vector2 pos = new Vector2(0, 30);
@@ -41,7 +41,7 @@ public class PieceInspector : Editor
 
     public void OnEnable()
     {
-        comp = (ShipPiece)target;
+        comp = (ShipPieceTemplate)target;
 
         GameObject prefab = comp.Prefab;
 

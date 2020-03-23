@@ -12,9 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d3966c262b6b634b9ad89c241b0d910, type: 3}
   m_Name: Cockpit
   m_EditorClassIdentifier: 
-  pieceLines:
-  - lineCells:
-    - wallState: 0
   height: 1
   width: 1
   graphicsContainerPrefab: {fileID: 4073452497820009503, guid: d68dda8fa0e06d542b0d462233d91b52,

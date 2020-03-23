@@ -2,74 +2,74 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ShipPiece", order = 0)]
-public class ShipPiece : ScriptableObject
+[System.Serializable]
+public class ShipPiece
 {
+
     [SerializeField]
     private CellLine[] pieceLines;
+
+    private ShipPieceTemplate template;
+
     [SerializeField]
-    private int height = 1;
+    private int templateIndex;
+
     [SerializeField]
-    private int width = 1;
-    [SerializeField]
-    private GameObject graphicsContainerPrefab;
+    private Vector2Int pos;
+
+    // Constructing a ship piece (from template)
+    public ShipPiece(ShipPieceTemplate template, int templateIndex, Vector2Int pos)
+    {
+        this.template = template;
+        this.pos = pos;
+
+        pieceLines = new CellLine[this.template.Height];
+
+        for (int i = 0; i < template.Height; ++i)
+        {
+            pieceLines[i] = new CellLine(this.template.Width);
+        }
+    }
 
     // Modify cells
     public Cell GetShipCell(int x, int y)
     {
         Cell outCell = null;
 
-        if (y >= 0 && y < height)
+        if (y >= 0 && y < template.Height)
             pieceLines[y].GetCell(x);
 
         return outCell;
     }
     public void SetShipCell(int x, int y, Cell cell)
     {
-        if (y >= 0 && y < height)
+        if (y >= 0 && y < template.Height)
             pieceLines[y].SetCell(x, cell);
     }
 
     // Properties
     public int Height
     {
-        get { return height; }
-        set
-        {
-            height = value;
-
-            pieceLines = new CellLine[height];
-
-            for (int i = 0; i < height; ++i)
-            {
-                pieceLines[i] = new CellLine(width);
-            }
-        }
+        get { return template.Height; }
     }
     public int Width
     {
-        get { return width; }
-        set
-        {
-            width = value;
-
-            pieceLines = new CellLine[height];
-
-            for(int i = 0; i < height; ++i)
-            {
-                pieceLines[i] = new CellLine(width);
-            }
-        }
+        get { return template.Width; }
     }
     public GameObject Prefab
     {
+        get { return template.Prefab; }
+    }
+
+    public Vector2Int Position
+    {
         get
         {
-            return graphicsContainerPrefab;
+            return pos;
         }
         set
         {
-            graphicsContainerPrefab = value;
+            pos = value;
         }
     }
 }
