@@ -25,7 +25,7 @@ public class ShipPiece
 
         pieceLines = new CellLine[this.template.Height];
 
-        for (int i = 0; i < template.Height; ++i)
+        for (int i = 0; i < this.template.Height; ++i)
         {
             pieceLines[i] = new CellLine(this.template.Width);
         }

@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ShipPieceTemplate", order = 0)]
 public class ShipPieceTemplate : ScriptableObject
 {
+    // Need the piece lines on the templates for the walkable states
+    [SerializeField]
+    private CellLine[] pieceLines;
+
     [SerializeField]
     private int height = 1;
     [SerializeField]
@@ -12,6 +16,21 @@ public class ShipPieceTemplate : ScriptableObject
     [SerializeField]
     private GameObject graphicsContainerPrefab;
 
+    // Modify cells
+    public Cell GetShipCell(int x, int y)
+    {
+        Cell outCell = null;
+
+        if (y >= 0 && y < Height)
+            pieceLines[y].GetCell(x);
+
+        return outCell;
+    }
+    public void SetShipCell(int x, int y, Cell cell)
+    {
+        if (y >= 0 && y < Height)
+            pieceLines[y].SetCell(x, cell);
+    }
 
     // Properties
     public int Height
@@ -20,6 +39,12 @@ public class ShipPieceTemplate : ScriptableObject
         set
         {
             height = value;
+            pieceLines = new CellLine[Height];
+
+            for (int i = 0; i < Height; ++i)
+            {
+                pieceLines[i] = new CellLine(Width);
+            }
         }
     }
     public int Width
@@ -28,6 +53,12 @@ public class ShipPieceTemplate : ScriptableObject
         set
         {
             width = value;
+            pieceLines = new CellLine[Height];
+
+            for (int i = 0; i < Height; ++i)
+            {
+                pieceLines[i] = new CellLine(Width);
+            }
         }
     }
     public GameObject Prefab

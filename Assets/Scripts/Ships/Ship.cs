@@ -41,10 +41,10 @@ public class Ship
                 {
                     Vector3 p = new Vector3(piece.Position.x + i, piece.Position.y + j, 0) * 3.2f;
 
-                    Debug.DrawLine(container.TransformPoint(p + new Vector3(-.4f, -.4f, 0)), container.TransformPoint(p + new Vector3(.4f, -.4f, 0)), Color.red);
-                    Debug.DrawLine(container.TransformPoint(p + new Vector3(.4f, -.4f, 0)), container.TransformPoint(p + new Vector3(.4f, .4f, 0)), Color.red);
-                    Debug.DrawLine(container.TransformPoint(p + new Vector3(.4f, .4f, 0)), container.TransformPoint(p + new Vector3(-.4f, .4f, 0)), Color.red);
-                    Debug.DrawLine(container.TransformPoint(p + new Vector3(-.4f, .4f, 0)), container.TransformPoint(p + new Vector3(-.4f, -.4f, 0)), Color.red);
+                    Debug.DrawLine(container.TransformPoint(p + new Vector3(-1.5f, -1.5f, 0)), container.TransformPoint(p + new Vector3(1.5f, -1.5f, 0)), Color.red);
+                    Debug.DrawLine(container.TransformPoint(p + new Vector3(1.5f, -1.5f, 0)), container.TransformPoint(p + new Vector3(1.5f, 1.5f, 0)), Color.red);
+                    Debug.DrawLine(container.TransformPoint(p + new Vector3(1.5f, 1.5f, 0)), container.TransformPoint(p + new Vector3(-1.5f, 1.5f, 0)), Color.red);
+                    Debug.DrawLine(container.TransformPoint(p + new Vector3(-1.5f, 1.5f, 0)), container.TransformPoint(p + new Vector3(-1.5f, -1.5f, 0)), Color.red);
                 }
             }
         }
