@@ -10,8 +10,10 @@ public class ShipPieceTemplate : ScriptableObject
     private CellLine[] pieceLines;
 
     [SerializeField]
+    [Range(0, 100)]
     private int height = 1;
     [SerializeField]
+    [Range(0, 100)]
     private int width = 1;
     [SerializeField]
     private GameObject graphicsContainerPrefab;
@@ -22,16 +24,10 @@ public class ShipPieceTemplate : ScriptableObject
         Cell outCell = null;
 
         if (y >= 0 && y < Height)
-            pieceLines[y].GetCell(x);
+            outCell = pieceLines[y].GetCell(x);
 
         return outCell;
     }
-    public void SetShipCell(int x, int y, Cell cell)
-    {
-        if (y >= 0 && y < Height)
-            pieceLines[y].SetCell(x, cell);
-    }
-
     // Properties
     public int Height
     {
@@ -39,12 +35,6 @@ public class ShipPieceTemplate : ScriptableObject
         set
         {
             height = value;
-            pieceLines = new CellLine[Height];
-
-            for (int i = 0; i < Height; ++i)
-            {
-                pieceLines[i] = new CellLine(Width);
-            }
         }
     }
     public int Width
@@ -53,11 +43,9 @@ public class ShipPieceTemplate : ScriptableObject
         set
         {
             width = value;
-            pieceLines = new CellLine[Height];
-
-            for (int i = 0; i < Height; ++i)
+            foreach (CellLine line in pieceLines)
             {
-                pieceLines[i] = new CellLine(Width);
+                line.Width = width;
             }
         }
     }

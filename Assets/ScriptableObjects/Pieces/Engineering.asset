@@ -12,6 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d3966c262b6b634b9ad89c241b0d910, type: 3}
   m_Name: Engineering
   m_EditorClassIdentifier: 
+  pieceLines:
+  - lineCells:
+    - cellState: 1
+      wallStateUp: 0
+      wallStateRight: 0
+      wallStateDown: 0
+      wallStateLeft: 0
+    - cellState: 1
+      wallStateUp: 0
+      wallStateRight: 0
+      wallStateDown: 0
+      wallStateLeft: 0
+  - lineCells:
+    - cellState: 1
+      wallStateUp: 0
+      wallStateRight: 0
+      wallStateDown: 0
+      wallStateLeft: 0
+    - cellState: 1
+      wallStateUp: 0
+      wallStateRight: 0
+      wallStateDown: 0
+      wallStateLeft: 0
   height: 2
   width: 2
   graphicsContainerPrefab: {fileID: 4956704576241023553, guid: d948fb1eddb2c404386d21ca431e0ba8,

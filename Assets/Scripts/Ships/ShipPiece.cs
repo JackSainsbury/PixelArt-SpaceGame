@@ -23,11 +23,25 @@ public class ShipPiece
         this.template = template;
         this.pos = pos;
 
-        pieceLines = new CellLine[this.template.Height];
+        // Deep copy cells and lines
+        pieceLines = new CellLine[template.Height];
 
-        for (int i = 0; i < this.template.Height; ++i)
+        for (int j = 0; j < template.Height; ++j)
         {
-            pieceLines[i] = new CellLine(this.template.Width);
+            pieceLines[j] = new CellLine(template.Width);
+
+            for (int i = 0; i < template.Width; ++i)
+            {
+                Cell templateCell = template.GetShipCell(i, j);
+                Cell newCell = new Cell();
+                newCell.CellState = templateCell.CellState;
+                newCell.WallStateUp = templateCell.WallStateUp;
+                newCell.WallStateRight = templateCell.WallStateRight;
+                newCell.WallStateDown = templateCell.WallStateDown;
+                newCell.WallStateLeft = templateCell.WallStateLeft;
+
+                pieceLines[j].SetCell(i, newCell);
+            }
         }
     }
 
@@ -37,7 +51,7 @@ public class ShipPiece
         Cell outCell = null;
 
         if (y >= 0 && y < template.Height)
-            pieceLines[y].GetCell(x);
+            outCell = pieceLines[y].GetCell(x);
 
         return outCell;
     }

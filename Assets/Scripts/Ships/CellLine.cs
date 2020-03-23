@@ -31,4 +31,8 @@ public class CellLine
         if (x >= 0 && x < width)
             lineCells[x] = cell;
     }
+    public int Width
+    {
+        set { width = value; }
+    }
 }

@@ -15,9 +15,18 @@ public class ShipLoader : MonoBehaviour
         ship = new Ship(database, transform);
 
         // Add demo pieces
-        ship.AddNewPiece(0, new Vector2Int(0, 0));
-        if (ship.QueryAddNewPiece(1, new Vector2Int(1, 0)))
-            ship.AddNewPiece(1, new Vector2Int(1, 0));
+        ShipPiece newPieceA = new ShipPiece(database.GetPiece(0), 0, new Vector2Int(0, 0));
+
+        Debug.Log(newPieceA.GetShipCell(0, 0));
+
+        ship.AddNewPiece(newPieceA);
+
+        ShipPiece newPieceB = new ShipPiece(database.GetPiece(1), 1, new Vector2Int(1, 0));
+
+        if (ship.QueryAddNewPiece(newPieceB))
+        {
+            ship.AddNewPiece(newPieceB);
+        }
 
         // Spawn the ship
         ship.SpawnShip();
