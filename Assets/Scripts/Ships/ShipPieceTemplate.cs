@@ -10,10 +10,10 @@ public class ShipPieceTemplate : ScriptableObject
     private CellLine[] pieceLines;
 
     [SerializeField]
-    [Range(0, 100)]
+    [Range(1, 100)]
     private int height = 1;
     [SerializeField]
-    [Range(0, 100)]
+    [Range(1, 100)]
     private int width = 1;
     [SerializeField]
     private GameObject graphicsContainerPrefab;

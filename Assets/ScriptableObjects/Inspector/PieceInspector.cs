@@ -54,11 +54,15 @@ public class PieceInspector : Editor
 
     private SerializedProperty pieceCellsPROPERTY;
     private SerializedProperty lineCellsPROPERTY;
+    private SerializedProperty widthPROPERTY;
+    private SerializedProperty heightPROPERTY;
 
     public void OnEnable()
     {
         comp = (ShipPieceTemplate)target;
         pieceCellsPROPERTY = serializedObject.FindProperty("pieceLines");
+        widthPROPERTY = serializedObject.FindProperty("width");
+        heightPROPERTY = serializedObject.FindProperty("height");
 
         GameObject prefab = comp.Prefab;
 
@@ -96,7 +100,7 @@ public class PieceInspector : Editor
 
         pieceCellsPROPERTY.serializedObject.ApplyModifiedProperties();
 
-        //GenerateWallTextures(comp.Width, comp.Height);
+        GenerateWallTextures(comp.Width, comp.Height);
     }
 
     public override void OnInspectorGUI()
@@ -129,22 +133,24 @@ public class PieceInspector : Editor
             int widthTry = EditorGUILayout.IntField("Width:", comp.Width);
             int heightTry = EditorGUILayout.IntField("Height:", comp.Height);
 
-            widthTry = (int)Mathf.Clamp(widthTry, 0, widthTry);
-            heightTry = (int)Mathf.Clamp(heightTry, 0, heightTry);
+            widthTry = (int)Mathf.Clamp(widthTry, 1, widthTry);
+            heightTry = (int)Mathf.Clamp(heightTry, 1, heightTry);
 
-           /* if (widthTry != comp.Width || heightTry != comp.Height)
-            {
-                GenerateWallTextures(widthTry, heightTry);
-            }*/
-
+            bool regen = false;
             if(heightTry != comp.Height)
             {
+                heightPROPERTY.intValue = heightTry;
+
                 pieceCellsPROPERTY.arraySize = heightTry;
+                
                 pieceCellsPROPERTY.serializedObject.ApplyModifiedProperties();
+                regen = true;
             }
             if(widthTry != comp.Width)
             {
-                for(int i = 0; i < pieceCellsPROPERTY.arraySize; ++i)
+                widthPROPERTY.intValue = widthTry;
+
+                for (int i = 0; i < pieceCellsPROPERTY.arraySize; ++i)
                 {
                     var line = pieceCellsPROPERTY.GetArrayElementAtIndex(i);
                     SerializedProperty cells = line.FindPropertyRelative("lineCells");
@@ -152,10 +158,18 @@ public class PieceInspector : Editor
                 }
 
                 pieceCellsPROPERTY.serializedObject.ApplyModifiedProperties();
+                regen = true;
+            }
+
+            if (regen)
+            {
+                GenerateWallTextures(widthTry, heightTry);
             }
 
             comp.Width = widthTry;
             comp.Height = heightTry;
+
+
 
 
             // Drag our texture around and flag for repaint
@@ -175,20 +189,21 @@ public class PieceInspector : Editor
             {
                 if (leftMouseDown)
                 {
-
                     Vector2 parametricPos = (Event.current.mousePosition - new Vector2(10, 140));
-
                     parametricPos -= pos;
+                    parametricPos -= new Vector2(0, (Screen.width * (aSprite.rect.width / (aSprite.rect.height)) * scroll));
+
+                    parametricPos = new Vector2(parametricPos.x, parametricPos.y * -1);
+                    parametricPos /= Screen.width;
+                    parametricPos *= new Vector2(aSprite.rect.width / 32f, aSprite.rect.height / 32f);
                     parametricPos /= scroll;
-                    parametricPos = new Vector2(Mathf.Clamp01(parametricPos.x / Screen.width),
-                        1 - Mathf.Clamp01(parametricPos.y / Screen.width)
-                        ) * new Vector2Int(comp.Width, comp.Height);
 
-                    Vector2 moduloPos = new Vector2(parametricPos.x % 1, parametricPos.y % 1);
-                    Vector2Int floorPos = new Vector2Int(Mathf.FloorToInt(parametricPos.x), Mathf.FloorToInt(parametricPos.y));
-
-                    if (floorPos.y >= 0 && floorPos.y < comp.Height && floorPos.x >= 0 && floorPos.x < comp.Width)
+                    if (parametricPos.x >=  0 && parametricPos.x < comp.Width && parametricPos.y >= 0 && parametricPos.y < comp.Height)
                     {
+                        Vector2 moduloPos = new Vector2(parametricPos.x % 1, parametricPos.y % 1);
+                        Vector2Int floorPos = new Vector2Int(Mathf.FloorToInt(parametricPos.x), Mathf.FloorToInt(parametricPos.y));
+
+
                         var line = pieceCellsPROPERTY.GetArrayElementAtIndex(floorPos.y);
                         SerializedProperty cells = line.FindPropertyRelative("lineCells");
                         SerializedProperty cell = cells.GetArrayElementAtIndex(floorPos.x);
@@ -230,12 +245,12 @@ public class PieceInspector : Editor
             float height = (Screen.width * (aSprite.rect.width / (aSprite.rect.height)) * scroll);
             GUIDrawSprite(new Rect(pos.x, pos.y, Screen.width * scroll, height), aSprite);
 
+
+            // Draw corner visualizers (nasty hard coding, but it works, just positioning at bottom left and top right of array)
             float d = (Screen.width / (aSprite.rect.width / 32f)) * scroll;
             float d4 = (Screen.width / (aSprite.rect.width / 4f)) * scroll;
-
-            // Draw corner visualizers
             GUI.DrawTexture(new Rect(pos.x - (d4 / 4.0f), (pos.y + (height - (d4  - (d4/4.0f)))), d4, d4), cornerVisTex, ScaleMode.ScaleToFit);
-            GUI.DrawTexture(new Rect(pos.x + (d * comp.Width) + (d4 / 4.0f), pos.y + (d4 / 4.0f) * 3, -d4, -d4), cornerVisTex, ScaleMode.ScaleToFit);
+            GUI.DrawTexture(new Rect(pos.x + (d * comp.Width) + (d4 / 4.0f), pos.y + height - (d * comp.Height) + (d4 / 4.0f) * 3, -d4, -d4), cornerVisTex, ScaleMode.ScaleToFit);
 
 
             // Draw cell visualizers and wall visualizers
@@ -253,14 +268,9 @@ public class PieceInspector : Editor
                     {
                         GUI.DrawTexture(new Rect(d * i + pos.x, d * -j + (pos.y + (height - d)), d, d), cellVisTex, ScaleMode.ScaleToFit);
 
-                        /*
                         Texture2D wallTex = cellVisualizers[j * comp.Width + i];
 
-                        if (wallTex != null)
-                        {
-                            GUI.DrawTexture(new Rect(d * i + pos.x, d * -j + (pos.y + (height - d)), d, d), wallTex, ScaleMode.ScaleToFit);
-                        }
-                        */
+                        GUI.DrawTexture(new Rect(d * i + pos.x, d * -j + (pos.y + (height - d)), d, d), wallTex, ScaleMode.ScaleToFit);
                     }
                 }
             }
@@ -283,52 +293,94 @@ public class PieceInspector : Editor
             Repaint();
     }
 
-    /*
+  
     void GenerateWallTextures(int widthTry, int heightTry)
     {
         cellVisualizers = new Texture2D[widthTry * heightTry];
+        Color[] pixels = new Color[64];
+        for (int i = 0; i < 64; ++i)
+        {
+            pixels[i] = Color.clear;
+        }
+
         for (int j = 0; j < heightTry; ++j)
         {
             for (int i = 0; i < widthTry; ++i)
             {
-                Cell cell = comp.GetShipCell(i, j);
-
-                if (cell != null)
-                {
-                    Texture2D tex = new Texture2D(8, 8);
-                    Color[] pixels = new Color[64];
-
-
-                    Color up = GetColour(cell.WallStateUp);
-                    Color right = GetColour(cell.WallStateRight);
-                    Color down = GetColour(cell.WallStateDown);
-                    Color left = GetColour(cell.WallStateLeft);
-
-                    for (int c = 0; c < 8; ++c)
-                    {
-                        pixels[c] = up;
-                        pixels[c * 8 + 7] = right;
-                        pixels[63 - c] = down;
-                        pixels[c * 8] = left;
-                    }
-
-                    tex.SetPixels(pixels);
-                    tex.filterMode = FilterMode.Point;
-                    tex.Apply();
-                    cellVisualizers[j * widthTry + i] = tex;
-                }
+                Texture2D tex = new Texture2D(8, 8);
+                tex.SetPixels(pixels);
+                cellVisualizers[j * widthTry + i] = tex;
+                UpdateTexture(i, j);
             }
         }
     }
-    */
+
+    void UpdateTexture(int x, int y)
+    {
+        Texture2D tex = cellVisualizers[y * comp.Width + x];
+        Color[] pixels = tex.GetPixels();
+
+        var line = pieceCellsPROPERTY.GetArrayElementAtIndex(y);
+        SerializedProperty cells = line.FindPropertyRelative("lineCells");
+        SerializedProperty cell = cells.GetArrayElementAtIndex(x);
+
+        int upVal = cell.FindPropertyRelative("wallStateUp").intValue;
+        int rightVal = cell.FindPropertyRelative("wallStateRight").intValue;
+        int downVal = cell.FindPropertyRelative("wallStateDown").intValue;
+        int leftVal = cell.FindPropertyRelative("wallStateLeft").intValue;
+
+        Color blocked = GetColour(1);
+
+        Color up = GetColour(upVal);
+        Color right = GetColour(rightVal);
+        Color down = GetColour(downVal);
+        Color left = GetColour(leftVal);
+
+        for (int c = 0; c < 8; ++c)
+        {
+            pixels[c] = up;
+            pixels[63 - c] = down;
+            pixels[c * 8 + 7] = right;
+            pixels[c * 8] = left;
+        }
+
+        if (leftVal == 1)
+        {
+            pixels[0] = blocked;
+            pixels[56] = blocked;
+        }
+        if (rightVal == 1)
+        {
+            pixels[7] = blocked;
+            pixels[63] = blocked;
+        }
+
+        if (downVal == 1)
+        {
+            pixels[63] = blocked;
+            pixels[56] = blocked;
+        }
+        if (upVal == 1)
+        {
+            pixels[7] = blocked;
+            pixels[0] = blocked;
+        }
+
+
+        tex.SetPixels(pixels);
+        tex.filterMode = FilterMode.Point;
+        tex.Apply();
+        cellVisualizers[y * comp.Width + x] = tex;
+    }
+
     Color GetColour(int id)
     {
         switch (id)
         {
             case 0:
-                return new Color(0, 1, 0);
+                return Color.clear;
             case 1:
-                return new Color(1, 0, 0, 1);
+                return new Color(.5f, 0, 0, 1);
         }
 
         return new Color(0, 0, 0, 0);
@@ -374,61 +426,97 @@ public class PieceInspector : Editor
             {
                 //Set thew new wall states
 
-                SetEdge(mouseDownOptionsMenu, offset, newVal);
+                SetEdge(mouseDownOptionsMenu, newVal);
 
                 optionsMenuShow = false;
             }
         }
     }
 
-    void SetEdge(Vector2 windowPos, Vector2 offset, int value)
+    void SetEdge(Vector2 windowPos, int value)
     {
-        Vector2 parametricPos = (windowPos - offset);
-
+        Vector2 parametricPos = (windowPos - new Vector2(10, 140));
         parametricPos -= pos;
 
+        parametricPos -= new Vector2(0, (Screen.width * (aSprite.rect.width / (aSprite.rect.height)) * scroll));
+
+        parametricPos = new Vector2(parametricPos.x, parametricPos.y * -1);
+        parametricPos /= Screen.width;
+        parametricPos *= new Vector2(aSprite.rect.width / 32f, aSprite.rect.height / 32f);
         parametricPos /= scroll;
 
-        parametricPos = new Vector2(Mathf.Clamp01(parametricPos.x / Screen.width),
-            1 - Mathf.Clamp01(parametricPos.y / Screen.width)
-            ) * new Vector2Int(comp.Width, comp.Height);
 
-        Vector2 moduloPos = new Vector2(parametricPos.x % 1, parametricPos.y % 1);
-        Vector2Int floorPos = new Vector2Int(Mathf.FloorToInt(parametricPos.x), Mathf.FloorToInt(parametricPos.y));
-
-        if (floorPos.x == comp.Width) floorPos.x--;
-        if (floorPos.y == comp.Height) floorPos.y--;
-
-        bool LHSIncline = moduloPos.y > moduloPos.x;
-        bool LHSDecline = 1 - moduloPos.y > moduloPos.x;
-
-        var line = pieceCellsPROPERTY.GetArrayElementAtIndex(floorPos.y);
-        SerializedProperty cells = line.FindPropertyRelative("lineCells");
-        SerializedProperty cell = cells.GetArrayElementAtIndex(floorPos.x);
-
-        if (LHSIncline && LHSDecline)
+        if (parametricPos.x >= 0 && parametricPos.x < comp.Width && parametricPos.y >= 0 && parametricPos.y < comp.Height)
         {
-            // Left
-            if (cell.FindPropertyRelative("cellState").intValue == 1)
+            Vector2 moduloPos = new Vector2(parametricPos.x % 1, parametricPos.y % 1);
+            Vector2Int floorPos = new Vector2Int(Mathf.FloorToInt(parametricPos.x), Mathf.FloorToInt(parametricPos.y));
+
+            bool LHSIncline = moduloPos.y > moduloPos.x;
+            bool LHSDecline = 1 - moduloPos.y > moduloPos.x;
+
+            var line = pieceCellsPROPERTY.GetArrayElementAtIndex(floorPos.y);
+            SerializedProperty cells = line.FindPropertyRelative("lineCells");
+            SerializedProperty cell = cells.GetArrayElementAtIndex(floorPos.x);
+
+            Vector2Int texBCoords = new Vector2Int(-1, 0);
+
+            if (LHSIncline && LHSDecline)
+            {
+                // Left
                 cell.FindPropertyRelative("wallStateLeft").intValue = value;
-        }
-        else if (LHSIncline)
-        {
-            // Up
-            if (cell.FindPropertyRelative("cellState").intValue == 1)
+
+                if (floorPos.x - 1 >= 0)
+                {
+                    SerializedProperty cell2 = cells.GetArrayElementAtIndex(floorPos.x - 1);
+                    cell2.FindPropertyRelative("wallStateRight").intValue = value;
+                    texBCoords = new Vector2Int(floorPos.x - 1, floorPos.y);
+                }
+            }
+            else if (LHSDecline)
+            {
+                // Up
                 cell.FindPropertyRelative("wallStateUp").intValue = value;
-        }
-        else if (LHSDecline)
-        {
-            // Down
-            if (cell.FindPropertyRelative("cellState").intValue == 1)
+                if (floorPos.y - 1 >= 0)
+                {
+                    var line2 = pieceCellsPROPERTY.GetArrayElementAtIndex(floorPos.y - 1);
+                    SerializedProperty cells2 = line2.FindPropertyRelative("lineCells");
+                    SerializedProperty cell2 = cells2.GetArrayElementAtIndex(floorPos.x);
+                    cell2.FindPropertyRelative("wallStateDown").intValue = value;
+                    texBCoords = new Vector2Int(floorPos.x, floorPos.y - 1);
+                }
+            }
+            else if (LHSIncline)
+            {
+                // Down
                 cell.FindPropertyRelative("wallStateDown").intValue = value;
-        }
-        else
-        {
-            // Right
-            if (cell.FindPropertyRelative("cellState").intValue == 1)
+
+                if (floorPos.y + 1 < comp.Height)
+                {
+                    var line2 = pieceCellsPROPERTY.GetArrayElementAtIndex(floorPos.y + 1);
+                    SerializedProperty cells2 = line2.FindPropertyRelative("lineCells");
+                    SerializedProperty cell2 = cells2.GetArrayElementAtIndex(floorPos.x);
+                    cell2.FindPropertyRelative("wallStateUp").intValue = value;
+                    texBCoords = new Vector2Int(floorPos.x, floorPos.y + 1);
+                }
+            }
+            else
+            {
+                // Right
                 cell.FindPropertyRelative("wallStateRight").intValue = value;
+
+                if (floorPos.x + 1 < comp.Width)
+                {
+                    SerializedProperty cell2 = cells.GetArrayElementAtIndex(floorPos.x + 1);
+                    cell2.FindPropertyRelative("wallStateLeft").intValue = value;
+                    texBCoords = new Vector2Int(floorPos.x + 1, floorPos.y);
+                }
+            }
+
+            pieceCellsPROPERTY.serializedObject.ApplyModifiedProperties();
+
+            UpdateTexture(floorPos.x, floorPos.y);
+            if (texBCoords.x != -1)
+                UpdateTexture(texBCoords.x, texBCoords.y);
         }
     }
 

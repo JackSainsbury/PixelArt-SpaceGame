@@ -45,10 +45,14 @@ public class Ship
                     {
                         Vector3 p = new Vector3(piece.Position.x + i, piece.Position.y + j, 0) * 3.2f;
 
-                        Debug.DrawLine(container.TransformPoint(p + new Vector3(-1.5f, -1.5f, 0)), container.TransformPoint(p + new Vector3(1.5f, -1.5f, 0)), Color.red);
-                        Debug.DrawLine(container.TransformPoint(p + new Vector3(1.5f, -1.5f, 0)), container.TransformPoint(p + new Vector3(1.5f, 1.5f, 0)), Color.red);
-                        Debug.DrawLine(container.TransformPoint(p + new Vector3(1.5f, 1.5f, 0)), container.TransformPoint(p + new Vector3(-1.5f, 1.5f, 0)), Color.red);
-                        Debug.DrawLine(container.TransformPoint(p + new Vector3(-1.5f, 1.5f, 0)), container.TransformPoint(p + new Vector3(-1.5f, -1.5f, 0)), Color.red);
+                        if(piece.GetShipCell(i, j).WallStateUp == 1)
+                            Debug.DrawLine(container.TransformPoint(p + new Vector3(-1.5f, -1.5f, 0)), container.TransformPoint(p + new Vector3(1.5f, -1.5f, 0)), Color.red);
+                        if (piece.GetShipCell(i, j).WallStateRight == 1)
+                            Debug.DrawLine(container.TransformPoint(p + new Vector3(1.5f, -1.5f, 0)), container.TransformPoint(p + new Vector3(1.5f, 1.5f, 0)), Color.red);
+                        if (piece.GetShipCell(i, j).WallStateDown == 1)
+                            Debug.DrawLine(container.TransformPoint(p + new Vector3(1.5f, 1.5f, 0)), container.TransformPoint(p + new Vector3(-1.5f, 1.5f, 0)), Color.red);
+                        if (piece.GetShipCell(i, j).WallStateLeft == 1)
+                            Debug.DrawLine(container.TransformPoint(p + new Vector3(-1.5f, 1.5f, 0)), container.TransformPoint(p + new Vector3(-1.5f, -1.5f, 0)), Color.red);
                     }
                 }
             }

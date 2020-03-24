@@ -15,12 +15,12 @@ MonoBehaviour:
   pieceLines:
   - lineCells:
     - cellState: 1
-      wallStateUp: 0
+      wallStateUp: 1
       wallStateRight: 0
       wallStateDown: 0
       wallStateLeft: 0
     - cellState: 1
-      wallStateUp: 0
+      wallStateUp: 1
       wallStateRight: 0
       wallStateDown: 0
       wallStateLeft: 0
@@ -28,12 +28,12 @@ MonoBehaviour:
     - cellState: 1
       wallStateUp: 0
       wallStateRight: 0
-      wallStateDown: 0
-      wallStateLeft: 0
+      wallStateDown: 1
+      wallStateLeft: 1
     - cellState: 1
       wallStateUp: 0
-      wallStateRight: 0
-      wallStateDown: 0
+      wallStateRight: 1
+      wallStateDown: 1
       wallStateLeft: 0
   height: 2
   width: 2

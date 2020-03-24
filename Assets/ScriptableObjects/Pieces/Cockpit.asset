@@ -15,9 +15,9 @@ MonoBehaviour:
   pieceLines:
   - lineCells:
     - cellState: 1
-      wallStateUp: 0
+      wallStateUp: 1
       wallStateRight: 0
-      wallStateDown: 0
+      wallStateDown: 1
       wallStateLeft: 0
   height: 1
   width: 1

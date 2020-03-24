@@ -17,8 +17,6 @@ public class ShipLoader : MonoBehaviour
         // Add demo pieces
         ShipPiece newPieceA = new ShipPiece(database.GetPiece(0), 0, new Vector2Int(0, 0));
 
-        Debug.Log(newPieceA.GetShipCell(0, 0));
-
         ship.AddNewPiece(newPieceA);
 
         ShipPiece newPieceB = new ShipPiece(database.GetPiece(1), 1, new Vector2Int(1, 0));
