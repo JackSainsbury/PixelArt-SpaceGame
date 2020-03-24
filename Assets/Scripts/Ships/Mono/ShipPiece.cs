@@ -2,38 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class ShipPiece
+public class ShipPiece : MonoBehaviour
 {
+    [SerializeField]
+    private CellLineTemplate[] pieceLines;
 
     [SerializeField]
-    private CellLine[] pieceLines;
+    private Sprite mainSprite;
 
     private ShipPieceTemplate template;
 
     [SerializeField]
-    private int templateIndex;
-
-    [SerializeField]
     private Vector2Int pos;
 
+    [SerializeField]
+    private List<ShipConnection> connections;
+
     // Constructing a ship piece (from template)
-    public ShipPiece(ShipPieceTemplate template, int templateIndex, Vector2Int pos)
+    public void InitShipPiece(ShipPieceTemplate template, Vector2Int pos)
     {
         this.template = template;
         this.pos = pos;
 
         // Deep copy cells and lines
-        pieceLines = new CellLine[template.Height];
+        pieceLines = new CellLineTemplate[template.Height];
 
         for (int j = 0; j < template.Height; ++j)
         {
-            pieceLines[j] = new CellLine(template.Width);
+            pieceLines[j] = new CellLineTemplate(template.Width);
 
             for (int i = 0; i < template.Width; ++i)
             {
-                Cell templateCell = template.GetShipCell(i, j);
-                Cell newCell = new Cell();
+                CellTemplate templateCell = template.GetShipCell(i, j);
+                CellTemplate newCell = new CellTemplate();
                 newCell.CellState = templateCell.CellState;
                 newCell.WallStateUp = templateCell.WallStateUp;
                 newCell.WallStateRight = templateCell.WallStateRight;
@@ -45,17 +46,40 @@ public class ShipPiece
         }
     }
 
-    // Modify cells
-    public Cell GetShipCell(int x, int y)
+    public void AddConnection(ShipConnection connection)
     {
-        Cell outCell = null;
+        if(connections == null)
+            connections = new List<ShipConnection>();
+
+        connections.Add(connection);
+    }
+
+    public ShipConnection GetConnectionByIndex(int index)
+    {
+        if (index >= 0 && index < connections.Count)
+            return connections[index];
+
+        return null;
+    }
+
+    public int GetConnectionCount()
+    {
+        if(connections != null)
+            return connections.Count;
+        return 0;
+    }
+
+    // Modify cells
+    public CellTemplate GetShipCell(int x, int y)
+    {
+        CellTemplate outCell = null;
 
         if (y >= 0 && y < template.Height)
             outCell = pieceLines[y].GetCell(x);
 
         return outCell;
     }
-    public void SetShipCell(int x, int y, Cell cell)
+    public void SetShipCell(int x, int y, CellTemplate cell)
     {
         if (y >= 0 && y < template.Height)
             pieceLines[y].SetCell(x, cell);
@@ -85,5 +109,10 @@ public class ShipPiece
         {
             pos = value;
         }
+    }
+
+    public Sprite MainSprite
+    {
+        get { return mainSprite; }
     }
 }

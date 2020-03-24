@@ -68,9 +68,9 @@ public class PieceInspector : Editor
 
         if (prefab)
         {
-            ShipPieceSpriteTrack pieceTrack = comp.Prefab.GetComponent<ShipPieceSpriteTrack>();
+            ShipPiece pieceTrack = comp.Prefab.GetComponent<ShipPiece>();
             if(pieceTrack)
-                aSprite = pieceTrack.mainSprite;
+                aSprite = pieceTrack.MainSprite;
         }
 
 
@@ -121,9 +121,9 @@ public class PieceInspector : Editor
         if (prefab != comp.Prefab)
         {
             comp.Prefab = prefab;
-            ShipPieceSpriteTrack pieceTrack = comp.Prefab.GetComponent<ShipPieceSpriteTrack>();
+            ShipPiece pieceTrack = comp.Prefab.GetComponent<ShipPiece>();
             if (pieceTrack)
-                aSprite = pieceTrack.mainSprite;
+                aSprite = pieceTrack.MainSprite;
         }
 
 

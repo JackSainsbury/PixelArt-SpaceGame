@@ -3,30 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CellLine
+public class CellLineTemplate
 {
     [SerializeField]
-    private Cell[] lineCells;
+    private CellTemplate[] lineCells;
     private int width;
 
     // Construct new line
-    public CellLine(int width)
+    public CellLineTemplate(int width)
     {
         this.width = width;
-        lineCells = new Cell[this.width];
+        lineCells = new CellTemplate[this.width];
     }
 
     // Modifying cell line
-    public Cell GetCell(int x)
+    public CellTemplate GetCell(int x)
     {
-        Cell outCell = null;
+        CellTemplate outCell = null;
 
         if (x >= 0 && x < width)
             outCell = lineCells[x];
 
         return outCell;
     }
-    public void SetCell(int x, Cell cell)
+    public void SetCell(int x, CellTemplate cell)
     {
         if (x >= 0 && x < width)
             lineCells[x] = cell;

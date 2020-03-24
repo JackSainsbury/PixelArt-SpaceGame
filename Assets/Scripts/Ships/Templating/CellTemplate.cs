@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Cell
+public class CellTemplate
 {
     [SerializeField]
     private int cellState;
@@ -18,7 +18,7 @@ public class Cell
     [SerializeField]
     private int wallStateLeft;
 
-    public Cell()
+    public CellTemplate()
     {
         cellState = 0;
 

@@ -7,7 +7,7 @@ public class ShipPieceTemplate : ScriptableObject
 {
     // Need the piece lines on the templates for the walkable states
     [SerializeField]
-    private CellLine[] pieceLines;
+    private CellLineTemplate[] pieceLines;
 
     [SerializeField]
     [Range(1, 100)]
@@ -19,9 +19,9 @@ public class ShipPieceTemplate : ScriptableObject
     private GameObject graphicsContainerPrefab;
 
     // Modify cells
-    public Cell GetShipCell(int x, int y)
+    public CellTemplate GetShipCell(int x, int y)
     {
-        Cell outCell = null;
+        CellTemplate outCell = null;
 
         if (y >= 0 && y < Height)
             outCell = pieceLines[y].GetCell(x);
@@ -43,7 +43,7 @@ public class ShipPieceTemplate : ScriptableObject
         set
         {
             width = value;
-            foreach (CellLine line in pieceLines)
+            foreach (CellLineTemplate line in pieceLines)
             {
                 line.Width = width;
             }
