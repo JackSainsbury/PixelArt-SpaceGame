@@ -13,13 +13,13 @@ public class ShipRuntime : MonoBehaviour
     {
         shipPieces = new List<ShipPiece>();
         this.database = database;
-        Rigidbody2D r2d =gameObject.AddComponent<Rigidbody2D>();
+        Rigidbody2D r2d = gameObject.AddComponent<Rigidbody2D>();
         r2d.mass = 100f;
         r2d.gravityScale = 0;
     }
 
     public void DebugDrawShip()
-    {     
+    {
         foreach (ShipPiece piece in shipPieces)
         {
             for (int j = 0; j < piece.Height; ++j)
@@ -31,14 +31,13 @@ public class ShipRuntime : MonoBehaviour
                     if (piece.GetShipCell(i, j).CellState != 0)
                     {
                         Vector3 p = new Vector3(piece.Position.x + i, piece.Position.y + j, 0) * 3.2f;
-
-                        if(piece.GetShipCell(i, j).WallStateUp != 0)
-                            Debug.DrawLine(transform.TransformPoint(p + new Vector3(-1.5f, -1.5f, 0)), transform.TransformPoint(p + new Vector3(1.5f, -1.5f, 0)), Color.red);
-                        if (piece.GetShipCell(i, j).WallStateRight != 0)
-                            Debug.DrawLine(transform.TransformPoint(p + new Vector3(1.5f, -1.5f, 0)), transform.TransformPoint(p + new Vector3(1.5f, 1.5f, 0)), Color.red);
-                        if (piece.GetShipCell(i, j).WallStateDown != 0)
+                        if ((piece.GetShipCell(i, j).CurWallState & WallState.Up) != WallState.None)
                             Debug.DrawLine(transform.TransformPoint(p + new Vector3(1.5f, 1.5f, 0)), transform.TransformPoint(p + new Vector3(-1.5f, 1.5f, 0)), Color.red);
-                        if (piece.GetShipCell(i, j).WallStateLeft != 0)
+                        if ((piece.GetShipCell(i, j).CurWallState & WallState.Right) != WallState.None)
+                            Debug.DrawLine(transform.TransformPoint(p + new Vector3(1.5f, -1.5f, 0)), transform.TransformPoint(p + new Vector3(1.5f, 1.5f, 0)), Color.red);
+                        if ((piece.GetShipCell(i, j).CurWallState & WallState.Down) != WallState.None)
+                            Debug.DrawLine(transform.TransformPoint(p + new Vector3(-1.5f, -1.5f, 0)), transform.TransformPoint(p + new Vector3(1.5f, -1.5f, 0)), Color.red);
+                        if ((piece.GetShipCell(i, j).CurWallState & WallState.Left) != WallState.None)
                             Debug.DrawLine(transform.TransformPoint(p + new Vector3(-1.5f, 1.5f, 0)), transform.TransformPoint(p + new Vector3(-1.5f, -1.5f, 0)), Color.red);
                     }
                 }
@@ -120,12 +119,13 @@ public class ShipRuntime : MonoBehaviour
     }
 
     // Search for piece by graph absolute cell position
-    public ShipPiece GetPieceByCellPos(Vector2Int cellPos)
+    public ShipPiece GetPieceByGlobalCellPos(Vector2Int cellPos)
     {
         foreach (ShipPiece piece in shipPieces)
         {
             Vector2Int topLeft = piece.Position;
-            Vector2Int botRight = new Vector2Int();
+            Vector2Int botRight = piece.Position + new Vector2Int(piece.Width, piece.Height);
+
 
             if (
                 topLeft.x <= cellPos.x && 
@@ -133,10 +133,26 @@ public class ShipRuntime : MonoBehaviour
                 botRight.x > cellPos.x &&
                 botRight.y > cellPos.y)
             {
-                return piece;
+                Vector2Int localCellPos = cellPos - piece.Position;
+
+                if (piece.GetShipCell(localCellPos.x, localCellPos.y).CellState == 1)
+                {
+                    return piece;
+                }
             }
         }
 
         return null;
+    }
+
+    // Get a cell from the structure, from a global cell position across the entire ship graph (null if invalid coord passed)
+    public CellTemplate GetCellByGlobalPos(Vector2Int cellPos)
+    {
+        ShipPiece piece = GetPieceByGlobalCellPos(cellPos);
+
+        if (piece == null)
+            return null;
+
+        return piece.GetShipCell(cellPos.x - piece.Position.x, cellPos.y - piece.Position.y);
     }
 }

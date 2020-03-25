@@ -15,27 +15,25 @@ MonoBehaviour:
   pieceLines:
   - lineCells:
     - cellState: 1
-      wallStateUp: 1
-      wallStateRight: 0
-      wallStateDown: 0
-      wallStateLeft: 0
+      wallState: 6
     - cellState: 1
-      wallStateUp: 1
-      wallStateRight: 0
-      wallStateDown: 0
-      wallStateLeft: 0
+      wallState: 12
+    - cellState: 1
+      wallState: 5
+    - cellState: 1
+      wallState: 4
+    width: 4
   - lineCells:
     - cellState: 1
-      wallStateUp: 0
-      wallStateRight: 0
-      wallStateDown: 1
-      wallStateLeft: 1
+      wallState: 9
     - cellState: 1
-      wallStateUp: 0
-      wallStateRight: 1
-      wallStateDown: 1
-      wallStateLeft: 0
+      wallState: 3
+    - cellState: 1
+      wallState: 13
+    - cellState: 1
+      wallState: 3
+    width: 4
   height: 2
-  width: 2
+  width: 4
   graphicsContainerPrefab: {fileID: 4956704576241023553, guid: d948fb1eddb2c404386d21ca431e0ba8,
     type: 3}

@@ -15,10 +15,8 @@ MonoBehaviour:
   pieceLines:
   - lineCells:
     - cellState: 1
-      wallStateUp: 1
-      wallStateRight: 0
-      wallStateDown: 1
-      wallStateLeft: 0
+      wallState: 5
+    width: 1
   height: 1
   width: 1
   graphicsContainerPrefab: {fileID: 6603493351787055175, guid: 1507191d68cdc554c9b81469b4878b38,

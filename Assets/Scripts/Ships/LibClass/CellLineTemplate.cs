@@ -7,6 +7,7 @@ public class CellLineTemplate
 {
     [SerializeField]
     private CellTemplate[] lineCells;
+    [SerializeField]
     private int width;
 
     // Construct new line
@@ -19,12 +20,9 @@ public class CellLineTemplate
     // Modifying cell line
     public CellTemplate GetCell(int x)
     {
-        CellTemplate outCell = null;
-
         if (x >= 0 && x < width)
-            outCell = lineCells[x];
-
-        return outCell;
+            return lineCells[x];
+        return null;
     }
     public void SetCell(int x, CellTemplate cell)
     {
@@ -34,5 +32,6 @@ public class CellLineTemplate
     public int Width
     {
         set { width = value; }
+        get { return width; }
     }
 }

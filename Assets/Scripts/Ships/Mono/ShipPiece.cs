@@ -36,10 +36,7 @@ public class ShipPiece : MonoBehaviour
                 CellTemplate templateCell = template.GetShipCell(i, j);
                 CellTemplate newCell = new CellTemplate();
                 newCell.CellState = templateCell.CellState;
-                newCell.WallStateUp = templateCell.WallStateUp;
-                newCell.WallStateRight = templateCell.WallStateRight;
-                newCell.WallStateDown = templateCell.WallStateDown;
-                newCell.WallStateLeft = templateCell.WallStateLeft;
+                newCell.CurWallState = templateCell.CurWallState;
 
                 pieceLines[j].SetCell(i, newCell);
             }

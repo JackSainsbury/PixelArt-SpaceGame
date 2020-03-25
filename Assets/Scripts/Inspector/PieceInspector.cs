@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-public enum WallStateEnum
+public enum WallStateEnumOptionsMenu
 {
     Clear,
     Blocked
@@ -324,10 +324,13 @@ public class PieceInspector : Editor
         SerializedProperty cells = line.FindPropertyRelative("lineCells");
         SerializedProperty cell = cells.GetArrayElementAtIndex(x);
 
-        int upVal = cell.FindPropertyRelative("wallStateUp").intValue;
-        int rightVal = cell.FindPropertyRelative("wallStateRight").intValue;
-        int downVal = cell.FindPropertyRelative("wallStateDown").intValue;
-        int leftVal = cell.FindPropertyRelative("wallStateLeft").intValue;
+        int wallVal = (cell.FindPropertyRelative("wallState").intValue);
+
+        int upVal = (wallVal & (int)WallState.Up) != 0 ? 1 : 0;
+        int rightVal = (wallVal & (int)WallState.Right) != 0 ? 1 : 0;
+        int downVal = (wallVal & (int)WallState.Down) != 0 ? 1 : 0;
+        int leftVal = (wallVal & (int)WallState.Left) != 0 ? 1 : 0;
+
 
         Color blocked = GetColour(1);
 
@@ -338,8 +341,8 @@ public class PieceInspector : Editor
 
         for (int c = 0; c < 8; ++c)
         {
-            pixels[c] = up;
-            pixels[63 - c] = down;
+            pixels[c] = down;
+            pixels[63 - c] = up;
             pixels[c * 8 + 7] = right;
             pixels[c * 8] = left;
         }
@@ -357,13 +360,13 @@ public class PieceInspector : Editor
 
         if (downVal == 1)
         {
-            pixels[63] = blocked;
-            pixels[56] = blocked;
+            pixels[7] = blocked;
+            pixels[0] = blocked;
         }
         if (upVal == 1)
         {
-            pixels[7] = blocked;
-            pixels[0] = blocked;
+            pixels[63] = blocked;
+            pixels[56] = blocked;
         }
 
 
@@ -399,7 +402,7 @@ public class PieceInspector : Editor
         // Draw options menu over all
         if (optionsMenuShow)
         {
-            string[] names = Enum.GetNames(typeof(WallStateEnum));
+            string[] names = Enum.GetNames(typeof(WallStateEnumOptionsMenu));
             int count = names.Length;
 
 
@@ -425,15 +428,14 @@ public class PieceInspector : Editor
             else
             {
                 //Set thew new wall states
-
-                SetEdge(mouseDownOptionsMenu, newVal);
+                SetEdge(mouseDownOptionsMenu, newVal == 1);
 
                 optionsMenuShow = false;
             }
         }
     }
 
-    void SetEdge(Vector2 windowPos, int value)
+    void SetEdge(Vector2 windowPos, bool edgeBlock)
     {
         Vector2 parametricPos = (windowPos - new Vector2(10, 140));
         parametricPos -= pos;
@@ -448,6 +450,7 @@ public class PieceInspector : Editor
 
         if (parametricPos.x >= 0 && parametricPos.x < comp.Width && parametricPos.y >= 0 && parametricPos.y < comp.Height)
         {
+
             Vector2 moduloPos = new Vector2(parametricPos.x % 1, parametricPos.y % 1);
             Vector2Int floorPos = new Vector2Int(Mathf.FloorToInt(parametricPos.x), Mathf.FloorToInt(parametricPos.y));
 
@@ -460,54 +463,79 @@ public class PieceInspector : Editor
 
             Vector2Int texBCoords = new Vector2Int(-1, 0);
 
+            // Current wall value (includes all 4 walls in current state
+            int wallVal = (cell.FindPropertyRelative("wallState").intValue);
+
+
             if (LHSIncline && LHSDecline)
             {
-                // Left
-                cell.FindPropertyRelative("wallStateLeft").intValue = value;
+                int allButLeft = wallVal & (int)(15 - WallState.Left);
+                // Set left flag to 1 or 0
+                cell.FindPropertyRelative("wallState").intValue = Mathf.Clamp(allButLeft + (edgeBlock ? (int)WallState.Left : 0), 0, 15);
 
                 if (floorPos.x - 1 >= 0)
                 {
                     SerializedProperty cell2 = cells.GetArrayElementAtIndex(floorPos.x - 1);
-                    cell2.FindPropertyRelative("wallStateRight").intValue = value;
+
+                    int wallVal2 = (cell2.FindPropertyRelative("wallState").intValue);
+                    int allButRight = Mathf.Clamp(wallVal2 & (int)(15 - WallState.Right), 0, 15);
+                    cell2.FindPropertyRelative("wallState").intValue = Mathf.Clamp(allButRight + (edgeBlock ? (int)WallState.Right : 0), 0, 15);
+
                     texBCoords = new Vector2Int(floorPos.x - 1, floorPos.y);
-                }
-            }
-            else if (LHSDecline)
-            {
-                // Up
-                cell.FindPropertyRelative("wallStateUp").intValue = value;
-                if (floorPos.y - 1 >= 0)
-                {
-                    var line2 = pieceCellsPROPERTY.GetArrayElementAtIndex(floorPos.y - 1);
-                    SerializedProperty cells2 = line2.FindPropertyRelative("lineCells");
-                    SerializedProperty cell2 = cells2.GetArrayElementAtIndex(floorPos.x);
-                    cell2.FindPropertyRelative("wallStateDown").intValue = value;
-                    texBCoords = new Vector2Int(floorPos.x, floorPos.y - 1);
                 }
             }
             else if (LHSIncline)
             {
-                // Down
-                cell.FindPropertyRelative("wallStateDown").intValue = value;
+                int allButUp = Mathf.Clamp(wallVal & (int)(15 - WallState.Up), 0, 15);
+                // Set up flag to 1 or 0
+                cell.FindPropertyRelative("wallState").intValue = allButUp + (edgeBlock ? (int)WallState.Up : 0);
 
                 if (floorPos.y + 1 < comp.Height)
                 {
                     var line2 = pieceCellsPROPERTY.GetArrayElementAtIndex(floorPos.y + 1);
                     SerializedProperty cells2 = line2.FindPropertyRelative("lineCells");
                     SerializedProperty cell2 = cells2.GetArrayElementAtIndex(floorPos.x);
-                    cell2.FindPropertyRelative("wallStateUp").intValue = value;
+
+                    int wallVal2 = (cell2.FindPropertyRelative("wallState").intValue);
+                    int allButDown = Mathf.Clamp(wallVal2 & (int)(15 - WallState.Down), 0, 15);
+                    cell2.FindPropertyRelative("wallState").intValue = allButDown + (edgeBlock ? (int)WallState.Down : 0);
+
                     texBCoords = new Vector2Int(floorPos.x, floorPos.y + 1);
+                }
+            }
+            else if (LHSDecline)
+            {
+                int allButDown = Mathf.Clamp(wallVal & (int)(15 - WallState.Down), 0, 15);
+                // Set down flag to 1 or 0
+                cell.FindPropertyRelative("wallState").intValue = allButDown + (edgeBlock ? (int)WallState.Down : 0);
+
+                if (floorPos.y - 1 >= 0)
+                {
+                    var line2 = pieceCellsPROPERTY.GetArrayElementAtIndex(floorPos.y - 1);
+                    SerializedProperty cells2 = line2.FindPropertyRelative("lineCells");
+                    SerializedProperty cell2 = cells2.GetArrayElementAtIndex(floorPos.x);
+
+                    int wallVal2 = (cell2.FindPropertyRelative("wallState").intValue);
+                    int allButUp = Mathf.Clamp(wallVal2 & (int)(15 - WallState.Up), 0, 15);
+                    cell2.FindPropertyRelative("wallState").intValue = allButUp + (edgeBlock ? (int)WallState.Up : 0);
+
+                    texBCoords = new Vector2Int(floorPos.x, floorPos.y - 1);
                 }
             }
             else
             {
-                // Right
-                cell.FindPropertyRelative("wallStateRight").intValue = value;
+                int allButRight = Mathf.Clamp(wallVal & (int)(15 - WallState.Right), 0, 15);
+                // Set right flag to 1 or 0
+                cell.FindPropertyRelative("wallState").intValue = allButRight + (edgeBlock ? (int)WallState.Right : 0);
 
                 if (floorPos.x + 1 < comp.Width)
                 {
                     SerializedProperty cell2 = cells.GetArrayElementAtIndex(floorPos.x + 1);
-                    cell2.FindPropertyRelative("wallStateLeft").intValue = value;
+
+                    int wallVal2 = (cell2.FindPropertyRelative("wallState").intValue);
+                    int allButLeft = Mathf.Clamp(wallVal2 & (int)(15 - WallState.Left), 0, 15);
+                    cell2.FindPropertyRelative("wallState").intValue = allButLeft + (edgeBlock ? (int)WallState.Left : 0);
+
                     texBCoords = new Vector2Int(floorPos.x + 1, floorPos.y);
                 }
             }
