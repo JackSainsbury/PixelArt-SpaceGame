@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[System.Serializable]
 public class NavCell
 {
     // Position of this cell within its respective graph
+    private NavGrid owningGrid;
+    private CellTemplate cell;
+
     public Vector2Int position;
-    private Vector2Int gridRootPos;
-
-    private int state = 0;
-    private WallState wallState;
-
     public float cost, heuristic;
     public float f
     {
@@ -21,29 +17,28 @@ public class NavCell
 
     public NavCell parent;
 
-
     private NavCell() { }
 
-    public NavCell(Vector2Int position, int state, WallState wallState, Vector2Int gridRootPos)
+    public NavCell(NavGrid owningGrid, Vector2Int position, CellTemplate cell)
     {
+        this.owningGrid = owningGrid;
         this.position = position;
-        this.gridRootPos = gridRootPos;
-        this.state = state;
-        this.wallState = wallState;
+        this.cell = cell;
     }
 
     public Vector3 PositionShipSpace()
     {
-        return new Vector3(gridRootPos.x + position.x, gridRootPos.y + position.y, 0) * 3.2f;
+        return new Vector3(position.x, position.y, 0) * 3.2f;
     }
 
-    public int State
+    public CellTemplate Cell
     {
-        get { return state; }
+        get { return cell; }
+        set { cell = value; }
     }
-    public WallState CurWallState
+
+    public NavGrid OwningGrid
     {
-        get { return wallState; }
-        set { wallState = value; }
+        get { return owningGrid; }
     }
 }

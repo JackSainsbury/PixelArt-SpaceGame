@@ -4,12 +4,11 @@
 
 using UnityEngine;
 
-[System.Serializable]
 public class NavGrid
 {
     public int width, height;
 
-    public NavCell[] cells;
+    private NavCell[] cells;
 
     private ShipPiece shipPiece;
 
@@ -34,30 +33,18 @@ public class NavGrid
                 int index = w * height + h;
 
                 CellTemplate shipCell = shipPiece.GetShipCell(w, h);
-                int state = 0;
-                WallState wallState = WallState.None;
 
-
-                if (shipCell != null)
-                {
-                    if (shipCell.CellState == 1)
-                        state = 1;
-
-                    wallState = shipCell.CurWallState;
-                }
-
-                var cell = new NavCell(new Vector2Int(w, h), state, wallState, shipPiece.Position);
-
-                cells[index] = cell;
+                var navCell = new NavCell(this, new Vector2Int(w, h) + shipPiece.Position, shipCell);
+                cells[index] = navCell;
             }
         }
     }
 
 
-    public NavCell FindCellByPosition(Vector2 pos)
+    public NavCell FindCellByPosition(Vector2Int pos)
     {
-        int x = (int)pos.x;
-        int y = (int)pos.y;
+        int x = pos.x - shipPiece.Position.x;
+        int y = pos.y - shipPiece.Position.y;
 
         if (x >= 0 && x < width && y >= 0 && y < height)
         {
@@ -73,8 +60,8 @@ public class NavGrid
     {
         var result = new NavCell[4];
 
-        int x = (int)current.position.x;
-        int y = (int)current.position.y;
+        int x = current.position.x - shipPiece.Position.x;
+        int y = current.position.y - shipPiece.Position.y;
 
         int[] indices = new int[]
         {
@@ -84,25 +71,25 @@ public class NavGrid
             (x - 1) * height + y,
         };
 
-        if ((current.CurWallState & WallState.Up) == WallState.None)
+        if ((current.Cell.CurWallState & WallState.Up) == WallState.None)
         {
             // Up
             if (y < height - 1)
                 result[0] = cells[indices[0]];
         }
-        if ((current.CurWallState & WallState.Right) == WallState.None)
+        if ((current.Cell.CurWallState & WallState.Right) == WallState.None)
         {
             // Right
             if (x < width - 1)
                 result[1] = cells[indices[1]];
         }
-        if ((current.CurWallState & WallState.Down) == WallState.None)
+        if ((current.Cell.CurWallState & WallState.Down) == WallState.None)
         {
             // Down
             if (y > 0)
                 result[2] = cells[indices[2]];
         }
-        if ((current.CurWallState & WallState.Left) == WallState.None)
+        if ((current.Cell.CurWallState & WallState.Left) == WallState.None)
         {
             // Left
             if (x > 0)
@@ -110,5 +97,10 @@ public class NavGrid
         }
 
         return result;
+    }
+
+    public ShipPiece PieceCreatedFrom
+    {
+        get { return shipPiece; }
     }
 }

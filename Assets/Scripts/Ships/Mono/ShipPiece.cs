@@ -34,9 +34,7 @@ public class ShipPiece : MonoBehaviour
             for (int i = 0; i < template.Width; ++i)
             {
                 CellTemplate templateCell = template.GetShipCell(i, j);
-                CellTemplate newCell = new CellTemplate();
-                newCell.CellState = templateCell.CellState;
-                newCell.CurWallState = templateCell.CurWallState;
+                CellTemplate newCell = new CellTemplate(this, templateCell.CellState, templateCell.CurWallState);
 
                 pieceLines[j].SetCell(i, newCell);
             }
@@ -64,6 +62,26 @@ public class ShipPiece : MonoBehaviour
         if(connections != null)
             return connections.Count;
         return 0;
+    }
+
+    public ShipConnection GetConnectionByCellPos(Vector2Int cellPos, Vector2Int compareDir)
+    {
+        Vector2Int localCellPos = cellPos - Position;
+        foreach (ShipConnection connection in connections)
+        {
+            Vector2Int testCellOnOtherGrid = cellPos + compareDir - connection.OtherPiece.Position;
+
+            if (
+                connection.LocalCell.x == localCellPos.x && 
+                connection.LocalCell.y == localCellPos.y && 
+                connection.OtherCell.x == testCellOnOtherGrid.x && 
+                connection.OtherCell.y == testCellOnOtherGrid.y)
+            {
+                return connection;
+            }
+        }
+
+        return null;
     }
 
     // Modify cells

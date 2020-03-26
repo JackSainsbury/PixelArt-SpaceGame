@@ -18,6 +18,7 @@ public class CharacterNavigation : MonoBehaviour
         CellTemplate startCell = targetShip.GetCellByGlobalPos(globalStartPos);
         CellTemplate endCell = targetShip.GetCellByGlobalPos(globalEndPos);
 
+
         // Invalid path supplied
         if (startCell == null || endCell == null || startCell.CellState == 0 || endCell.CellState == 0)
             return;
@@ -29,7 +30,15 @@ public class CharacterNavigation : MonoBehaviour
         NavGrid startGrid = new NavGrid(startPiece);
         startGrid.Generate();
 
-        AStarAlgorithm aStarAlgorithm = new AStarAlgorithm(startGrid, globalStartPos - startPiece.Position, globalEndPos - endPiece.Position);
+        NavGrid goalGrid = startGrid;
+
+        if (startPiece != endPiece)
+        {
+            goalGrid = new NavGrid(endPiece);
+            goalGrid.Generate();
+        }
+
+        AStarAlgorithm aStarAlgorithm = new AStarAlgorithm(startGrid, goalGrid, globalStartPos, globalEndPos);
 
         curPath = aStarAlgorithm.AStarSearch();
     }

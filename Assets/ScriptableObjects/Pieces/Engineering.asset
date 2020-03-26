@@ -25,15 +25,25 @@ MonoBehaviour:
     width: 4
   - lineCells:
     - cellState: 1
+      wallState: 10
+    - cellState: 1
+      wallState: 10
+    - cellState: 1
+      wallState: 14
+    - cellState: 1
+      wallState: 10
+    width: 4
+  - lineCells:
+    - cellState: 1
       wallState: 9
     - cellState: 1
       wallState: 3
     - cellState: 1
-      wallState: 13
+      wallState: 9
     - cellState: 1
       wallState: 3
     width: 4
-  height: 2
+  height: 3
   width: 4
   graphicsContainerPrefab: {fileID: 4956704576241023553, guid: d948fb1eddb2c404386d21ca431e0ba8,
     type: 3}

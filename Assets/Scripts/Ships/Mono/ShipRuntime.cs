@@ -59,13 +59,25 @@ public class ShipRuntime : MonoBehaviour
         }
     }
 
-    // Connect 2 pieces by index
+    // Connect 2 pieces by index, positions are relative to respective pieces
     public void ConnectPiecesByIndex(int localPieceIndex, int otherPieceIndex, Vector2Int localPos, Vector2Int otherPos)
     {
         if (localPieceIndex >= 0 && localPieceIndex < shipPieces.Count && otherPieceIndex >= 0 && otherPieceIndex < shipPieces.Count)
         {
-            shipPieces[localPieceIndex].AddConnection(new ShipConnection(localPos, otherPos, shipPieces[otherPieceIndex]));
-            shipPieces[otherPieceIndex].AddConnection(new ShipConnection(otherPos, localPos, shipPieces[localPieceIndex]));
+            ShipPiece localPiece = shipPieces[localPieceIndex];
+            ShipPiece otherPiece = shipPieces[otherPieceIndex];
+
+            localPiece.AddConnection(new ShipConnection(localPos, otherPos, shipPieces[otherPieceIndex]));
+            otherPiece.AddConnection(new ShipConnection(otherPos, localPos, shipPieces[localPieceIndex]));
+
+            CellTemplate localCell = localPiece.GetShipCell(localPos.x, localPos.y);
+            CellTemplate otherCell = otherPiece.GetShipCell(otherPos.x, otherPos.y);
+
+            // Flag the connection cells
+            if(localCell != null)
+                localCell.HasConnections = true;
+            if(otherCell != null)
+                otherCell.HasConnections = true;
         }
     }
 

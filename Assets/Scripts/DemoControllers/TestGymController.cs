@@ -48,13 +48,12 @@ public class TestGymController : MonoBehaviour
         ship.ConnectPiecesByIndex(3, 4, new Vector2Int(0, 0), new Vector2Int(0, 0));
 
 
-
         /*
          * 
          *  ASSIGN DEMO CHARACTER TO SHIP AND TEST NAVIGATION FUNCTIONALITY
          * 
          */
-        character.Navigate(ship, new Vector2Int(1, 0), new Vector2Int(3, 1));
+        character.Navigate(ship, new Vector2Int(0, 0), new Vector2Int(6, 0));
     }
 
     // Update is called once per frame
