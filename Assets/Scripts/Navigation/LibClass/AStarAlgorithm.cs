@@ -78,8 +78,6 @@ public class AStarAlgorithm
 
                         if(connection != null)
                         {
-                            Debug.Log(bestCell.position);
-
                             connectionMade = true;
 
                             // Attempt to locate existing grid

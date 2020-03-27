@@ -2,14 +2,22 @@ fileFormatVersion: 2
 guid: 182854cd13c73f34ca166ce1c29ee1f8
 TextureImporter:
   fileIDToRecycleName:
-    21300000: SpaceEngineerWalk_0
-    21300002: SpaceEngineerWalk_1
-    21300004: SpaceEngineerWalk_2
-    21300006: SpaceEngineerWalk_3
-    21300008: SpaceEngineerWalk_4
-    21300010: SpaceEngineerWalk_5
-    21300012: SpaceEngineerWalk_6
-    21300014: SpaceEngineerWalk_7
+    21300000: Male_Walk_0
+    21300002: Male_Walk_1
+    21300004: Male_Walk_2
+    21300006: Male_Walk_3
+    21300008: Female_Walk_0
+    21300010: Female_Walk_1
+    21300012: Female_Walk_2
+    21300014: Female_Walk_3
+    21300016: Male_Walk_4
+    21300018: Male_Walk_5
+    21300020: Male_Walk_6
+    21300022: Male_Walk_7
+    21300024: Female_Walk_4
+    21300026: Female_Walk_5
+    21300028: Female_Walk_6
+    21300030: Female_Walk_7
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -68,7 +76,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 64
+    maxTextureSize: 128
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -79,7 +87,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 64
+    maxTextureSize: 128
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -92,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpaceEngineerWalk_0
+      name: Male_Walk_0
       rect:
         serializedVersion: 2
         x: 0
@@ -100,19 +108,19 @@ TextureImporter:
         width: 16
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a44537510397ebc4db7b2a54fe7efe7b
+      spriteID: cbd385d26cabeeb41936b32d6fa637a5
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpaceEngineerWalk_1
+      name: Male_Walk_1
       rect:
         serializedVersion: 2
         x: 16
@@ -120,19 +128,19 @@ TextureImporter:
         width: 16
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4995a6bd6a462364a95821d2a29d23b8
+      spriteID: 674cc66c86a5fce4a940009d1aba2ccd
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpaceEngineerWalk_2
+      name: Male_Walk_2
       rect:
         serializedVersion: 2
         x: 32
@@ -140,19 +148,19 @@ TextureImporter:
         width: 16
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c4024041b2ee1f40b4aab64acb4948b
+      spriteID: ccff5ec83cf9b5b49932f3eeb28b4ff1
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpaceEngineerWalk_3
+      name: Male_Walk_3
       rect:
         serializedVersion: 2
         x: 48
@@ -160,19 +168,99 @@ TextureImporter:
         width: 16
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: da235134ae48a554faa80b8d5dc223ba
+      spriteID: a8a01475bfa54d144bed0a81546a62c0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpaceEngineerWalk_4
+      name: Female_Walk_0
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c39512795e9632429d5267a68438e3c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_Walk_1
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 32
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d62f5b8bca9cab48902c470cb44b2ad
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_Walk_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20b39e12a4e869a429db5976eb867073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_Walk_3
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 32
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c2984c18354a72438bcf2ebeeb529bb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Male_Walk_4
       rect:
         serializedVersion: 2
         x: 0
@@ -180,19 +268,19 @@ TextureImporter:
         width: 16
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ecfc181a983e32408dd1945b852f038
+      spriteID: 962b230fccae1c04a91a3a9312e600e3
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpaceEngineerWalk_5
+      name: Male_Walk_5
       rect:
         serializedVersion: 2
         x: 16
@@ -200,19 +288,19 @@ TextureImporter:
         width: 16
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 39212fbd2ac4d8145845be1f68621ecf
+      spriteID: 8b342e73ee02bba478a15b6d8b0fe4ad
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpaceEngineerWalk_6
+      name: Male_Walk_6
       rect:
         serializedVersion: 2
         x: 32
@@ -220,19 +308,19 @@ TextureImporter:
         width: 16
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b64df13ec5dbeae4295a93a69535089d
+      spriteID: 8fdaf6d385da0f44b98cd97cf07300af
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpaceEngineerWalk_7
+      name: Male_Walk_7
       rect:
         serializedVersion: 2
         x: 48
@@ -240,13 +328,93 @@ TextureImporter:
         width: 16
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 51879808d5e6c654aaad78737af1112d
+      spriteID: 6865f91013536b74daeb1ecb4424c55e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_Walk_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3c65e12b17b0064699528193f70760e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_Walk_5
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98a0eff2821440542adaab12fa3204f2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_Walk_6
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c95ffd610f39bab44b9caacb85189a0c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_Walk_7
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4412b8e66901f6a43a2493c22c1677e7
       vertices: []
       indices: 
       edges: []

@@ -2,10 +2,14 @@ fileFormatVersion: 2
 guid: 2a1c0c4b07829fe4582ff6d09e6f707b
 TextureImporter:
   fileIDToRecycleName:
-    21300000: SpaceEngineerIdle_0
-    21300002: SpaceEngineerIdle_1
-    21300004: SpaceEngineerIdle_2
-    21300006: SpaceEngineerIdle_3
+    21300000: Male_Idle_0
+    21300002: Male_Idle_1
+    21300004: Male_Idle_2
+    21300006: Male_Idle_3
+    21300008: Female_Idle_0
+    21300010: Female_Idle_1
+    21300012: Female_Idle_2
+    21300014: Female_Idle_3
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -88,7 +92,87 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpaceEngineerIdle_0
+      name: Male_Idle_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69ccaa61e7668b54bb5ade463eddac00
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Male_Idle_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 32
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 894097c794df49e49bb76ee331fd58b4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Male_Idle_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cc6a89e81f08754d830c6e982fe4070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Male_Idle_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 32
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8768f3af093cc547af2a5739089b069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female_Idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -96,19 +180,19 @@ TextureImporter:
         width: 16
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7d8b14244f0de5b4f8a0d40cfd8e1796
+      spriteID: 68cf0df11d59a7143af0272748293b80
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpaceEngineerIdle_1
+      name: Female_Idle_1
       rect:
         serializedVersion: 2
         x: 16
@@ -116,19 +200,19 @@ TextureImporter:
         width: 16
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 50bc0b98f16a54749b2e936f89b4b683
+      spriteID: b5a50393f7367f644b32e7de837f2f88
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpaceEngineerIdle_2
+      name: Female_Idle_2
       rect:
         serializedVersion: 2
         x: 32
@@ -136,19 +220,19 @@ TextureImporter:
         width: 16
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70a2c8f13708f844085f776dee73a1f7
+      spriteID: d1c609f2ef758d14f9605b2c5e3f7659
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpaceEngineerIdle_3
+      name: Female_Idle_3
       rect:
         serializedVersion: 2
         x: 48
@@ -156,13 +240,13 @@ TextureImporter:
         width: 16
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e64b81389cf13784681e111837a3292e
+      spriteID: d0b09f655dbfd764f8da8da235e7c8c0
       vertices: []
       indices: 
       edges: []

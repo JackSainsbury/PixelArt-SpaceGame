@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: DEEP_BKG
+    uniqueID: 4193351317
+    locked: 0
   - name: BKG
     uniqueID: 2574153025
     locked: 0
