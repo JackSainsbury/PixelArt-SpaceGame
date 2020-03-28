@@ -10,22 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d3966c262b6b634b9ad89c241b0d910, type: 3}
-  m_Name: Engineering
+  m_Name: Airlock
   m_EditorClassIdentifier: 
   pieceLines:
   - lineCells:
     - cellState: 1
-      wallState: 4
-    - cellState: 1
-      wallState: 4
-    width: 2
-  - lineCells:
-    - cellState: 1
-      wallState: 9
-    - cellState: 1
-      wallState: 3
-    width: 2
-  height: 2
-  width: 2
-  graphicsContainerPrefab: {fileID: 4956704576241023553, guid: d948fb1eddb2c404386d21ca431e0ba8,
+      wallState: 5
+    width: 1
+  height: 1
+  width: 1
+  graphicsContainerPrefab: {fileID: 5186651143614285541, guid: 85809935b006b054cae356c271dbae95,
     type: 3}

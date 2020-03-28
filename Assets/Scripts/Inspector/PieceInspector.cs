@@ -169,7 +169,9 @@ public class PieceInspector : Editor
             comp.Width = widthTry;
             comp.Height = heightTry;
 
-
+            float height = (Screen.width * ((aSprite.rect.height / aSprite.rect.width)) * scroll);
+            float d = (Screen.width / (aSprite.rect.width / 32f)) * scroll;
+            float d4 = (Screen.width / (aSprite.rect.width / 4f)) * scroll;
 
 
             // Drag our texture around and flag for repaint
@@ -190,13 +192,21 @@ public class PieceInspector : Editor
                 if (leftMouseDown)
                 {
                     Vector2 parametricPos = (Event.current.mousePosition - new Vector2(10, 140));
-                    parametricPos -= pos;
-                    parametricPos -= new Vector2(0, (Screen.width * (aSprite.rect.width / (aSprite.rect.height)) * scroll));
 
+                    parametricPos -= pos;
+
+
+                    parametricPos -= new Vector2(0, Screen.width * (aSprite.rect.height / aSprite.rect.width) * scroll);
                     parametricPos = new Vector2(parametricPos.x, parametricPos.y * -1);
-                    parametricPos /= Screen.width;
-                    parametricPos *= new Vector2(aSprite.rect.width / 32f, aSprite.rect.height / 32f);
+
                     parametricPos /= scroll;
+
+
+                    parametricPos /= (d * comp.Width / scroll); // 
+
+                    parametricPos = new Vector2(parametricPos.x, parametricPos.y * ((float)comp.Width / comp.Height));
+                    parametricPos *= new Vector2Int(comp.Width, comp.Height);
+
 
                     if (parametricPos.x >=  0 && parametricPos.x < comp.Width && parametricPos.y >= 0 && parametricPos.y < comp.Height)
                     {
@@ -242,13 +252,9 @@ public class PieceInspector : Editor
             GUILayout.BeginArea(new Rect(10, 140, Screen.width - 20, Screen.height - 260));
 
             // Draw sprite in area
-            float height = (Screen.width * (aSprite.rect.width / (aSprite.rect.height)) * scroll);
             GUIDrawSprite(new Rect(pos.x, pos.y, Screen.width * scroll, height), aSprite);
 
 
-            // Draw corner visualizers (nasty hard coding, but it works, just positioning at bottom left and top right of array)
-            float d = (Screen.width / (aSprite.rect.width / 32f)) * scroll;
-            float d4 = (Screen.width / (aSprite.rect.width / 4f)) * scroll;
             GUI.DrawTexture(new Rect(pos.x - (d4 / 4.0f), (pos.y + (height - (d4  - (d4/4.0f)))), d4, d4), cornerVisTex, ScaleMode.ScaleToFit);
             GUI.DrawTexture(new Rect(pos.x + (d * comp.Width) + (d4 / 4.0f), pos.y + height - (d * comp.Height) + (d4 / 4.0f) * 3, -d4, -d4), cornerVisTex, ScaleMode.ScaleToFit);
 
@@ -437,16 +443,22 @@ public class PieceInspector : Editor
 
     void SetEdge(Vector2 windowPos, bool edgeBlock)
     {
+        float d = (Screen.width / (aSprite.rect.width / 32f)) * scroll;
+
         Vector2 parametricPos = (windowPos - new Vector2(10, 140));
         parametricPos -= pos;
 
-        parametricPos -= new Vector2(0, (Screen.width * (aSprite.rect.width / (aSprite.rect.height)) * scroll));
 
+        parametricPos -= new Vector2(0, Screen.width * (aSprite.rect.height / aSprite.rect.width) * scroll);
         parametricPos = new Vector2(parametricPos.x, parametricPos.y * -1);
-        parametricPos /= Screen.width;
-        parametricPos *= new Vector2(aSprite.rect.width / 32f, aSprite.rect.height / 32f);
+
         parametricPos /= scroll;
 
+        parametricPos /= (d * comp.Width / scroll);
+
+        parametricPos = new Vector2(parametricPos.x, parametricPos.y * ((float)comp.Width / comp.Height));
+
+        parametricPos *= new Vector2(comp.Width, comp.Height);
 
         if (parametricPos.x >= 0 && parametricPos.x < comp.Width && parametricPos.y >= 0 && parametricPos.y < comp.Height)
         {

@@ -100,6 +100,35 @@ public class ShipPiece : MonoBehaviour
             pieceLines[y].SetCell(x, cell);
     }
 
+    public Vector2Int GetRandomWalkableCellPos(out bool success, WallState requireWalls = WallState.None)
+    {
+        List<Vector2Int> navigateableCells = new List<Vector2Int>();
+        for (int j = 0; j < Height; ++j)
+        {
+            for (int i = 0; i < Width; ++i)
+            {
+                CellTemplate c = GetShipCell(i, j);
+
+                if (c != null)
+                {
+                    if (c.CellState == 1 && ((c.CurWallState & requireWalls) == requireWalls))
+                    {
+                        navigateableCells.Add(new Vector2Int(i, j));
+                    }
+                }
+            }
+        }
+
+        if (navigateableCells.Count == 0)
+        {
+            success = false;
+            return Vector2Int.zero;
+        }
+
+        success = true;
+        return navigateableCells[Random.Range(0, navigateableCells.Count)] + pos;
+    }
+
     // Properties
     public int Height
     {

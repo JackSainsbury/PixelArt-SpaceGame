@@ -12,6 +12,7 @@ public class CharacterNavigation : MonoBehaviour
 
     private float moveTimer = 0;
     private int nextIndex = 1;
+    private int facingSign = 1;
 
     private int speedHash = Animator.StringToHash("Speed");
     private int climbUpHash = Animator.StringToHash("IsClimbingUp");
@@ -19,7 +20,14 @@ public class CharacterNavigation : MonoBehaviour
 
     public void Navigate(ShipRuntime targetShip, Vector2Int globalStartPos, Vector2Int globalEndPos)
     {
-        this.targetShip = targetShip;
+        if (globalStartPos == globalEndPos)
+        {
+            StartCoroutine("DelaySearch");
+            return;
+        }
+
+        moveTimer = 0;
+        nextIndex = 1;
 
         CellTemplate startCell = targetShip.GetCellByGlobalPos(globalStartPos);
         CellTemplate endCell = targetShip.GetCellByGlobalPos(globalEndPos);
@@ -49,6 +57,22 @@ public class CharacterNavigation : MonoBehaviour
         curPath = aStarAlgorithm.AStarSearch();
     }
 
+    public void NavToRandom(ShipRuntime targetShip)
+    {
+        this.targetShip = targetShip;
+
+        bool success = false;
+        Vector2Int pos = targetShip.GetRandomNavigateableCellPos(out success, WallState.Down);
+
+        if (success)
+            Navigate(
+                targetShip,
+                new Vector2Int(Mathf.RoundToInt(transform.localPosition.x / 3.2f), Mathf.RoundToInt(transform.localPosition.y / 3.2f)),
+                pos);
+        else
+            StartCoroutine("DelaySearch");
+    }
+
     void Update()
     {
         if(curPath != null)
@@ -74,6 +98,13 @@ public class CharacterNavigation : MonoBehaviour
                     int aY = curPath[nextIndex - 1].position.y;
                     int bY = curPath[nextIndex].position.y;
 
+                    int xDelta = (curPath[nextIndex - 1].position - curPath[nextIndex].position).x;
+
+                    if (xDelta != 0)
+                        facingSign = -(int)Mathf.Sign(xDelta);
+
+                    animator.transform.localScale = new Vector3(facingSign, 1, 1);
+
                     animator.SetBool(climbUpHash, aY < bY);
                     animator.SetBool(climbDownHash, aY > bY);
 
@@ -82,16 +113,36 @@ public class CharacterNavigation : MonoBehaviour
                 else
                 {
                     transform.localPosition = curPath[curPath.Length - 1].PositionShipSpace();
-                    curPath = null;
                     animator.SetFloat(speedHash, 0);
+
+                    StartCoroutine("DelaySearch");
                 }
             }
             else
             {
                 transform.localPosition = curPath[0].PositionShipSpace();
-                curPath = null;
                 animator.SetFloat(speedHash, 0);
+                StartCoroutine("DelaySearch");
             }
         }
+    }
+
+    private IEnumerator DelaySearch()
+    {
+        curPath = null;
+
+        yield return new WaitForSeconds(1f);
+
+        bool success = false;
+
+        Vector2Int pos = targetShip.GetRandomNavigateableCellPos(out success, WallState.Down);
+
+        if (success)
+            Navigate(
+                targetShip,
+                new Vector2Int(Mathf.RoundToInt(transform.localPosition.x / 3.2f), Mathf.RoundToInt(transform.localPosition.y / 3.2f)),
+                pos);
+        else
+            StartCoroutine("DelaySearch");
     }
 }

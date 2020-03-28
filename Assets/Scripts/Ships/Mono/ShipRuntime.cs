@@ -9,13 +9,16 @@ public class ShipRuntime : MonoBehaviour
     private ShipPieceDatabase database;
 
     // Construct new runtime ship, ready for pieces to be added
-    public void InitShip(ShipPieceDatabase database)
+    public void InitShip(ShipPieceDatabase database, bool controllable = false)
     {
         shipPieces = new List<ShipPiece>();
         this.database = database;
         Rigidbody2D r2d = gameObject.AddComponent<Rigidbody2D>();
         r2d.mass = 100f;
         r2d.gravityScale = 0;
+
+        if(controllable)
+            gameObject.AddComponent<ShipControls>().InitShipControls(r2d);
     }
 
     public void DebugDrawShip()
@@ -82,7 +85,7 @@ public class ShipRuntime : MonoBehaviour
     }
 
     // Add a new piece to the ship (spawn and track the new piece at position)
-    public void AddNewPiece(int newPieceTemplateIndex, Vector2Int position)
+    public void AddNewPiece(int newPieceTemplateIndex, Vector2Int position, bool overridePosTEMPORARY = false)
     {
         ShipPieceTemplate piece = database.GetPiece(newPieceTemplateIndex);
 
@@ -94,6 +97,9 @@ public class ShipRuntime : MonoBehaviour
         newPiece.InitShipPiece(piece, position);
 
         shipPieces.Add(newPiece);
+
+        if (overridePosTEMPORARY)
+            newPiece.transform.localPosition = new Vector3(5f, 9.25f, 0);
     }
 
     // Test if a new piece can be added
@@ -166,5 +172,14 @@ public class ShipRuntime : MonoBehaviour
             return null;
 
         return piece.GetShipCell(cellPos.x - piece.Position.x, cellPos.y - piece.Position.y);
+    }
+
+    public Vector2Int GetRandomNavigateableCellPos(out bool success, WallState requireWalls = WallState.None)
+    {
+        ShipPiece piece = shipPieces[Random.Range(0, shipPieces.Count)];
+
+        Vector2Int pos = piece.GetRandomWalkableCellPos(out success, requireWalls);
+
+        return pos;
     }
 }

@@ -17,6 +17,7 @@ TextureImporter:
     21300024: ShipInterior_C_12
     21300026: ShipInterior_C_13
     21300028: ShipInterior_C_14
+    21300030: ShipInterior_C_15
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -359,11 +360,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShipInterior_C_13
+      name: ShipInterior_C_15
       rect:
         serializedVersion: 2
         x: 192
-        y: 224
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -373,27 +374,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 019e82aba517de4469a4651a143a3987
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ShipInterior_C_14
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 224
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 726e1568125ad9242bf2144a83ae0a6d
+      spriteID: 8967ab0b17c96d54e914aa0ad31dcf55
       vertices: []
       indices: 
       edges: []
