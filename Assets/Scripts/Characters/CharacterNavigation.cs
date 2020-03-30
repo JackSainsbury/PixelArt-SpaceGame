@@ -64,6 +64,8 @@ public class CharacterNavigation : MonoBehaviour
         bool success = false;
         Vector2Int pos = targetShip.GetRandomNavigateableCellPos(out success, WallState.Down);
 
+        transform.localPosition = new Vector3(pos.x, pos.y, 0) * 3.2f;
+
         if (success)
             Navigate(
                 targetShip,

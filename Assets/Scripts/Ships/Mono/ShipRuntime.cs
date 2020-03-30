@@ -19,6 +19,8 @@ public class ShipRuntime : MonoBehaviour
 
         if(controllable)
             gameObject.AddComponent<ShipControls>().InitShipControls(r2d);
+
+        gameObject.tag = "Ship";
     }
 
     public void DebugDrawShip()

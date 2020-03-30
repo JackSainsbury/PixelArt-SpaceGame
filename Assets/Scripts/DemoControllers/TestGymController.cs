@@ -47,6 +47,8 @@ public class TestGymController : MonoBehaviour
         ship.ConnectPiecesByIndex(2, 3, new Vector2Int(0, 0), new Vector2Int(0, 1));
         ship.ConnectPiecesByIndex(3, 4, new Vector2Int(1, 0), new Vector2Int(0, 0));
 
+        Camera.main.GetComponent<SmoothCameraFollow>().target = ship.transform;
+
 
         GameObject stationGO = new GameObject("newShipObject");
 
@@ -79,9 +81,9 @@ public class TestGymController : MonoBehaviour
         // Do worms
         GameObject[] worms = GameObject.FindGameObjectsWithTag("Worm");
 
-        foreach (GameObject worm in worms)
+        for(int i = 0; i < worms.Length; ++i)
         {
-            Worm wormComponent = worm.GetComponent<Worm>();
+            Worm wormComponent = worms[i].GetComponent<Worm>();
 
             wormComponent.NavToRandom(station);
             wormComponent.transform.SetParent(station.transform);
