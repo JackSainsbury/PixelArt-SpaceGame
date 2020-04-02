@@ -47,8 +47,6 @@ public class TestGymController : MonoBehaviour
         ship.ConnectPiecesByIndex(2, 3, new Vector2Int(0, 0), new Vector2Int(0, 1));
         ship.ConnectPiecesByIndex(3, 4, new Vector2Int(1, 0), new Vector2Int(0, 0));
 
-        Camera.main.GetComponent<SmoothCameraFollow>().target = ship.transform;
-
 
         GameObject stationGO = new GameObject("newShipObject");
 

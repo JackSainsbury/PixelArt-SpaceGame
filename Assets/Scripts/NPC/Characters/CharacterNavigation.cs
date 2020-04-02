@@ -6,6 +6,8 @@ public class CharacterNavigation : MonoBehaviour
 {
     [SerializeField]
     private Animator animator;
+    [SerializeField]
+    private CrewPathTracer pathTracer;
 
     private ShipRuntime targetShip;
     private NavCell[] curPath;
@@ -18,11 +20,13 @@ public class CharacterNavigation : MonoBehaviour
     private int climbUpHash = Animator.StringToHash("IsClimbingUp");
     private int climbDownHash = Animator.StringToHash("IsClimbingDown");
 
+    private Coroutine delaySearchRoutineInstance;
+
     public void Navigate(ShipRuntime targetShip, Vector2Int globalStartPos, Vector2Int globalEndPos)
     {
         if (globalStartPos == globalEndPos)
         {
-            StartCoroutine("DelaySearch");
+            delaySearchRoutineInstance = StartCoroutine("DelaySearch");
             return;
         }
 
@@ -55,6 +59,21 @@ public class CharacterNavigation : MonoBehaviour
         AStarAlgorithm aStarAlgorithm = new AStarAlgorithm(startGrid, goalGrid, globalStartPos, globalEndPos);
 
         curPath = aStarAlgorithm.AStarSearch();
+
+        pathTracer.SetPositions(GetNavArray());
+    }
+
+    // Sent a navigation command from a selection/target script - attempt pathing
+    public void NavigateMouseClick(Vector3 inMousePos)
+    {
+        StopCoroutine(delaySearchRoutineInstance);
+        Vector3 mouseAsShipRelativeWorldPos = targetShip.transform.InverseTransformPoint(GameController.Instance.mainCamera.ScreenToWorldPoint(inMousePos));
+
+        // TMP navigate within the current ship - do a ship connectivity test later and logic to move between ships/buildings/space
+        Navigate(
+            targetShip,
+            new Vector2Int(Mathf.RoundToInt(transform.localPosition.x / 3.2f), Mathf.RoundToInt(transform.localPosition.y / 3.2f)),
+             new Vector2Int(Mathf.RoundToInt(mouseAsShipRelativeWorldPos.x / 3.2f), Mathf.RoundToInt(mouseAsShipRelativeWorldPos.y / 3.2f)));
     }
 
     public void NavToRandom(ShipRuntime targetShip)
@@ -72,27 +91,25 @@ public class CharacterNavigation : MonoBehaviour
                 new Vector2Int(Mathf.RoundToInt(transform.localPosition.x / 3.2f), Mathf.RoundToInt(transform.localPosition.y / 3.2f)),
                 pos);
         else
-            StartCoroutine("DelaySearch");
+            delaySearchRoutineInstance = StartCoroutine("DelaySearch");
     }
 
     void Update()
     {
         if(curPath != null)
         {
-            for(int i = 1; i < curPath.Length; ++i)
-            {
-                Debug.DrawLine(targetShip.transform.TransformPoint(curPath[i - 1].PositionShipSpace()), targetShip.transform.TransformPoint(curPath[i].PositionShipSpace()));
-            }
-
             if (curPath.Length > 1)
             {
                 animator.SetFloat(speedHash, 1);
 
                 moveTimer += Time.deltaTime;
+
                 if (moveTimer >= 1)
                 {
                     moveTimer = 0;
                     nextIndex++;
+
+                    pathTracer.SetPositions(GetNavArray());
                 }
 
                 if (nextIndex < curPath.Length)
@@ -117,16 +134,35 @@ public class CharacterNavigation : MonoBehaviour
                     transform.localPosition = curPath[curPath.Length - 1].PositionShipSpace();
                     animator.SetFloat(speedHash, 0);
 
-                    StartCoroutine("DelaySearch");
+                    delaySearchRoutineInstance = StartCoroutine("DelaySearch");
                 }
             }
             else
             {
                 transform.localPosition = curPath[0].PositionShipSpace();
                 animator.SetFloat(speedHash, 0);
-                StartCoroutine("DelaySearch");
+                delaySearchRoutineInstance = StartCoroutine("DelaySearch");
             }
         }
+    }
+
+    public Vector3[] GetNavArray()
+    {
+        if (curPath != null)
+        {
+            if (nextIndex < curPath.Length)
+            {
+                Vector3[] posAsArray = new Vector3[curPath.Length - (nextIndex - 1 )];
+                for (int i = nextIndex - 1; i < curPath.Length; ++i)
+                {
+                    posAsArray[i - (nextIndex - 1)] = curPath[i].PositionShipSpace();
+                }
+
+                return posAsArray;
+            }
+        }
+
+        return null;
     }
 
     private IEnumerator DelaySearch()
@@ -146,5 +182,11 @@ public class CharacterNavigation : MonoBehaviour
                 pos);
         else
             StartCoroutine("DelaySearch");
+    }
+
+    // Ship I am currently assigned to walk on
+    public ShipRuntime TargetShip
+    {
+        get { return targetShip; }
     }
 }
