@@ -110,10 +110,20 @@ public class TargetSelection : MonoBehaviour
         {
             if (currentTarget != null)
             {
-                if (currentTarget.TargetSelectionProfile.selectionType == SelectionType.Character)
+                switch (currentTarget.TargetSelectionProfile.selectionType)
                 {
-                    SelectableCharacter character = (SelectableCharacter)currentTarget;
-                    character.navigationController.NavigateMouseClick(Input.mousePosition);
+                    case SelectionType.Character:
+                        {
+                            SelectableCharacter character = (SelectableCharacter)currentTarget;
+                            character.navigationController.NavigateMouseClick(Input.mousePosition);
+                        }
+                        break;
+                    case SelectionType.Container:
+                        {
+                            SelectableContainer container = (SelectableContainer)currentTarget;
+                            container.container.SetOpen(true);
+                        }
+                        break;
                 }
             }
         }
@@ -122,18 +132,39 @@ public class TargetSelection : MonoBehaviour
     public void SetTarget(SelectableTarget currentTarget)
     {
         // Disable character target line renderer
-        if(this.currentTarget != null)
-            if(this.currentTarget.TargetSelectionProfile.selectionType == SelectionType.Character)
-                ((SelectableCharacter)(this.currentTarget)).pathTracer.SetNavPathTrace(false);
+        if (this.currentTarget != null)
+        {
+            switch (this.currentTarget.TargetSelectionProfile.selectionType)
+            {
+                case SelectionType.Character:
+                    {
+                        ((SelectableCharacter)(this.currentTarget)).pathTracer.SetNavPathTrace(false);
+                    }
+                    break;
+                case SelectionType.Container:
+                    {
+                        ((SelectableContainer)(this.currentTarget)).container.SetOpen(false);
+                    }
+                    break;
+            }
+        }
 
         // Set the new target
         this.currentTarget = currentTarget;
 
         // If character, turn on line renderer
+        // Disable character target line renderer
         if (this.currentTarget != null)
-            if (this.currentTarget.TargetSelectionProfile.selectionType == SelectionType.Character)
-                ((SelectableCharacter)(this.currentTarget)).pathTracer.SetNavPathTrace(true);
-
+        {
+            switch (this.currentTarget.TargetSelectionProfile.selectionType)
+            {
+                case SelectionType.Character:
+                    {
+                        ((SelectableCharacter)(this.currentTarget)).pathTracer.SetNavPathTrace(true);
+                    }
+                    break;
+            }
+        }
     }
 
     public SelectableTarget Target
