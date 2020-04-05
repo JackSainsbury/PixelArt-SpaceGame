@@ -23,7 +23,7 @@ public class PanelTracker : MonoBehaviour
     }
 
 
-    public void TogglePanel(int i)
+    public GameObject TogglePanel(int i)
     {
         bool show = false;
         if (panelInstance)
@@ -39,5 +39,15 @@ public class PanelTracker : MonoBehaviour
         }
 
         curPanel = i;
+
+        return panelInstance;
+    }
+
+    public void ForceDestroyPanel(int i)
+    {
+        if(panelInstance)
+        {
+            Destroy(panelInstance);
+        }
     }
 }

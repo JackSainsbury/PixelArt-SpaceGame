@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour
 {
     public Camera mainCamera;
     public SelectionDisplay selectionDisplay;
-    public CrewPathTracer crewPathTracer;
+    public PanelTracker panelTracker;
 
     // Singleton
     private static GameController instance;

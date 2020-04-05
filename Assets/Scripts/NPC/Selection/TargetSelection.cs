@@ -144,6 +144,7 @@ public class TargetSelection : MonoBehaviour
                 case SelectionType.Container:
                     {
                         ((SelectableContainer)(this.currentTarget)).container.SetOpen(false);
+                        GameController.Instance.panelTracker.ForceDestroyPanel(3);
                     }
                     break;
             }
