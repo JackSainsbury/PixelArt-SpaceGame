@@ -4,29 +4,30 @@ using UnityEngine;
 
 public class Container : MonoBehaviour
 {
-    private static int isOpenBoolHash = Animator.StringToHash("IsOpen");
+    public Animator myAnimator;
+
+    public int inventoryWidth = 2;
+    public int inventoryHeight = 5;
+
+
+    [SerializeField]
+    private int[] currentItems;
 
     private bool isOpen = false;
 
-    public Animator myAnimator;
+    private static int isOpenBoolHash = Animator.StringToHash("IsOpen");
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void SetOpen(bool open)
     {
         isOpen = open;
 
         myAnimator.SetBool(Container.isOpenBoolHash, isOpen);
+    }
+
+    // Get the current items array from the given container
+    public int[] CurrentItems
+    {
+        get { return currentItems; }
     }
 }

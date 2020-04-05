@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class ContainerInventory : MonoBehaviour
@@ -15,34 +16,60 @@ public class ContainerInventory : MonoBehaviour
 
     private float sizeMul;
 
-    private Vector2Int dimensions;
+    private Container targetContainer;
 
-    public void InitContainerPanel(string inTitle, int width, int height)
+    // Scale window and lay out item frames
+    public void InitContainerPanel(string inTitle, Container targetContainer)
     {
         tmpTitle.text = inTitle;
-
-        dimensions = new Vector2Int(width, height);
+        this.targetContainer = targetContainer;
 
         sizeMul = 1.0f / rectTransform.localScale.x;
 
-        rectTransform.sizeDelta = new Vector2(width * 100f * sizeMul + (cellSpacing * (width - 1)) + borderSpacing * 2, height * 100f * sizeMul + (cellSpacing * (height - 1)) + borderSpacing * 2);
+        rectTransform.sizeDelta = new Vector2(
+            targetContainer.inventoryWidth * 100f * sizeMul + (cellSpacing * (targetContainer.inventoryWidth - 1)) + borderSpacing * 2,
+            targetContainer.inventoryHeight * 100f * sizeMul + (cellSpacing * (targetContainer.inventoryHeight - 1)) + borderSpacing * 2
+            );
 
-        for (int j = 0; j < height; ++j)
+        for (int j = 0; j < targetContainer.inventoryHeight; ++j)
         {
-            for (int i = 0; i < width; ++i)
+            for (int i = 0; i < targetContainer.inventoryWidth; ++i)
             {
                 GameObject newFrame = Instantiate(itemFramePrefab, transform);
 
                 PositionToFrame(i, j, newFrame);
             }
         }
+
+        int x = 0;
+        int y = 0;
+        foreach(int itemIndex in targetContainer.CurrentItems)
+        {
+            GameObject newItem = Instantiate(itemFramePrefab, transform);
+
+            // 1d to 2d coords for layout fill from index 0 wrapped to lines
+            if(x == targetContainer.inventoryWidth)
+            {
+                x = 0;
+                y++;
+            }
+
+            // Position new item
+            PositionToFrame(x, y, newItem);
+
+            // Based on the indices, pull the menu sprite from our static item database interface library (from its item profile).
+            newItem.GetComponent<Image>().sprite = ItemDatabaseInterface.Instance.items[itemIndex].MenuSprite;
+
+            x++;
+        }
     }
 
+    // Position a 100x100 sprite to a given coordinate on the UI panel
     public void PositionToFrame(int x, int y, GameObject frameObject)
     {
         frameObject.transform.localPosition = new Vector3(
-            100f * sizeMul * x - (sizeMul * 50f * (dimensions.x - 1)), 
-            (sizeMul * 50f * (dimensions.y - 1)) - 100f * sizeMul * y, 
+            100f * sizeMul * x - (sizeMul * 50f * (targetContainer.inventoryWidth - 1)), 
+            (sizeMul * 50f * (targetContainer.inventoryHeight - 1)) - 100f * sizeMul * y, 
             0
             );
     }

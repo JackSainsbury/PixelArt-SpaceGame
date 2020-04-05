@@ -16,12 +16,6 @@ public class PanelTracker : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
     public GameObject TogglePanel(int i)
     {
@@ -49,5 +43,22 @@ public class PanelTracker : MonoBehaviour
         {
             Destroy(panelInstance);
         }
+    }
+
+    public bool TestMouseClickOnPanel()
+    {
+        if (!panelInstance)
+            return false;
+
+        RectTransform panelRT = panelInstance.GetComponent<RectTransform>();
+
+        float xPos = panelRT.position.x;
+        float yPos = panelRT.position.y;
+        float width = panelRT.rect.width * panelRT.localScale.x;
+        float height = panelRT.rect.height * panelRT.localScale.x;
+
+        Rect r = new Rect(xPos - width / 2.0f, yPos - height / 2.0f, width, height);
+
+        return r.Contains(Input.mousePosition);
     }
 }

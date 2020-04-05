@@ -185,8 +185,6 @@ MonoBehaviour:
     selectionName: Locker
     selectionType: 1
   container: {fileID: 5300762352076579385}
-  inventoryWidth: 2
-  inventoryHeight: 5
 --- !u!114 &5300762352076579385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +198,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAnimator: {fileID: 5399717162507274512}
+  inventoryWidth: 2
+  inventoryHeight: 5
+  currentItems: 000000000100000002000000
 --- !u!95 &5399717162507274512
 Animator:
   serializedVersion: 3
@@ -505,8 +506,6 @@ MonoBehaviour:
     selectionName: Locker
     selectionType: 1
   container: {fileID: 6585917829238551196}
-  inventoryWidth: 2
-  inventoryHeight: 5
 --- !u!114 &6585917829238551196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,6 +519,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAnimator: {fileID: 8025229528263196072}
+  inventoryWidth: 2
+  inventoryHeight: 5
+  currentItems: 0400000005000000060000000700000008000000
 --- !u!95 &8025229528263196072
 Animator:
   serializedVersion: 3
