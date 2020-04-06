@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9632330dd0fd74b90888b1dd1e0947, type: 3}
   m_Name: IM_ShipCPUUprageModule
   m_EditorClassIdentifier: Assembly-CSharp::ItemProfile
-  itemName: Ship CPU Update Module
-  itemDescription: 
+  itemName: Upgrade Module
+  itemDescription: 'Upgrade level: 1 - weapons targettomg ship module chip set.'
   itemValue: 5012
   menuSprite: {fileID: 21300006, guid: 2367d2a30824c354ba53db366f31f243, type: 3}
   worldPrefab: {fileID: 0}

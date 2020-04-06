@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class PanelTracker : MonoBehaviour
 {
+    public GameObject itemDescriptionPanel;
     public GameObject[] panelObjects;
 
     private GameObject panelInstance;
+    private GameObject detailsPanelInstance;
+    private int newIndex = -1;
 
     private int curPanel = -1;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-
+    // Toggle enable/disable the panel
     public GameObject TogglePanel(int i)
     {
         bool show = false;
@@ -37,6 +34,7 @@ public class PanelTracker : MonoBehaviour
         return panelInstance;
     }
 
+    // Force remove the panel instance
     public void ForceDestroyPanel(int i)
     {
         if(panelInstance)
@@ -45,6 +43,7 @@ public class PanelTracker : MonoBehaviour
         }
     }
 
+    // Test if the player has clicked on the panel
     public bool TestMouseClickOnPanel()
     {
         if (!panelInstance)
@@ -60,5 +59,26 @@ public class PanelTracker : MonoBehaviour
         Rect r = new Rect(xPos - width / 2.0f, yPos - height / 2.0f, width, height);
 
         return r.Contains(Input.mousePosition);
+    }
+
+    // Add a details panel to the game
+    public void AddDetailsPanel(int itemIndex)
+    {
+        newIndex = itemIndex;
+    }
+    public void RemoveDetailsPanel()
+    {
+        if(detailsPanelInstance != null)
+            Destroy(detailsPanelInstance);
+    }
+
+    private void LateUpdate()
+    {
+        if(newIndex != -1)
+        {
+            detailsPanelInstance = Instantiate(itemDescriptionPanel, transform);
+            detailsPanelInstance.GetComponent<ItemInspectorDisplay>().InitDetailsPanel(newIndex);
+            newIndex = -1;
+        }
     }
 }

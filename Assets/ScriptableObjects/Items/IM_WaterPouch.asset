@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IM_WaterPouch
   m_EditorClassIdentifier: Assembly-CSharp::ItemProfile
   itemName: Water Pouch
-  itemDescription: 
+  itemDescription: A recycled water pouch.
   itemValue: 2
   menuSprite: {fileID: 21300014, guid: 2367d2a30824c354ba53db366f31f243, type: 3}
   worldPrefab: {fileID: 0}

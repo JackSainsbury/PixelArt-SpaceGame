@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IM_RationPackMeal
   m_EditorClassIdentifier: Assembly-CSharp::ItemProfile
   itemName: Ration Pack Meal
-  itemDescription: 
+  itemDescription: Basic ration pack meal, may contain trace amounts of nutrients.
   itemValue: 4
   menuSprite: {fileID: 21300016, guid: 2367d2a30824c354ba53db366f31f243, type: 3}
   worldPrefab: {fileID: 0}

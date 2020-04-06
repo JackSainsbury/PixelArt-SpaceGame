@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IM_Flashlight
   m_EditorClassIdentifier: Assembly-CSharp::ItemProfile
   itemName: Flashlight
-  itemDescription: 
+  itemDescription: A military issue flashlight.
   itemValue: 5
   menuSprite: {fileID: 21300008, guid: 2367d2a30824c354ba53db366f31f243, type: 3}
   worldPrefab: {fileID: 0}

@@ -62,6 +62,11 @@ public class EdgeScreenCameraMove : MonoBehaviour
             float zoomMul = (zoomVal - minZoom) / (maxZoom - minZoom);
 
             transform.position += cameraScrollSpeed * delta * Mathf.Lerp(0.4f, 1.0f, zoomMul) * Time.unscaledDeltaTime;
+
+            if(Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                transform.position = new Vector3(0, 0, -10);
+            }
         }
     }
 }

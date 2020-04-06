@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IM_WireSpool
   m_EditorClassIdentifier: Assembly-CSharp::ItemProfile
   itemName: Wire Spool
-  itemDescription: 
+  itemDescription: A coil of high tensile hauling cable.
   itemValue: 27
   menuSprite: {fileID: 21300010, guid: 2367d2a30824c354ba53db366f31f243, type: 3}
   worldPrefab: {fileID: 0}

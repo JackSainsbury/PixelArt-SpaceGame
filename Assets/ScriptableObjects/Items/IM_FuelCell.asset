@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IM_FuelCell
   m_EditorClassIdentifier: Assembly-CSharp::ItemProfile
   itemName: Fuel Cell
-  itemDescription: 
+  itemDescription: A standard unit, small EM03J_12 dilithium fuel cell.
   itemValue: 125
   menuSprite: {fileID: 21300002, guid: 2367d2a30824c354ba53db366f31f243, type: 3}
   worldPrefab: {fileID: 0}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IM_UnprocessedIron
   m_EditorClassIdentifier: Assembly-CSharp::ItemProfile
   itemName: Unprocessed Iron
-  itemDescription: 
+  itemDescription: A lump of mined, unprocessed iron.
   itemValue: 77
   menuSprite: {fileID: 21300004, guid: 2367d2a30824c354ba53db366f31f243, type: 3}
   worldPrefab: {fileID: 0}

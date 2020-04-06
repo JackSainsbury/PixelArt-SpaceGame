@@ -10,125 +10,93 @@ public class TargetSelection : MonoBehaviour
     private int currentSelectionIndex = 0;
 
     private List<SelectableTarget> oldCandidates;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-        // Left click select target
-        if (Input.GetMouseButtonDown(0))
+        
+    }
+
+    public void DoTargetSearch(Vector3 WSMousePos)
+    {
+        Vector2 mousePos2D = new Vector2(WSMousePos.x, WSMousePos.y);
+
+        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos2D, Vector2.zero);
+
+        if (hits.Length > 0)
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            bool clicked = false;
 
-            if (!GameController.Instance.panelTracker.TestMouseClickOnPanel())
+            // No current target, prime a new List to recieve future targets
+            oldCandidates = new List<SelectableTarget>();
+
+            // Get all candidates and keep record of the best candidate for the new selection
+            SelectableTarget bestCandidate = null;
+
+            int index = 0;
+            foreach (RaycastHit2D hit in hits)
             {
-                Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+                SelectableTarget targetCandidate = hit.collider.GetComponent<SelectableTarget>();
 
-                RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos2D, Vector2.zero);
-
-                if (hits.Length > 0)
+                // Found a target (now determine its priority)
+                if (targetCandidate != null)
                 {
-                    bool clicked = false;
+                    clicked = true;
 
-                    // No current target, prime a new List to recieve future targets
-                    oldCandidates = new List<SelectableTarget>();
-
-                    // Get all candidates and keep record of the best candidate for the new selection
-                    SelectableTarget bestCandidate = null;
-
-                    int index = 0;
-                    foreach (RaycastHit2D hit in hits)
+                    // Add to list of targets we clicked
+                    bool inserted = false;
+                    for (int i = 0; i < oldCandidates.Count; ++i)
                     {
-                        SelectableTarget targetCandidate = hit.collider.GetComponent<SelectableTarget>();
-
-                        // Found a target (now determine its priority)
-                        if (targetCandidate != null)
+                        if (targetCandidate.TargetSelectionProfile.selectionType < oldCandidates[i].TargetSelectionProfile.selectionType)
                         {
-                            clicked = true;
-
-                            // Add to list of targets we clicked
-                            bool inserted = false;
-                            for (int i = 0; i < oldCandidates.Count; ++i)
-                            {
-                                if (targetCandidate.TargetSelectionProfile.selectionType < oldCandidates[i].TargetSelectionProfile.selectionType)
-                                {
-                                    oldCandidates.Insert(i, targetCandidate);
-                                    inserted = true;
-                                    break;
-                                }
-                            }
-                            if (!inserted)
-                            {
-                                oldCandidates.Add(targetCandidate);
-                            }
-
-                            if (currentTarget == null)
-                            {
-                                // Track best
-                                if (bestCandidate == null || targetCandidate.TargetSelectionProfile.selectionType >= bestCandidate.TargetSelectionProfile.selectionType)
-                                {
-                                    bestCandidate = targetCandidate;
-                                    currentSelectionIndex = index;
-                                }
-                            }
+                            oldCandidates.Insert(i, targetCandidate);
+                            inserted = true;
+                            break;
                         }
-
-                        index++;
+                    }
+                    if (!inserted)
+                    {
+                        oldCandidates.Add(targetCandidate);
                     }
 
-                    if (!clicked)
+                    if (currentTarget == null)
                     {
-                        SetTarget(null);
-                        GameController.Instance.selectionDisplay.SetSelection(null);
-                    }
-                    else
-                    {
-                        if (currentTarget != null)
+                        // Track best
+                        if (bestCandidate == null || targetCandidate.TargetSelectionProfile.selectionType >= bestCandidate.TargetSelectionProfile.selectionType)
                         {
-                            currentSelectionIndex++;
-
-                            if (currentSelectionIndex >= oldCandidates.Count)
-                            {
-                                currentSelectionIndex = 0;
-                            }
-
-                            SetTarget(oldCandidates[currentSelectionIndex]);
+                            bestCandidate = targetCandidate;
+                            currentSelectionIndex = index;
                         }
-                        else
-                        {
-                            SetTarget(bestCandidate);
-                        }
-
-                        GameController.Instance.selectionDisplay.SetSelection(currentTarget.TargetSelectionProfile);
                     }
                 }
+
+                index++;
             }
-        }
 
-        // Right click, direct selected character to target
-        if(Input.GetMouseButtonDown(1))
-        {
-            if (currentTarget != null)
+            if (!clicked)
             {
-                switch (currentTarget.TargetSelectionProfile.selectionType)
+                SetTarget(null);
+                GameController.Instance.selectionDisplay.SetSelection(null);
+            }
+            else
+            {
+                if (currentTarget != null)
                 {
-                    case SelectionType.Character:
-                        {
-                            SelectableCharacter character = (SelectableCharacter)currentTarget;
-                            character.navigationController.NavigateMouseClick(Input.mousePosition);
-                        }
-                        break;
-                    case SelectionType.Container:
-                        {
-                            SelectableContainer container = (SelectableContainer)currentTarget;
-                            container.container.SetOpen(true);
-                        }
-                        break;
+                    currentSelectionIndex++;
+
+                    if (currentSelectionIndex >= oldCandidates.Count)
+                    {
+                        currentSelectionIndex = 0;
+                    }
+
+                    SetTarget(oldCandidates[currentSelectionIndex]);
                 }
+                else
+                {
+                    SetTarget(bestCandidate);
+                }
+
+                GameController.Instance.selectionDisplay.SetSelection(currentTarget.TargetSelectionProfile);
             }
         }
     }
@@ -172,7 +140,7 @@ public class TargetSelection : MonoBehaviour
         }
     }
 
-    public SelectableTarget Target
+    public SelectableTarget CurrentTarget
     {
         get { return currentTarget; }
     }
