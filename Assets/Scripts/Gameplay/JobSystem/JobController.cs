@@ -6,45 +6,33 @@ using UnityEngine;
 //Main controller for adding, removing, sorting and executing jobs for a given character.
 public class JobController : MonoBehaviour
 {
+    [SerializeField]
     private List<CharacterJob> activeJobsList = new List<CharacterJob>();
 
+    [SerializeField]
     private CharacterJob currentJob;
 
-    // Insert the given job into the active job list, by priority
-    private void InsertNewJobToOrder(CharacterJob newJob)
+    private CharacterJob idleJob;
+
+    public void SetIdleJob(CharacterJob idleJob)
     {
-        int jobCount = activeJobsList.Count;
-
-        bool added = false;
-        for (int i = 0; i < jobCount; ++i)
-        {
-            CharacterJob job = activeJobsList[i];
-
-            if(newJob.Priority > job.Priority)
-            {
-                activeJobsList.Insert(i + 1, newJob);
-                added = true;
-                break;
-            }
-        }
-
-        if(!added)
-        {
-            activeJobsList.Add(newJob);
-        }
+        this.idleJob = idleJob;
+        AssignCurrentJob();
     }
 
-    // Add new job(s) to the list by priority, assign the new current job
+    // Add new job(s) to the list
     public void AddNewJob(CharacterJob newJob)
     {
-        InsertNewJobToOrder(newJob);
+        activeJobsList = new List<CharacterJob>();
+        activeJobsList.Add(newJob);
         AssignCurrentJob();
     }
     public void AddNewJob(CharacterJob[] newJobs)
     {
+        activeJobsList = new List<CharacterJob>();
         foreach (CharacterJob newJob in newJobs)
         {
-            AddNewJob(newJob);
+            activeJobsList.Add(newJob);
         }
 
         AssignCurrentJob();
@@ -53,10 +41,60 @@ public class JobController : MonoBehaviour
     // Trigger interrupt of out dated current job, assign and start new current job
     void AssignCurrentJob()
     {
-        if(currentJob != null)
-            currentJob.OnInterruptJob();
-        currentJob = activeJobsList[activeJobsList.Count - 1];
-        currentJob.OnStartJob();
+        // Get the next candidate job
+        CharacterJob candidateNewJob = null;
+        if (activeJobsList.Count == 0 && idleJob != null)
+        {
+            candidateNewJob = idleJob;
+        }
+        else
+        {
+            candidateNewJob = activeJobsList[activeJobsList.Count - 1];
+            if (candidateNewJob == currentJob || candidateNewJob == null)
+            {
+                if (idleJob != null)
+                {
+                    candidateNewJob = idleJob;
+                }
+            }
+        }
+
+        // Try-start candidate job
+        if (candidateNewJob.OnStartJob())
+        {
+            // Successful new startup, interrupt current job
+            if (currentJob != null)
+                currentJob.OnInterruptJob();
+
+            // Re-assign current for tracking
+            currentJob = candidateNewJob;
+        }
+        else
+        {
+            // Clean up the false start job
+            candidateNewJob.OnEndJob();
+            // Remove from top of priority
+            activeJobsList.Remove(candidateNewJob);
+
+            AssignCurrentJob();
+        }
+    }
+
+    // Job controller and current job updates
+    private void Update()
+    {
+        if (currentJob != null)
+        {
+            // Run update
+            if (!currentJob.OnUpdateJob())
+            {
+                // If completed, end job
+                currentJob.OnEndJob();
+
+                activeJobsList.Remove(currentJob);
+                AssignCurrentJob();
+            }
+        }
     }
 
     // Current job being executed on this character
@@ -66,5 +104,13 @@ public class JobController : MonoBehaviour
         {
             return currentJob;
         }
+    }
+
+    public IEnumerator DelayThenIncrementJobState(float delayFor, CharacterJob jobToIncrement)
+    {
+        yield return new WaitForSeconds(delayFor);
+
+        if (jobToIncrement == currentJob)
+            currentJob.JobState++;
     }
 }

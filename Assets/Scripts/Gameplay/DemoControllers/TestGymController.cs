@@ -9,8 +9,6 @@ using UnityEngine;
  */
 public class TestGymController : MonoBehaviour
 {
-    public CharacterNavigation character;
-
     public ShipPieceDatabase database;
 
     private ShipRuntime ship;
@@ -70,10 +68,9 @@ public class TestGymController : MonoBehaviour
 
         foreach (GameObject character in chars)
         {
-            CharacterNavigation charNav = character.GetComponent<CharacterNavigation>();
+            PlayerCrewAI charAI = character.GetComponent<PlayerCrewAI>();
 
-            charNav.NavToRandom(ship);
-            charNav.transform.SetParent(ship.transform);
+            charAI.Init(ship);
         }
 
         // Do worms

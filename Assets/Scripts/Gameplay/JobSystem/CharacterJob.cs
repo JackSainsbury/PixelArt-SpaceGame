@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class CharacterJob
 {
-    protected int priority = 0;
+    // ONLY IDLE JOBS SHOULD HAVE PRIORITY 0 AND WILL NEVER BE REMOVED FROM THE JOB STACK, DUPLICATE PRIORITY 0 JOBS WILL NOT BE ADDED
+    protected uint priority = 0;
+    [SerializeField]
     protected string name = "idle";
 
     protected int jobState = 0;
@@ -12,44 +15,38 @@ public class CharacterJob
 
     protected object[] requiredObjects;
 
-    public CharacterJob(int priority, string name, params object[] requiredObjects)
+
+    public CharacterJob(string name, params object[] requiredObjects)
     {
-        this.priority = priority;
         this.name = name;
         this.requiredObjects = requiredObjects;
     }
 
     // Init and spawn anything in preperation for update job state
-    public void OnStartJob()
+    public virtual bool OnStartJob()
     {
-
+        return true;
     }
 
     // If job returns true, update has completed and we can call OnEndJob
-    public bool OnUpdateJob()
+    public virtual bool OnUpdateJob()
     {
         return false;
     }
 
-    public void OnInterruptJob()
+    public virtual void OnInterruptJob()
     {
 
     }
 
     // Clean up anything in preperation for post job state, either OnUpdate is false or we have been interrupted by a higher state
-    public void OnEndJob()
+    public virtual void OnEndJob()
     {
 
     }
 
-    // Public properties
-    public int Priority
-    {
-        get
-        {
-            return priority;
-        }
-    }
+
+// Public properties
     public string Name
     {
         get
@@ -64,7 +61,7 @@ public class CharacterJob
             return jobState;
         }
 
-        protected set
+        set
         {
             jobState = value;
         }

@@ -20,13 +20,11 @@ public class CharacterNavigation : MonoBehaviour
     private int climbUpHash = Animator.StringToHash("IsClimbingUp");
     private int climbDownHash = Animator.StringToHash("IsClimbingDown");
 
-    private Coroutine delaySearchRoutineInstance;
 
     public bool Navigate(ShipRuntime targetShip, Vector2Int globalStartPos, Vector2Int globalEndPos)
     {
         if (globalStartPos == globalEndPos)
         {
-            delaySearchRoutineInstance = StartCoroutine("DelaySearch");
             return false;
         }
 
@@ -35,11 +33,15 @@ public class CharacterNavigation : MonoBehaviour
         // Cur, prev and T evaluation
         if (curPath != null)
         {
-            overrideStart = new NavCell[2];
 
-            // Store C0 and C1
-            overrideStart [0] = curPath[nextIndex - 1];
-            overrideStart[1] = curPath[nextIndex];
+            if (nextIndex < curPath.Length)
+            {
+                overrideStart = new NavCell[2];
+                
+                // Store C0 and C1
+                overrideStart[0] = curPath[nextIndex - 1];
+                overrideStart[1] = curPath[nextIndex];
+            }
         }
 
         nextIndex = 1;
@@ -88,46 +90,63 @@ public class CharacterNavigation : MonoBehaviour
     }
 
     // Sent a navigation command from a selection/target script - attempt pathing
-    public void NavigateMouseClick(Vector3 inMousePos)
+    public bool TryForceNavToPos(Vector2Int cellPos)
     {
-        Vector3 mouseAsShipRelativeWorldPos = targetShip.transform.InverseTransformPoint(GameController.Instance.mainCamera.ScreenToWorldPoint(inMousePos)) / 3.2f;
-
         // Click target is at the very least valid
-        if (targetShip.GetCellByGlobalPos(new Vector2Int(Mathf.RoundToInt(mouseAsShipRelativeWorldPos.x), Mathf.RoundToInt(mouseAsShipRelativeWorldPos.y))) != null)
+        if (targetShip.GetCellByGlobalPos(cellPos) != null)
         {
             // TMP navigate within the current ship - do a ship connectivity test later and logic to move between ships/buildings/space
             if(Navigate(
                 targetShip,
                 new Vector2Int(Mathf.RoundToInt(transform.localPosition.x / 3.2f), Mathf.RoundToInt(transform.localPosition.y / 3.2f)),
-                new Vector2Int(Mathf.RoundToInt(mouseAsShipRelativeWorldPos.x), Mathf.RoundToInt(mouseAsShipRelativeWorldPos.y))))
+                cellPos))
             {
-                // New candidate path was not null, stop the current search random path coroutine
-                StopCoroutine(delaySearchRoutineInstance);
+                return true;
             }
         }
+
+        return false;
+    }
+    // Convert a screen pos to a ship relative cell index position
+    public Vector2Int ScreenToShipCellPos(Vector3 inScreenPos)
+    {
+        Vector3 mouseAsShipRelativeWorldPos = targetShip.transform.InverseTransformPoint(GameController.Instance.mainCamera.ScreenToWorldPoint(inScreenPos)) / 3.2f;
+
+        return new Vector2Int(Mathf.RoundToInt(mouseAsShipRelativeWorldPos.x), Mathf.RoundToInt(mouseAsShipRelativeWorldPos.y));
     }
 
-    public void NavToRandom(ShipRuntime targetShip)
+    public bool NavToRandom(ShipRuntime targetShip)
     {
         this.targetShip = targetShip;
+        // Enter this state from a cell pos, no previous path exists (idle roam from absolute cell pos)
+        curPath = null;
 
         bool success = false;
+
         Vector2Int pos = targetShip.GetRandomNavigateableCellPos(out success, WallState.Down);
 
-        transform.localPosition = new Vector3(pos.x, pos.y, 0) * 3.2f;
+        if (!success)
+        {
+            return false;
+        }
 
-        if (success)
-            Navigate(
-                targetShip,
-                new Vector2Int(Mathf.RoundToInt(transform.localPosition.x / 3.2f), Mathf.RoundToInt(transform.localPosition.y / 3.2f)),
-                pos);
-        else
-            delaySearchRoutineInstance = StartCoroutine("DelaySearch");
+        if (!Navigate(
+            targetShip,
+            new Vector2Int(Mathf.RoundToInt(transform.localPosition.x / 3.2f), Mathf.RoundToInt(transform.localPosition.y / 3.2f)),
+            pos))
+        {
+            return false;
+        }
+
+        return true;
     }
 
-    void Update()
+    // Update function to walk along current path and return a finished state - called from the update of a nav integrated job through job controller
+    // return false if still walking path
+    // return true if path walk completed
+    public bool WalkCurrentPath()
     {
-        if(curPath != null)
+        if (curPath != null)
         {
             if (curPath.Length > 1)
             {
@@ -164,17 +183,22 @@ public class CharacterNavigation : MonoBehaviour
                 {
                     transform.localPosition = curPath[curPath.Length - 1].PositionShipSpace();
                     animator.SetFloat(speedHash, 0);
-
-                    delaySearchRoutineInstance = StartCoroutine("DelaySearch");
+                    return false;
                 }
             }
             else
             {
                 transform.localPosition = curPath[0].PositionShipSpace();
                 animator.SetFloat(speedHash, 0);
-                delaySearchRoutineInstance = StartCoroutine("DelaySearch");
+                return false;
             }
         }
+        else
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public Vector3[] GetNavArray()
@@ -196,24 +220,6 @@ public class CharacterNavigation : MonoBehaviour
         return null;
     }
 
-    private IEnumerator DelaySearch()
-    {
-        curPath = null;
-
-        yield return new WaitForSeconds(1f);
-
-        bool success = false;
-
-        Vector2Int pos = targetShip.GetRandomNavigateableCellPos(out success, WallState.Down);
-
-        if (success)
-            Navigate(
-                targetShip,
-                new Vector2Int(Mathf.RoundToInt(transform.localPosition.x / 3.2f), Mathf.RoundToInt(transform.localPosition.y / 3.2f)),
-                pos);
-        else
-            StartCoroutine("DelaySearch");
-    }
 
     // Ship I am currently assigned to walk on
     public ShipRuntime TargetShip

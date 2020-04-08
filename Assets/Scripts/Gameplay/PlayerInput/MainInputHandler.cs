@@ -30,7 +30,8 @@ public class MainInputHandler : MonoBehaviour
                     case SelectionType.Character:
                         {
                             SelectableCharacter character = (SelectableCharacter)currentTarget;
-                            character.playerCrewAI.navigationController.NavigateMouseClick(Input.mousePosition);
+
+                            character.playerCrewAI.NavToMouse();
                         }
                         break;
                     case SelectionType.Container:
