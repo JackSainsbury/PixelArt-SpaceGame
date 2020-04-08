@@ -13,18 +13,21 @@ public class ItemInspectorDisplay : MonoBehaviour
     public RectTransform rectTransform;
     public RectTransform titleBoxRectTransform;
 
+    public GameObject selectedObjectPrefab;
+
     private Vector3 halfDimensions;
+
+    private GameObject selectedObjectVisualizerInstance;
 
     private void Update()
     {
-        transform.position = Input.mousePosition + halfDimensions;
+        transform.position = Input.mousePosition + halfDimensions + new Vector3(0, -titleBoxRectTransform.rect.height, 0);
     }
 
     // Scale window and lay out item frames
-    public void InitDetailsPanel(int itemIndex)
+    public void InitDetailsPanel(int itemIndex, Transform targetParent)
     {
         ItemProfile itemProfile = ItemDatabaseInterface.Instance.items[itemIndex];
-
        
         tmpDescription.text = itemProfile.Description;
         tmpValue.text = itemProfile.Value.ToString() + "C";
@@ -40,6 +43,17 @@ public class ItemInspectorDisplay : MonoBehaviour
 
         halfDimensions = new Vector3(newDims.x, -newDims.y, 0) / 2.0f;
 
-        transform.position = Input.mousePosition + halfDimensions;
+        transform.position = Input.mousePosition + halfDimensions + new Vector3(0, -titleBoxRectTransform.rect.height, 0);
+
+        selectedObjectVisualizerInstance = Instantiate(selectedObjectPrefab, targetParent);
+        selectedObjectVisualizerInstance.transform.localPosition = Vector2.zero;
+    }
+
+    // Clean up the hover icon and destroy the detaild panel
+    public void DestroyDisplayPanel()
+    {
+        if(selectedObjectVisualizerInstance != null)
+            Destroy(selectedObjectVisualizerInstance);
+        Destroy(gameObject);
     }
 }

@@ -135,7 +135,8 @@ public class Worm : MonoBehaviour
 
         AStarAlgorithm aStarAlgorithm = new AStarAlgorithm(startGrid, goalGrid, globalStartPos, globalEndPos);
 
-        curPath = aStarAlgorithm.AStarSearch();
+        int newTTmp = 0;
+        curPath = aStarAlgorithm.AStarSearch(ref newTTmp);
 
         wiggleTimer = Random.Range(0, 6.28318f);
     }

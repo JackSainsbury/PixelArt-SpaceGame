@@ -29,7 +29,7 @@ public class AStarAlgorithm
     }
 
 
-    public NavCell[] AStarSearch()
+    public NavCell[] AStarSearch(ref int newTState, NavCell[] overrideStart = null)
     {
         openList.Clear();
         closedList.Clear();
@@ -114,7 +114,7 @@ public class AStarAlgorithm
                 if (curCell == goalCell)
                 {
                     curCell.parent = bestCell;
-                    return ConstructPath(curCell);
+                    return ConstructPath(curCell, ref newTState, overrideStart);
                 }
 
                 // Cell / Wall state logic
@@ -179,7 +179,7 @@ public class AStarAlgorithm
     }
 
 
-    private NavCell[] ConstructPath(NavCell destination)
+    private NavCell[] ConstructPath(NavCell destination, ref int newTState, NavCell[] overrideStart = null)
     {
         var path = new List<NavCell>() { destination };
 
@@ -191,6 +191,47 @@ public class AStarAlgorithm
         }
 
         path.Reverse();
+
+        // C0 and C1 set
+        if (overrideStart != null)
+        {
+            //curPath 0 and curPath 1 are p0 and p1
+            if (overrideStart[1].position == path[0].position) // if c1 == p0
+            {
+                if (overrideStart[0].position != path[1].position) // Not returning from next cell in path
+                {
+                    // Forward traversal
+                    path.Insert(0, overrideStart[0]);
+                    
+                    // New t = t
+                    newTState = 0;
+                }
+                else
+                {
+                    // New t = 1 - t
+                    newTState = 1;
+                }
+            }
+            else if(overrideStart[0].position == path[0].position)
+            {
+                if(overrideStart[1].position == path[1].position)
+                {
+                    // New t = t
+                    newTState = 0;
+                }
+                else
+                {
+                    // Inverse traversal
+                    //path.Insert(0, overrideStart[0]);
+                    path.Insert(0, overrideStart[1]);
+
+                    // New t = 1 - t
+                    newTState = 1;
+                }
+            }
+        }
+
+
         return path.ToArray();
     }
 }

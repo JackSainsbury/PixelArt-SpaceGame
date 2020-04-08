@@ -22,24 +22,34 @@ public class CharacterNavigation : MonoBehaviour
 
     private Coroutine delaySearchRoutineInstance;
 
-    public void Navigate(ShipRuntime targetShip, Vector2Int globalStartPos, Vector2Int globalEndPos)
+    public bool Navigate(ShipRuntime targetShip, Vector2Int globalStartPos, Vector2Int globalEndPos)
     {
         if (globalStartPos == globalEndPos)
         {
             delaySearchRoutineInstance = StartCoroutine("DelaySearch");
-            return;
+            return false;
         }
 
-        moveTimer = 0;
+        NavCell[] overrideStart = null;
+
+        // Cur, prev and T evaluation
+        if (curPath != null)
+        {
+            overrideStart = new NavCell[2];
+
+            // Store C0 and C1
+            overrideStart [0] = curPath[nextIndex - 1];
+            overrideStart[1] = curPath[nextIndex];
+        }
+
         nextIndex = 1;
 
         CellTemplate startCell = targetShip.GetCellByGlobalPos(globalStartPos);
         CellTemplate endCell = targetShip.GetCellByGlobalPos(globalEndPos);
 
-
         // Invalid path supplied
         if (startCell == null || endCell == null || startCell.CellState == 0 || endCell.CellState == 0)
-            return;
+            return false;
 
         ShipPiece startPiece = targetShip.GetPieceByGlobalCellPos(globalStartPos);
         ShipPiece endPiece = targetShip.GetPieceByGlobalCellPos(globalEndPos);
@@ -58,22 +68,43 @@ public class CharacterNavigation : MonoBehaviour
 
         AStarAlgorithm aStarAlgorithm = new AStarAlgorithm(startGrid, goalGrid, globalStartPos, globalEndPos);
 
-        curPath = aStarAlgorithm.AStarSearch();
+        int newTState = -1;
+        curPath = aStarAlgorithm.AStarSearch(ref newTState, overrideStart);
+
+        // Either reset, invert or leave move timer
+        switch (newTState)
+        {
+            case -1:
+                moveTimer = 0;
+                break;
+            case 1:
+                moveTimer = 1 - moveTimer;
+                break;
+        }
 
         pathTracer.SetPositions(GetNavArray());
+
+        return curPath != null;
     }
 
     // Sent a navigation command from a selection/target script - attempt pathing
     public void NavigateMouseClick(Vector3 inMousePos)
     {
-        StopCoroutine(delaySearchRoutineInstance);
-        Vector3 mouseAsShipRelativeWorldPos = targetShip.transform.InverseTransformPoint(GameController.Instance.mainCamera.ScreenToWorldPoint(inMousePos));
+        Vector3 mouseAsShipRelativeWorldPos = targetShip.transform.InverseTransformPoint(GameController.Instance.mainCamera.ScreenToWorldPoint(inMousePos)) / 3.2f;
 
-        // TMP navigate within the current ship - do a ship connectivity test later and logic to move between ships/buildings/space
-        Navigate(
-            targetShip,
-            new Vector2Int(Mathf.RoundToInt(transform.localPosition.x / 3.2f), Mathf.RoundToInt(transform.localPosition.y / 3.2f)),
-             new Vector2Int(Mathf.RoundToInt(mouseAsShipRelativeWorldPos.x / 3.2f), Mathf.RoundToInt(mouseAsShipRelativeWorldPos.y / 3.2f)));
+        // Click target is at the very least valid
+        if (targetShip.GetCellByGlobalPos(new Vector2Int(Mathf.RoundToInt(mouseAsShipRelativeWorldPos.x), Mathf.RoundToInt(mouseAsShipRelativeWorldPos.y))) != null)
+        {
+            // TMP navigate within the current ship - do a ship connectivity test later and logic to move between ships/buildings/space
+            if(Navigate(
+                targetShip,
+                new Vector2Int(Mathf.RoundToInt(transform.localPosition.x / 3.2f), Mathf.RoundToInt(transform.localPosition.y / 3.2f)),
+                new Vector2Int(Mathf.RoundToInt(mouseAsShipRelativeWorldPos.x), Mathf.RoundToInt(mouseAsShipRelativeWorldPos.y))))
+            {
+                // New candidate path was not null, stop the current search random path coroutine
+                StopCoroutine(delaySearchRoutineInstance);
+            }
+        }
     }
 
     public void NavToRandom(ShipRuntime targetShip)

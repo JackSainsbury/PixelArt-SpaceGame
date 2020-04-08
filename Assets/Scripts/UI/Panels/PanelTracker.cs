@@ -8,8 +8,9 @@ public class PanelTracker : MonoBehaviour
     public GameObject[] panelObjects;
 
     private GameObject panelInstance;
-    private GameObject detailsPanelInstance;
+    private ItemInspectorDisplay detailsPanelInstance;
     private int newIndex = -1;
+    private Transform detailsPanelItemObjectTransform;
 
     private int curPanel = -1;
 
@@ -62,22 +63,25 @@ public class PanelTracker : MonoBehaviour
     }
 
     // Add a details panel to the game
-    public void AddDetailsPanel(int itemIndex)
+    public void AddDetailsPanel(int itemIndex, Transform itemObjectTransform)
     {
         newIndex = itemIndex;
+        detailsPanelItemObjectTransform = itemObjectTransform;
     }
     public void RemoveDetailsPanel()
     {
-        if(detailsPanelInstance != null)
-            Destroy(detailsPanelInstance);
+        if (detailsPanelInstance != null)
+        {
+            detailsPanelInstance.DestroyDisplayPanel();
+        }
     }
 
     private void LateUpdate()
     {
         if(newIndex != -1)
         {
-            detailsPanelInstance = Instantiate(itemDescriptionPanel, transform);
-            detailsPanelInstance.GetComponent<ItemInspectorDisplay>().InitDetailsPanel(newIndex);
+            detailsPanelInstance = Instantiate(itemDescriptionPanel, transform).GetComponent<ItemInspectorDisplay>();
+            detailsPanelInstance.InitDetailsPanel(newIndex, detailsPanelItemObjectTransform);
             newIndex = -1;
         }
     }

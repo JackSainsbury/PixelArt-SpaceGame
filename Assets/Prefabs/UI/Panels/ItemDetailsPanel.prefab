@@ -256,6 +256,8 @@ MonoBehaviour:
   tmpValue: {fileID: 3688124581793328428}
   rectTransform: {fileID: 2857485782104412812}
   titleBoxRectTransform: {fileID: 8737974513735209502}
+  selectedObjectPrefab: {fileID: 6499567742005991262, guid: 806e6cfb4d2cf6f4aa22debbdaedef0b,
+    type: 3}
 --- !u!1 &8236164020179160648
 GameObject:
   m_ObjectHideFlags: 0

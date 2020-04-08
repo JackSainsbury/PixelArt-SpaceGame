@@ -27,7 +27,7 @@ public class ItemObject : MonoBehaviour
         {
             if (!wasMouseOver)
             {
-                GameController.Instance.panelTracker.AddDetailsPanel(itemIndex);
+                GameController.Instance.panelTracker.AddDetailsPanel(itemIndex, panelRT);
             }
         }
         else
@@ -44,7 +44,6 @@ public class ItemObject : MonoBehaviour
     // Test if the player has clicked on the panel
     public bool TestMouseClickOnPanel()
     {
-
         float xPos = panelRT.position.x;
         float yPos = panelRT.position.y;
         float width = panelRT.rect.width;
