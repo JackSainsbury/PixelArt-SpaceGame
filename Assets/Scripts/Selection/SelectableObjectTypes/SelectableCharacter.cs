@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class SelectableCharacter : SelectableTarget
 {
-    public CharacterNavigation navigationController;
+    public PlayerCrewAI playerCrewAI;
     public CrewPathTracer pathTracer;
 }

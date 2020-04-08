@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 755168470}
   - component: {fileID: 8935519819509595682}
   - component: {fileID: 755168469}
+  - component: {fileID: 1747188616776271204}
   - component: {fileID: 4063614086948585610}
+  - component: {fileID: 3698153738706674200}
   m_Layer: 0
   m_Name: MaleEngineer
   m_TagString: Characters
@@ -75,6 +77,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1668005791}
   pathTracer: {fileID: 8477039189072189505}
+--- !u!114 &1747188616776271204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755168468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b8c9b6d3721a31499a8236fb3be17fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4063614086948585610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,8 +106,22 @@ MonoBehaviour:
       type: 3}
     selectionName: 
     selectionType: 2
-  navigationController: {fileID: 755168469}
+  playerCrewAI: {fileID: 3698153738706674200}
   pathTracer: {fileID: 8477039189072189505}
+--- !u!114 &3698153738706674200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755168468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72a99e300134afc4fbb5475bfa8c7b88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navigationController: {fileID: 755168469}
+  jobController: {fileID: 1747188616776271204}
 --- !u!1 &1668005790
 GameObject:
   m_ObjectHideFlags: 0

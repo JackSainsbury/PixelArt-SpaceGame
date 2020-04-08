@@ -3039,6 +3039,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1156927866}
   m_CullTransparentMesh: 0
+--- !u!114 &1212104564 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3698153738706674200, guid: e8891fc661a28f34f9cf487b93ea4578,
+    type: 3}
+  m_PrefabInstance: {fileID: 1334974080}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72a99e300134afc4fbb5475bfa8c7b88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1260325930
 GameObject:
   m_ObjectHideFlags: 0
@@ -3261,6 +3273,16 @@ PrefabInstance:
       propertyPath: targetSelectionProfile.selectionName
       value: John Oldman
       objectReference: {fileID: 0}
+    - target: {fileID: 4063614086948585610, guid: e8891fc661a28f34f9cf487b93ea4578,
+        type: 3}
+      propertyPath: playerCrewAI
+      value: 
+      objectReference: {fileID: 1212104564}
+    - target: {fileID: 4063614086948585610, guid: e8891fc661a28f34f9cf487b93ea4578,
+        type: 3}
+      propertyPath: pathTracer
+      value: 
+      objectReference: {fileID: 1610915406}
     m_RemovedComponents:
     - {fileID: 8232510166141913267, guid: e8891fc661a28f34f9cf487b93ea4578, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e8891fc661a28f34f9cf487b93ea4578, type: 3}
@@ -3560,6 +3582,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608261985}
   m_CullTransparentMesh: 0
+--- !u!114 &1610915406 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8477039189072189505, guid: e8891fc661a28f34f9cf487b93ea4578,
+    type: 3}
+  m_PrefabInstance: {fileID: 1334974080}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8b7fd4949b1ef74b912814553cb6e85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1629664312
 GameObject:
   m_ObjectHideFlags: 0

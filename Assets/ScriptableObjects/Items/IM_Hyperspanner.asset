@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IM_Hyperspanner
   m_EditorClassIdentifier: Assembly-CSharp::ItemProfile
   itemName: Hyperspanner
-  itemDescription: The multi purpose, all in one patent pending hyperspanner. Indistinguishable
+  itemDescription: The multi purpose, all in one, patent pending, hyperspanner. Indistinguishable
     from non hyper varient.
   itemValue: 194
   menuSprite: {fileID: 21300000, guid: 2367d2a30824c354ba53db366f31f243, type: 3}
