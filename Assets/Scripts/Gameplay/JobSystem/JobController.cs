@@ -6,10 +6,8 @@ using UnityEngine;
 //Main controller for adding, removing, sorting and executing jobs for a given character.
 public class JobController : MonoBehaviour
 {
-    [SerializeField]
     private List<CharacterJob> activeJobsList = new List<CharacterJob>();
 
-    [SerializeField]
     private CharacterJob currentJob;
 
     private CharacterJob idleJob;
@@ -17,7 +15,9 @@ public class JobController : MonoBehaviour
     public void SetIdleJob(CharacterJob idleJob)
     {
         this.idleJob = idleJob;
-        AssignCurrentJob();
+        // Try-start candidate job
+        idleJob.OnStartJob();
+        currentJob = idleJob;
     }
 
     // Add new job(s) to the list
@@ -45,18 +45,14 @@ public class JobController : MonoBehaviour
         CharacterJob candidateNewJob = null;
         if (activeJobsList.Count == 0 && idleJob != null)
         {
-            candidateNewJob = idleJob;
+            currentJob = idleJob;
+            currentJob.OnResumeJob();
+
+            return;
         }
         else
         {
             candidateNewJob = activeJobsList[activeJobsList.Count - 1];
-            if (candidateNewJob == currentJob || candidateNewJob == null)
-            {
-                if (idleJob != null)
-                {
-                    candidateNewJob = idleJob;
-                }
-            }
         }
 
         // Try-start candidate job
@@ -92,6 +88,7 @@ public class JobController : MonoBehaviour
                 currentJob.OnEndJob();
 
                 activeJobsList.Remove(currentJob);
+
                 AssignCurrentJob();
             }
         }

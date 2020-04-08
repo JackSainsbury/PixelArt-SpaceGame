@@ -220,7 +220,6 @@ public class CharacterNavigation : MonoBehaviour
         return null;
     }
 
-
     // Ship I am currently assigned to walk on
     public ShipRuntime TargetShip
     {

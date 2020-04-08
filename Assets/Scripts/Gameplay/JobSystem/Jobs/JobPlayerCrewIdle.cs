@@ -24,8 +24,8 @@ public class JobPlayerCrewIdle : CharacterJob
         if(!characterNav.NavToRandom(targetShip))
         {
             // Begin the delay, then try increment job state
-            jobController.StartCoroutine(jobController.DelayThenIncrementJobState(1.0f, this));
             jobState = 1;
+            jobController.StartCoroutine(jobController.DelayThenIncrementJobState(1.0f, this));
         }
         return true;
     }
@@ -39,8 +39,8 @@ public class JobPlayerCrewIdle : CharacterJob
             {
                 case 0:
                     // Begin the delay, then try increment job state
-                    jobController.StartCoroutine(jobController.DelayThenIncrementJobState(1.0f, this));
                     jobState = 1;
+                    jobController.StartCoroutine(jobController.DelayThenIncrementJobState(1.0f, this));
                     break;
                 case 1:
                     break;
@@ -52,8 +52,8 @@ public class JobPlayerCrewIdle : CharacterJob
                     if (!characterNav.NavToRandom(targetShip))
                     {
                         // Begin the delay, then try increment job state
-                        jobController.StartCoroutine(jobController.DelayThenIncrementJobState(1.0f, this));
                         jobState = 1;
+                        jobController.StartCoroutine(jobController.DelayThenIncrementJobState(1.0f, this));
                     }
                     break;
             }
@@ -64,7 +64,14 @@ public class JobPlayerCrewIdle : CharacterJob
 
     public override void OnInterruptJob()
     {
-        jobState = 0;
+    
+    }
+
+    public override void OnResumeJob()
+    {
+        // Begin the delay, then try increment job state
+        jobState = 1;
+        jobController.StartCoroutine(jobController.DelayThenIncrementJobState(1.0f, this));
     }
 
     // Clean up anything in preperation for post job state, either OnUpdate is false or we have been interrupted by a higher state

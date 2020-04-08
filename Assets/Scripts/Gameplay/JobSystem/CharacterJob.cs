@@ -38,6 +38,10 @@ public class CharacterJob
     {
 
     }
+    public virtual void OnResumeJob()
+    {
+
+    }
 
     // Clean up anything in preperation for post job state, either OnUpdate is false or we have been interrupted by a higher state
     public virtual void OnEndJob()

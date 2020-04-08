@@ -30,6 +30,10 @@ public class JobPlayerCrewNavigateToCell : CharacterJob
     {
 
     }
+    public override void OnResumeJob()
+    {
+
+    }
 
     // Clean up anything in preperation for post job state, either OnUpdate is false or we have been interrupted by a higher state
     public override void OnEndJob()
