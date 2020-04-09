@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TargetSelection : MonoBehaviour
 {
+    public GameObject worldUIMenuPrefab;
+
     private SelectableTarget currentTarget;
 
     // In the List of oldCandidates, where is our current selection indexed
@@ -11,11 +13,6 @@ public class TargetSelection : MonoBehaviour
 
     private List<SelectableTarget> oldCandidates;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void DoTargetSearch(Vector3 WSMousePos)
     {
@@ -99,6 +96,11 @@ public class TargetSelection : MonoBehaviour
                 GameController.Instance.selectionDisplay.SetSelection(currentTarget.TargetSelectionProfile);
             }
         }
+        else
+        {
+            SetTarget(null);
+            GameController.Instance.selectionDisplay.SetSelection(null);
+        }
     }
 
     public void SetTarget(SelectableTarget currentTarget)
@@ -106,6 +108,10 @@ public class TargetSelection : MonoBehaviour
         // Disable character target line renderer
         if (this.currentTarget != null)
         {
+            // Destroy the old selection world radial menu
+            if (WorldUIRadial.Instance != null)
+                Destroy(WorldUIRadial.Instance.gameObject);
+
             switch (this.currentTarget.TargetSelectionProfile.selectionType)
             {
                 case SelectionType.Character:
@@ -129,6 +135,9 @@ public class TargetSelection : MonoBehaviour
         // Disable character target line renderer
         if (this.currentTarget != null)
         {
+            WorldUIRadial radialMenu = Instantiate(worldUIMenuPrefab, GameController.Instance.selectionDisplay.transform).GetComponent<WorldUIRadial>();
+            radialMenu.Init(currentTarget);
+
             switch (this.currentTarget.TargetSelectionProfile.selectionType)
             {
                 case SelectionType.Character:

@@ -12,9 +12,19 @@ public class MainInputHandler : MonoBehaviour
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            if (!GameController.Instance.panelTracker.TestMouseClickOnPanel())
+            if (!GameController.Instance.panelTracker.TestMouseClickOnPanel() && // Test if clicked inventory panel
+                !GameController.Instance.selectionDisplay.TestSelectionButtons()) // Test if clicked selection buttons
             {
-                GameController.Instance.targetSelection.DoTargetSearch(mousePos);
+                // Test if clicked radial menu
+                bool radialClicked = false;
+                WorldUIRadial radialMenuCandidate = WorldUIRadial.Instance;
+                if (radialMenuCandidate != null)
+                    radialClicked = radialMenuCandidate.TestWorldClickButtons();
+
+                if (!radialClicked)
+                {
+                    GameController.Instance.targetSelection.DoTargetSearch(mousePos);
+                }
             }
         }
 
@@ -36,11 +46,33 @@ public class MainInputHandler : MonoBehaviour
                         break;
                     case SelectionType.Container:
                         {
-                            SelectableContainer container = (SelectableContainer)currentTarget;
-                            container.container.SetOpen(true);
+
                         }
                         break;
                 }
+            }
+        }
+    }
+
+    public void TryOpenSelection()
+    {
+        SelectableTarget currentTarget = GameController.Instance.targetSelection.CurrentTarget;
+
+        if (currentTarget != null)
+        {
+            switch (currentTarget.TargetSelectionProfile.selectionType)
+            {
+                case SelectionType.Character:
+                    {
+
+                    }
+                    break;
+                case SelectionType.Container:
+                    {
+                        SelectableContainer container = (SelectableContainer)currentTarget;
+                        container.container.SetOpen(true);
+                    }
+                    break;
             }
         }
     }

@@ -60,6 +60,9 @@ TagManager:
   - name: FGD
     uniqueID: 373895575
     locked: 0
+  - name: WorldUI
+    uniqueID: 3428413679
+    locked: 0
   - name: DEBUG
     uniqueID: 148395509
     locked: 0

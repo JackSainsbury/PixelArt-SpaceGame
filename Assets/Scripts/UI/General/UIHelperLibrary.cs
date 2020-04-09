@@ -21,4 +21,16 @@ public class UIHelperLibrary : MonoBehaviour
 
         tmpTitle.ForceMeshUpdate();
     }
+
+    public static bool QueryScreenPosInUIRectTransform(RectTransform UIRect)
+    {
+        float xPos = UIRect.position.x;
+        float yPos = UIRect.position.y;
+        float width = UIRect.rect.width * UIRect.localScale.x;
+        float height = UIRect.rect.height * UIRect.localScale.x;
+
+        Rect r = new Rect(xPos - width / 2.0f, yPos - height / 2.0f, width, height);
+
+        return r.Contains(Input.mousePosition);
+    }
 }

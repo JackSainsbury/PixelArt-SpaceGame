@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     public SelectionDisplay selectionDisplay;
     public PanelTracker panelTracker;
     public TargetSelection targetSelection;
+    public MainInputHandler mainInputHandler;
 
     // Singleton
     private static GameController instance;

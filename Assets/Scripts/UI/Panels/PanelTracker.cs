@@ -50,16 +50,7 @@ public class PanelTracker : MonoBehaviour
         if (!panelInstance)
             return false;
 
-        RectTransform panelRT = panelInstance.GetComponent<RectTransform>();
-
-        float xPos = panelRT.position.x;
-        float yPos = panelRT.position.y;
-        float width = panelRT.rect.width * panelRT.localScale.x;
-        float height = panelRT.rect.height * panelRT.localScale.x;
-
-        Rect r = new Rect(xPos - width / 2.0f, yPos - height / 2.0f, width, height);
-
-        return r.Contains(Input.mousePosition);
+        return UIHelperLibrary.QueryScreenPosInUIRectTransform(panelInstance.GetComponent<RectTransform>());
     }
 
     // Add a details panel to the game

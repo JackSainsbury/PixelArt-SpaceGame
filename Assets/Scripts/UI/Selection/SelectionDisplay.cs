@@ -9,17 +9,7 @@ public class SelectionDisplay : MonoBehaviour
     public Image selectionPortraitImage;
     public Text selectionNameText;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public RectTransform bagButton;
 
     public void SetSelection(SelectionProfile newProfile)
     {
@@ -27,7 +17,7 @@ public class SelectionDisplay : MonoBehaviour
         {
             selectionBarContainer.SetActive(true);
 
-            selectionPortraitImage.rectTransform.sizeDelta = new Vector2(newProfile.selectionPortraitSprite.rect.width, newProfile.selectionPortraitSprite.rect.height);
+            selectionPortraitImage.rectTransform.sizeDelta = new Vector2(newProfile.selectionPortraitSprite.rect.width, newProfile.selectionPortraitSprite.rect.height) * 10;
 
             selectionPortraitImage.sprite = newProfile.selectionPortraitSprite;
 
@@ -37,5 +27,15 @@ public class SelectionDisplay : MonoBehaviour
         {
             selectionBarContainer.SetActive(false);
         }
+    }
+
+    public void ToggleInventory()
+    {
+        GameController.Instance.mainInputHandler.TryOpenSelection();
+    }
+
+    public bool TestSelectionButtons()
+    {
+        return UIHelperLibrary.QueryScreenPosInUIRectTransform(bagButton);
     }
 }
