@@ -53,7 +53,8 @@ public class PanelTracker : MonoBehaviour
         return UIHelperLibrary.QueryScreenPosInUIRectTransform(panelInstance.GetComponent<RectTransform>());
     }
 
-    // Add a details panel to the game
+
+    // Add a details panel to the game (inventory extension)
     public void AddDetailsPanel(int itemIndex, Transform itemObjectTransform)
     {
         newIndex = itemIndex;
@@ -66,7 +67,6 @@ public class PanelTracker : MonoBehaviour
             detailsPanelInstance.DestroyDisplayPanel();
         }
     }
-
     private void LateUpdate()
     {
         if(newIndex != -1)

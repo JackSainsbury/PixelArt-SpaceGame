@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 5735303989790050440}
   - component: {fileID: 8531580524708417504}
   - component: {fileID: 1592524382499955415}
-  - component: {fileID: 5300762352076579385}
+  - component: {fileID: 1435818625054299392}
   - component: {fileID: 5399717162507274512}
   m_Layer: 0
   m_Name: Locker1
@@ -184,8 +184,8 @@ MonoBehaviour:
       type: 3}
     selectionName: Locker
     selectionType: 1
-  container: {fileID: 5300762352076579385}
---- !u!114 &5300762352076579385
+  container: {fileID: 1435818625054299392}
+--- !u!114 &1435818625054299392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,13 +194,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1930174078843239436}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 624bc00c083acea41958a504d004cdb0, type: 3}
+  m_Script: {fileID: 11500000, guid: 05fe3e2db1823fc43be0cd16ada27280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myAnimator: {fileID: 5399717162507274512}
   inventoryWidth: 2
   inventoryHeight: 5
   currentItems: 000000000100000002000000
+  myAnimator: {fileID: 5399717162507274512}
 --- !u!95 &5399717162507274512
 Animator:
   serializedVersion: 3
@@ -438,7 +438,7 @@ GameObject:
   - component: {fileID: 4449875322412881060}
   - component: {fileID: 7572463695677306315}
   - component: {fileID: 3649271802579705314}
-  - component: {fileID: 6585917829238551196}
+  - component: {fileID: 2750321708651552447}
   - component: {fileID: 8025229528263196072}
   m_Layer: 0
   m_Name: Locker2
@@ -505,8 +505,8 @@ MonoBehaviour:
       type: 3}
     selectionName: Locker
     selectionType: 1
-  container: {fileID: 6585917829238551196}
---- !u!114 &6585917829238551196
+  container: {fileID: 2750321708651552447}
+--- !u!114 &2750321708651552447
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -515,13 +515,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7552074432147967102}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 624bc00c083acea41958a504d004cdb0, type: 3}
+  m_Script: {fileID: 11500000, guid: 05fe3e2db1823fc43be0cd16ada27280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myAnimator: {fileID: 8025229528263196072}
   inventoryWidth: 2
   inventoryHeight: 5
   currentItems: 0400000005000000060000000700000008000000
+  myAnimator: {fileID: 8025229528263196072}
 --- !u!95 &8025229528263196072
 Animator:
   serializedVersion: 3

@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 3496412948120539984}
   - component: {fileID: 7452817094345357870}
   - component: {fileID: 214726955914041755}
-  - component: {fileID: 5827450786630888226}
+  - component: {fileID: 9140075931948785148}
   - component: {fileID: 6337282273028177410}
   m_Layer: 0
   m_Name: Locker2 (1)
@@ -305,8 +305,8 @@ MonoBehaviour:
       type: 3}
     selectionName: Locker
     selectionType: 1
-  container: {fileID: 5827450786630888226}
---- !u!114 &5827450786630888226
+  container: {fileID: 9140075931948785148}
+--- !u!114 &9140075931948785148
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -315,13 +315,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2841211967735722186}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 624bc00c083acea41958a504d004cdb0, type: 3}
+  m_Script: {fileID: 11500000, guid: 05fe3e2db1823fc43be0cd16ada27280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myAnimator: {fileID: 6337282273028177410}
   inventoryWidth: 2
   inventoryHeight: 5
-  currentItems: 0600000006000000060000000600000006000000060000000600000006000000
+  currentItems: 06000000060000000600000006000000
+  myAnimator: {fileID: 6337282273028177410}
 --- !u!95 &6337282273028177410
 Animator:
   serializedVersion: 3
@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 6474996008481819762}
   - component: {fileID: 8781258796616277494}
   - component: {fileID: 3620518662043038371}
-  - component: {fileID: 7103099420000734976}
+  - component: {fileID: 3418561316858343624}
   - component: {fileID: 2504216749598082892}
   m_Layer: 0
   m_Name: Locker1
@@ -419,8 +419,8 @@ MonoBehaviour:
       type: 3}
     selectionName: Locker
     selectionType: 1
-  container: {fileID: 7103099420000734976}
---- !u!114 &7103099420000734976
+  container: {fileID: 3418561316858343624}
+--- !u!114 &3418561316858343624
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -429,13 +429,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3841679731477672333}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 624bc00c083acea41958a504d004cdb0, type: 3}
+  m_Script: {fileID: 11500000, guid: 05fe3e2db1823fc43be0cd16ada27280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myAnimator: {fileID: 2504216749598082892}
   inventoryWidth: 2
   inventoryHeight: 5
-  currentItems: 06000000060000000600000006000000060000000600000006000000
+  currentItems: 0600000006000000
+  myAnimator: {fileID: 2504216749598082892}
 --- !u!95 &2504216749598082892
 Animator:
   serializedVersion: 3
@@ -708,7 +708,7 @@ GameObject:
   - component: {fileID: 7171651233740697878}
   - component: {fileID: 5769214694745113814}
   - component: {fileID: 1511730146818698887}
-  - component: {fileID: 5716056216127616607}
+  - component: {fileID: 828295479234719246}
   - component: {fileID: 4016332186825286718}
   m_Layer: 0
   m_Name: Locker1 (1)
@@ -775,8 +775,8 @@ MonoBehaviour:
       type: 3}
     selectionName: Locker
     selectionType: 1
-  container: {fileID: 5716056216127616607}
---- !u!114 &5716056216127616607
+  container: {fileID: 828295479234719246}
+--- !u!114 &828295479234719246
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -785,13 +785,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7583277657036336648}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 624bc00c083acea41958a504d004cdb0, type: 3}
+  m_Script: {fileID: 11500000, guid: 05fe3e2db1823fc43be0cd16ada27280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myAnimator: {fileID: 4016332186825286718}
   inventoryWidth: 2
   inventoryHeight: 5
-  currentItems: 060000000600000006000000060000000600000006000000
+  currentItems: 0600000006000000060000000600000006000000
+  myAnimator: {fileID: 4016332186825286718}
 --- !u!95 &4016332186825286718
 Animator:
   serializedVersion: 3
@@ -901,7 +901,7 @@ GameObject:
   - component: {fileID: 7257637145527627902}
   - component: {fileID: 3485582399016241077}
   - component: {fileID: 6835675141292044471}
-  - component: {fileID: 4471733675767130190}
+  - component: {fileID: 1706644593441934995}
   - component: {fileID: 5564367722186678382}
   m_Layer: 0
   m_Name: Locker2
@@ -968,8 +968,8 @@ MonoBehaviour:
       type: 3}
     selectionName: Locker
     selectionType: 1
-  container: {fileID: 4471733675767130190}
---- !u!114 &4471733675767130190
+  container: {fileID: 1706644593441934995}
+--- !u!114 &1706644593441934995
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -978,13 +978,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 9049521242181953376}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 624bc00c083acea41958a504d004cdb0, type: 3}
+  m_Script: {fileID: 11500000, guid: 05fe3e2db1823fc43be0cd16ada27280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myAnimator: {fileID: 5564367722186678382}
   inventoryWidth: 2
   inventoryHeight: 5
-  currentItems: 0600000006000000060000000600000006000000
+  currentItems: 06000000060000000600000006000000
+  myAnimator: {fileID: 5564367722186678382}
 --- !u!95 &5564367722186678382
 Animator:
   serializedVersion: 3

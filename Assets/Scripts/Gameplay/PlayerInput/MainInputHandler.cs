@@ -13,7 +13,8 @@ public class MainInputHandler : MonoBehaviour
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             if (!GameController.Instance.panelTracker.TestMouseClickOnPanel() && // Test if clicked inventory panel
-                !GameController.Instance.selectionDisplay.TestSelectionButtons()) // Test if clicked selection buttons
+                !GameController.Instance.selectionDisplay.TestSelectionButtons() && // Test if clicked selection buttons
+                !GameController.Instance.crewTargetDirection.TestClickedDirectionOptionsMenu()) 
             {
                 // Test if clicked radial menu
                 bool radialClicked = false;
@@ -39,14 +40,18 @@ public class MainInputHandler : MonoBehaviour
                 {
                     case SelectionType.Character:
                         {
-                            SelectableCharacter character = (SelectableCharacter)currentTarget;
+                            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                            if (!GameController.Instance.crewTargetDirection.DoTargetSearch(mousePos))
+                            {
+                                SelectableCharacter character = (SelectableCharacter)currentTarget;
 
-                            character.playerCrewAI.NavToMouse();
+                                character.playerCrewAI.NavToMouse();
+                            }
                         }
                         break;
                     case SelectionType.Container:
                         {
-
+                            
                         }
                         break;
                 }
@@ -64,7 +69,8 @@ public class MainInputHandler : MonoBehaviour
             {
                 case SelectionType.Character:
                     {
-
+                        SelectableCharacter character = (SelectableCharacter)currentTarget;
+                        character.inventory.SetOpen(true);
                     }
                     break;
                 case SelectionType.Container:

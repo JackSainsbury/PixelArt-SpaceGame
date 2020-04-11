@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 755168469}
   - component: {fileID: 1747188616776271204}
   - component: {fileID: 4063614086948585610}
+  - component: {fileID: 3531870359398631066}
   - component: {fileID: 3698153738706674200}
   m_Layer: 0
   m_Name: MaleEngineer
@@ -108,6 +109,23 @@ MonoBehaviour:
     selectionType: 2
   playerCrewAI: {fileID: 3698153738706674200}
   pathTracer: {fileID: 8477039189072189505}
+  inventory: {fileID: 3531870359398631066}
+--- !u!114 &3531870359398631066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755168468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f37cf6afa738244eafba7ac88e7d68b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryWidth: 3
+  inventoryHeight: 3
+  currentItems: 
+  character: {fileID: 4063614086948585610}
 --- !u!114 &3698153738706674200
 MonoBehaviour:
   m_ObjectHideFlags: 0

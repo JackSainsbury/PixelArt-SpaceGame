@@ -6,4 +6,5 @@ public class SelectableCharacter : SelectableTarget
 {
     public PlayerCrewAI playerCrewAI;
     public CrewPathTracer pathTracer;
+    public CrewInventoryContainer inventory;
 }

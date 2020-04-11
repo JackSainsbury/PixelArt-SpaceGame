@@ -35,7 +35,7 @@ public class TargetSelection : MonoBehaviour
             {
                 SelectableTarget targetCandidate = hit.collider.GetComponent<SelectableTarget>();
 
-                // Found a target (now determine its priority)
+                // Found a target 
                 if (targetCandidate != null)
                 {
                     clicked = true;
@@ -74,6 +74,7 @@ public class TargetSelection : MonoBehaviour
             {
                 SetTarget(null);
                 GameController.Instance.selectionDisplay.SetSelection(null);
+                GameController.Instance.crewTargetDirection.ForceCleanupMenu();
             }
             else
             {
@@ -94,12 +95,14 @@ public class TargetSelection : MonoBehaviour
                 }
 
                 GameController.Instance.selectionDisplay.SetSelection(currentTarget.TargetSelectionProfile);
+                GameController.Instance.crewTargetDirection.ForceCleanupMenu();
             }
         }
         else
         {
             SetTarget(null);
             GameController.Instance.selectionDisplay.SetSelection(null);
+            GameController.Instance.crewTargetDirection.ForceCleanupMenu();
         }
     }
 
@@ -117,6 +120,7 @@ public class TargetSelection : MonoBehaviour
                 case SelectionType.Character:
                     {
                         ((SelectableCharacter)(this.currentTarget)).pathTracer.SetNavPathTrace(false);
+                        GameController.Instance.panelTracker.ForceDestroyPanel(3);
                     }
                     break;
                 case SelectionType.Container:

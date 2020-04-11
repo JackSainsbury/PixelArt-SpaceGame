@@ -6,6 +6,7 @@ public class BagButton : MonoBehaviour
 {
     public void ToggleSelectedInventory()
     {
+        GameController.Instance.crewTargetDirection.ForceCleanupMenu();
         GameController.Instance.mainInputHandler.TryOpenSelection();
     }
 }
