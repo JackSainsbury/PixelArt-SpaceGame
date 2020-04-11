@@ -27,14 +27,14 @@ public class ItemObject : MonoBehaviour
         {
             if (!wasMouseOver)
             {
-                GameController.Instance.panelTracker.AddDetailsPanel(itemIndex, panelRT);
+                //GameController.Instance.panelTracker.AddDetailsPanel(itemIndex, panelRT);
             }
         }
         else
         {
             if(wasMouseOver)
             {
-                GameController.Instance.panelTracker.RemoveDetailsPanel();
+                //GameController.Instance.panelTracker.RemoveDetailsPanel();
             }
         }
 

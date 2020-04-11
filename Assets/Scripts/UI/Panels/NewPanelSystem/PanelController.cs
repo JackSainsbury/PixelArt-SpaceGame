@@ -17,26 +17,8 @@ public class PanelController : MonoBehaviour
     private Panel dragWindow;
     private Vector3 baseDragOffset = Vector3.zero;
 
-    // Start is called before the first frame update
-    void Start()
+    void Update()
     {
-        AddPanel(PanelType.Inventory, "Test Inventory");
-        AddPanel(PanelType.Inventory, "Test Inventorysd");
-        AddPanel(PanelType.Inventory, "Test Invendfgfdgtory");
-    }
-
-    private void Update()
-    {
-        // tmp, call from main input handler
-        if (Input.GetMouseButtonDown(0))
-        {
-            TestDragWindow();
-        }
-        if(!Input.GetMouseButton(0))
-        {
-            ForceStopDrag();
-        }
-
         // If we have a drag window, do drag based on offset and mousepos
         if(dragWindow != null)
         {
@@ -49,11 +31,6 @@ public class PanelController : MonoBehaviour
             newPos.y = Mathf.Clamp(newPos.y, windowDims.y / 2.0f, Screen.height - (windowDims.y / 2.0f + (titleDims.y + UIHelperLibrary.pixelOffsetTitleBar.y)));
 
             dragWindow.transform.position = newPos;
-        }
-
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            ForceDestroyAllPanels();
         }
     }
 
@@ -82,6 +59,22 @@ public class PanelController : MonoBehaviour
             dragWindow = null;
 
         return dragging;
+    }
+
+    public bool TestClickWindow()
+    {
+        bool clicked = false;
+
+        foreach (Panel panel in activePanels)
+        {
+            if (panel.QueryMouseClickPanel())
+            {
+                clicked = true;
+                break;
+            }
+        }
+
+        return clicked;
     }
 
     public void BringToFront(Panel panel)

@@ -11,9 +11,6 @@ public class SMB_ContainerOpenLoadInventory : StateMachineBehaviour
     {
         SelectableContainer selectionContainer = animator.GetComponent<SelectableContainer>();
 
-        GameController.Instance.panelTracker.TogglePanel(3).GetComponent<ContainerInventory>().InitContainerPanel(
-            selectionContainer.TargetSelectionProfile.selectionName,
-            selectionContainer.container
-            );
+        selectionContainer.container.CreateInventoryPanel(selectionContainer.TargetSelectionProfile.selectionName);
     }
 }

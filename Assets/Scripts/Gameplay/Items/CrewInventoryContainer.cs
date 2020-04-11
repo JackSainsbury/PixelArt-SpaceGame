@@ -10,9 +10,6 @@ public class CrewInventoryContainer : Container
     {
         base.SetOpen(open);
 
-        GameController.Instance.panelTracker.TogglePanel(3).GetComponent<ContainerInventory>().InitContainerPanel(
-            character.TargetSelectionProfile.selectionName + "'s Inventory",
-            this
-            );
+        CreateInventoryPanel(character.TargetSelectionProfile.selectionName + "'s Inventory");
     }
 }

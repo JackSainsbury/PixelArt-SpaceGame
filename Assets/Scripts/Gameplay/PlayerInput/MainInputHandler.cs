@@ -10,23 +10,31 @@ public class MainInputHandler : MonoBehaviour
         // Left click try and select target
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            if (!GameController.Instance.panelTracker.TestMouseClickOnPanel() && // Test if clicked inventory panel
-                !GameController.Instance.selectionDisplay.TestSelectionButtons() && // Test if clicked selection buttons
-                !GameController.Instance.crewTargetDirection.TestClickedDirectionOptionsMenu()) 
+            if (!GameController.Instance.panelTracker.TestDragWindow())
             {
-                // Test if clicked radial menu
-                bool radialClicked = false;
-                WorldUIRadial radialMenuCandidate = WorldUIRadial.Instance;
-                if (radialMenuCandidate != null)
-                    radialClicked = radialMenuCandidate.TestWorldClickButtons();
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                if (!radialClicked)
+                if (!GameController.Instance.panelTracker.TestClickWindow() && // Test if clicked inventory panel
+                    !GameController.Instance.selectionDisplay.TestSelectionButtons() && // Test if clicked selection buttons
+                    !GameController.Instance.crewTargetDirection.TestClickedDirectionOptionsMenu())
                 {
-                    GameController.Instance.targetSelection.DoTargetSearch(mousePos);
+                    // Test if clicked radial menu
+                    bool radialClicked = false;
+                    WorldUIRadial radialMenuCandidate = WorldUIRadial.Instance;
+                    if (radialMenuCandidate != null)
+                        radialClicked = radialMenuCandidate.TestWorldClickButtons();
+
+                    if (!radialClicked)
+                    {
+                        GameController.Instance.targetSelection.DoTargetSearch(mousePos);
+                    }
                 }
             }
+        }
+
+        if (!Input.GetMouseButton(0))
+        {
+            GameController.Instance.panelTracker.ForceStopDrag();
         }
 
         // Right click, direct selected character to target location
@@ -56,6 +64,11 @@ public class MainInputHandler : MonoBehaviour
                         break;
                 }
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameController.Instance.panelTracker.ForceDestroyAllPanels();
         }
     }
 

@@ -119,14 +119,18 @@ public class TargetSelection : MonoBehaviour
             {
                 case SelectionType.Character:
                     {
-                        ((SelectableCharacter)(this.currentTarget)).pathTracer.SetNavPathTrace(false);
-                        GameController.Instance.panelTracker.ForceDestroyPanel(3);
+                        SelectableCharacter character = (SelectableCharacter)(this.currentTarget);
+                        character.pathTracer.SetNavPathTrace(false);
+
+                        character.inventory.DestroyInventoryPanel();
                     }
                     break;
                 case SelectionType.Container:
                     {
-                        ((SelectableContainer)(this.currentTarget)).container.SetOpen(false);
-                        GameController.Instance.panelTracker.ForceDestroyPanel(3);
+                        SelectableContainer container = (SelectableContainer)(this.currentTarget);
+                        container.container.SetOpen(false);
+
+                        container.container.DestroyInventoryPanel();
                     }
                     break;
             }

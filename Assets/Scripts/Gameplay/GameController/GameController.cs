@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour
 {
     public Camera mainCamera;
     public SelectionDisplay selectionDisplay;
-    public PanelTracker panelTracker;
+    public PanelController panelTracker;
     public TargetSelection targetSelection;
     public MainInputHandler mainInputHandler;
     public CrewTargetDirection crewTargetDirection; 

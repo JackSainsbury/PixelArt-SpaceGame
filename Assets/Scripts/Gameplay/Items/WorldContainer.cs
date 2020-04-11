@@ -12,4 +12,5 @@ public class WorldContainer : Container
 
         myAnimator.SetBool(Container.isOpenBoolHash, isOpen);
     }
+
 }

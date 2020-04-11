@@ -46,9 +46,6 @@ public class CrewTargetDirection : MonoBehaviour
             // Found containers and characters to add as direction options
             if (targets.Count > 0)
             {
-                // Force destroy inventory panel if it was open
-                GameController.Instance.panelTracker.ForceDestroyPanel(3);
-
                 // Open details options menu
                 directionOptionsMenuInstance = Instantiate(directionOptionsMenuPrefab, directionOptionsMenuContainer);
 
