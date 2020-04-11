@@ -10,6 +10,9 @@ public class CrewInventoryContainer : Container
     {
         base.SetOpen(open);
 
-        CreateInventoryPanel(character.TargetSelectionProfile.selectionName + "'s Inventory");
+        if (open)
+            CreateInventoryPanel(character.TargetSelectionProfile.selectionName + "'s Inventory");
+        else
+            DestroyInventoryPanel();
     }
 }

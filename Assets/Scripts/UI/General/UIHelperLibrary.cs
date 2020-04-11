@@ -19,8 +19,6 @@ public class UIHelperLibrary : MonoBehaviour
         titleBoxRT.localPosition = new Vector2(-mainPanelDims.x, mainPanelDims.y) / 2 + dimensions/2;
 
         titleBoxRT.localPosition += pixelOffsetTitleBar;
-
-        tmpTitle.ForceMeshUpdate();
     }
 
     public static void SetUpPanel(RectTransform titleBoxRectTransform, TextMeshProUGUI tmpTitle, RectTransform panelRectTransform, Vector2 mainPanelDimensions)
@@ -41,7 +39,7 @@ public class UIHelperLibrary : MonoBehaviour
         titleBoxRectTransform.position += new Vector3(-deltaX / 2.0f, 0, 0);
     }
 
-    public static bool QueryScreenPosInUIRectTransform(RectTransform UIRect)
+    public static bool QueryScreenPosInUIRectTransform(RectTransform UIRect, Vector3 screenPos)
     {
         float xPos = UIRect.position.x;
         float yPos = UIRect.position.y;
@@ -50,6 +48,6 @@ public class UIHelperLibrary : MonoBehaviour
 
         Rect r = new Rect(xPos - width / 2.0f, yPos - height / 2.0f, width, height);
 
-        return r.Contains(Input.mousePosition);
+        return r.Contains(screenPos);
     }
 }

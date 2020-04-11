@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class SelectableContainer : SelectableTarget
 {
-    public Container container;
+    public WorldContainer container;
 }

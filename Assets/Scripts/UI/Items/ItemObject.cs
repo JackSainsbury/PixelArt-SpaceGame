@@ -12,45 +12,35 @@ public class ItemObject : MonoBehaviour
 
     private int itemIndex;
 
-    public void Init(int itemIndex)
+    private ContainerInventory inventory;
+
+    public void Init(int itemIndex, ContainerInventory inventory)
     {
         this.itemIndex = itemIndex;
+        this.inventory = inventory;
         panelRT = GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        mouseOver = TestMouseClickOnPanel();
+        mouseOver = UIHelperLibrary.QueryScreenPosInUIRectTransform(panelRT, Input.mousePosition);
 
         if (mouseOver)
         {
             if (!wasMouseOver)
             {
-                //GameController.Instance.panelTracker.AddDetailsPanel(itemIndex, panelRT);
+                inventory.AddDetailsPanel(itemIndex, panelRT);
             }
         }
         else
         {
             if(wasMouseOver)
             {
-                //GameController.Instance.panelTracker.RemoveDetailsPanel();
+                inventory.RemoveDetailsPanel();
             }
         }
 
         wasMouseOver = mouseOver;
-    }
-
-    // Test if the player has clicked on the panel
-    public bool TestMouseClickOnPanel()
-    {
-        float xPos = panelRT.position.x;
-        float yPos = panelRT.position.y;
-        float width = panelRT.rect.width;
-        float height = panelRT.rect.height;
-
-        Rect r = new Rect(xPos - width / 2.0f, yPos - height / 2.0f, width, height);
-
-        return r.Contains(Input.mousePosition);
     }
 }

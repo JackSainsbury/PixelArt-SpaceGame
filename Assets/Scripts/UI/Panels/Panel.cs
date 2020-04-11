@@ -20,16 +20,23 @@ public class Panel : MonoBehaviour
         UIHelperLibrary.SetUpPanel(titleBoxRectTransform, tmpTitle, mainBoxRectTransform, new Vector2(300, 300));
         titleBoxRectTransform.transform.SetParent(mainBoxRectTransform);
     }
-    
+
+    public void ResizePanelSafe(Vector2 newDimensions)
+    {
+        titleBoxRectTransform.transform.SetParent(transform);
+        UIHelperLibrary.SetUpPanel(titleBoxRectTransform, tmpTitle, mainBoxRectTransform, newDimensions);
+        titleBoxRectTransform.transform.SetParent(mainBoxRectTransform);
+    }
+
     public bool TestDragWindow()
     {
-        return UIHelperLibrary.QueryScreenPosInUIRectTransform(titleBoxRectTransform);
+        return UIHelperLibrary.QueryScreenPosInUIRectTransform(titleBoxRectTransform, Input.mousePosition);
     }
 
     // Straight bool query
     public bool QueryMouseClickPanel()
     {
-        bool panelClick = UIHelperLibrary.QueryScreenPosInUIRectTransform(mainBoxRectTransform);
+        bool panelClick = UIHelperLibrary.QueryScreenPosInUIRectTransform(mainBoxRectTransform, Input.mousePosition);
 
         return panelClick;
     }

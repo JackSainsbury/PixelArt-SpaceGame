@@ -925,7 +925,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1867999688}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &233832691
 MonoBehaviour:
@@ -942,6 +942,7 @@ MonoBehaviour:
   panelContainer: {fileID: 1853930073}
   PanelPrefabs:
   - {fileID: 7451059060865239250, guid: 2f18f06bf5ed81249a383b63e44d4cdf, type: 3}
+  - {fileID: 706851287163490501, guid: 88ce9b4243e34c649949bd8f17bbaa54, type: 3}
 --- !u!1 &250116269
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1219,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 755168468, guid: e8891fc661a28f34f9cf487b93ea4578, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 755168470, guid: e8891fc661a28f34f9cf487b93ea4578, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2622,7 +2623,7 @@ GameObject:
   - component: {fileID: 992282082}
   - component: {fileID: 992282083}
   m_Layer: 0
-  m_Name: SelectionPortraitsAndStats
+  m_Name: SelectionPortraitsAndWorldCircleMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2677,7 +2678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 755168468, guid: e8891fc661a28f34f9cf487b93ea4578, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 755168470, guid: e8891fc661a28f34f9cf487b93ea4578, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3233,6 +3234,11 @@ PrefabInstance:
       propertyPath: pathTracer
       value: 
       objectReference: {fileID: 1610915406}
+    - target: {fileID: 3531870359398631066, guid: e8891fc661a28f34f9cf487b93ea4578,
+        type: 3}
+      propertyPath: inventoryWidth
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8232510166141913267, guid: e8891fc661a28f34f9cf487b93ea4578, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e8891fc661a28f34f9cf487b93ea4578, type: 3}
@@ -3781,9 +3787,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba19bd204347124cab3bc3c24f29f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directionOptionsMenuPrefab: {fileID: 1878178298276494255, guid: 05b467e1b395f53488cbc02685a4d3c2,
-    type: 3}
-  directionOptionsMenuContainer: {fileID: 0}
 --- !u!1 &1829339749
 GameObject:
   m_ObjectHideFlags: 0
@@ -3813,7 +3816,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1867999688}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1829339751
 MonoBehaviour:
@@ -3829,7 +3832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 534669904}
   selectionDisplay: {fileID: 992282083}
-  panelTracker: {fileID: 233832691}
+  panelController: {fileID: 233832691}
   targetSelection: {fileID: 1736338371}
   mainInputHandler: {fileID: 25456986}
   crewTargetDirection: {fileID: 1736338372}
@@ -4111,7 +4114,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1853930073}
   m_Layer: 0
-  m_Name: PanelContainer_New
+  m_Name: PanelContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4163,8 +4166,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 233832690}
   - {fileID: 1829339750}
+  - {fileID: 233832690}
   - {fileID: 703595917}
   - {fileID: 1736338370}
   - {fileID: 25456985}

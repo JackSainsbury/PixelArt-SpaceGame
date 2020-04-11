@@ -58,7 +58,7 @@ public class WorldUIRadial : MonoBehaviour
     {
         foreach (RectTransform button in buttonInstances)
         {
-            if(UIHelperLibrary.QueryScreenPosInUIRectTransform(button))
+            if(UIHelperLibrary.QueryScreenPosInUIRectTransform(button, Input.mousePosition))
             {
                 return true;
             }

@@ -6,14 +6,19 @@ using TMPro;
 
 public class DirectionOption : MonoBehaviour
 {
+    public RectTransform mainPanelRectTransform;
     public TextMeshProUGUI optionText;
     public Image optionImage;
 
     private SelectableTarget target;
 
-    public void InitOption(SelectableTarget target)
+    private int index = 0;
+
+    public void InitOption(SelectableTarget target, int index)
     {
         this.target = target;
+        this.index = index;
+
         SelectionProfile profile = target.TargetSelectionProfile;
 
         optionText.text = profile.selectionName;
@@ -23,8 +28,21 @@ public class DirectionOption : MonoBehaviour
         optionImage.GetComponent<RectTransform>().sizeDelta = new Vector2(rect.width, rect.height);
     }
 
+    public void ResizeOption(float newWidth)
+    {
+        mainPanelRectTransform.sizeDelta = new Vector2(newWidth, mainPanelRectTransform.rect.height);
+    }
+
+    public float GetTextWidth()
+    {
+        optionText.ForceMeshUpdate();
+
+        return optionText.GetRenderedValues().x;
+    }
+
     public void ClickOption()
     {
-
+        GameController.Instance.crewTargetDirection.DirectToTarget(index);
+        GameController.Instance.crewTargetDirection.ForceCleanupMenu();
     }
 }

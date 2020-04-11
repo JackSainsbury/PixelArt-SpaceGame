@@ -6,12 +6,11 @@ using TMPro;
 
 public class ContainerInventory : MonoBehaviour
 {
+    public Panel panel;
     public GameObject itemFramePrefab;
     public GameObject itemObjectPrefab;
 
-    public TextMeshProUGUI tmpTitle;
     public RectTransform rectTransform;
-    public RectTransform titleBoxRectTransform;
 
     private float cellSpacing = 5f;
     private float borderSpacing = 25f;
@@ -20,8 +19,14 @@ public class ContainerInventory : MonoBehaviour
 
     private Container targetContainer;
 
+
+    public GameObject itemDescriptionPanel;
+    private ItemInspectorDisplay detailsPanelInstance;
+    private int newIndex = -1;
+    private Transform detailsPanelItemObjectTransform;
+
     // Scale window and lay out item frames
-    public void InitContainerPanel(string inTitle, Container targetContainer)
+    public void InitContainerPanel(Container targetContainer)
     {
         this.targetContainer = targetContainer;
         sizeMul = 1.0f / rectTransform.localScale.x;
@@ -31,7 +36,7 @@ public class ContainerInventory : MonoBehaviour
             targetContainer.inventoryHeight * 100f * sizeMul + (cellSpacing * (targetContainer.inventoryHeight - 1)) + borderSpacing * 2
             );
 
-        rectTransform.sizeDelta = mainPanelDimensions;
+        panel.ResizePanelSafe(mainPanelDimensions);
 
         for (int j = 0; j < targetContainer.inventoryHeight; ++j)
         {
@@ -61,14 +66,10 @@ public class ContainerInventory : MonoBehaviour
 
             // Based on the indices, pull the menu sprite from our static item database interface library (from its item profile).
             newItem.GetComponent<Image>().sprite = ItemDatabaseInterface.Instance.items[itemIndex].MenuSprite;
-
-            newItem.GetComponent<ItemObject>().Init(itemIndex);
+            newItem.GetComponent<ItemObject>().Init(itemIndex, this);
 
             x++;
         }
-
-        tmpTitle.text = inTitle;
-        UIHelperLibrary.SetPanelTitle(titleBoxRectTransform, tmpTitle, mainPanelDimensions);
     }
 
     // Position a 100x100 sprite to a given coordinate on the UI panel
@@ -79,5 +80,29 @@ public class ContainerInventory : MonoBehaviour
             (sizeMul * 50f * (targetContainer.inventoryHeight - 1)) - 100f * sizeMul * y, 
             0
             );
+    }
+
+
+    // Add a details panel to the game (inventory extension)
+    public void AddDetailsPanel(int itemIndex, Transform itemObjectTransform)
+    {
+        newIndex = itemIndex;
+        detailsPanelItemObjectTransform = itemObjectTransform;
+    }
+    public void RemoveDetailsPanel()
+    {
+        if (detailsPanelInstance != null)
+        {
+            detailsPanelInstance.DestroyDisplayPanel();
+        }
+    }
+    private void LateUpdate()
+    {
+        if (newIndex != -1)
+        {
+            detailsPanelInstance = Instantiate(itemDescriptionPanel, transform).GetComponent<ItemInspectorDisplay>();
+            detailsPanelInstance.InitDetailsPanel(newIndex, detailsPanelItemObjectTransform);
+            newIndex = -1;
+        }
     }
 }

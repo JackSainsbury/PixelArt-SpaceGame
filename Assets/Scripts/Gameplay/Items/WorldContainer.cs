@@ -11,6 +11,10 @@ public class WorldContainer : Container
         base.SetOpen(open);
 
         myAnimator.SetBool(Container.isOpenBoolHash, isOpen);
-    }
 
+        if(!open)
+        {
+            DestroyInventoryPanel();
+        }
+    }
 }

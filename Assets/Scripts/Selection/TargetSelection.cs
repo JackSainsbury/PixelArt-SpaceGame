@@ -73,8 +73,7 @@ public class TargetSelection : MonoBehaviour
             if (!clicked)
             {
                 SetTarget(null);
-                GameController.Instance.selectionDisplay.SetSelection(null);
-                GameController.Instance.crewTargetDirection.ForceCleanupMenu();
+                GameController.Instance.selectionDisplay.SetSelection(null);                
             }
             else
             {
@@ -95,14 +94,18 @@ public class TargetSelection : MonoBehaviour
                 }
 
                 GameController.Instance.selectionDisplay.SetSelection(currentTarget.TargetSelectionProfile);
-                GameController.Instance.crewTargetDirection.ForceCleanupMenu();
             }
         }
         else
         {
             SetTarget(null);
             GameController.Instance.selectionDisplay.SetSelection(null);
+        }
+
+        if (currentTarget != null)
+        {
             GameController.Instance.crewTargetDirection.ForceCleanupMenu();
+            GameController.Instance.crewTargetDirection.ForceCleanUpInventories();
         }
     }
 
@@ -121,19 +124,19 @@ public class TargetSelection : MonoBehaviour
                     {
                         SelectableCharacter character = (SelectableCharacter)(this.currentTarget);
                         character.pathTracer.SetNavPathTrace(false);
-
-                        character.inventory.DestroyInventoryPanel();
+                        character.inventory.SetOpen(false);
                     }
                     break;
                 case SelectionType.Container:
                     {
                         SelectableContainer container = (SelectableContainer)(this.currentTarget);
                         container.container.SetOpen(false);
-
-                        container.container.DestroyInventoryPanel();
                     }
                     break;
             }
+
+            GameController.Instance.crewTargetDirection.ForceCleanupMenu();
+            GameController.Instance.crewTargetDirection.ForceCleanUpInventories();
         }
 
         // Set the new target

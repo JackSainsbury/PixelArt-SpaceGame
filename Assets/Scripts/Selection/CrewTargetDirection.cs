@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class CrewTargetDirection : MonoBehaviour
 {
-    public GameObject directionOptionsMenuPrefab;
-    public RectTransform directionOptionsMenuContainer;
     private List<SelectableTarget> targets;
 
-    private GameObject directionOptionsMenuInstance;
+    private Panel directionOptionsPanel;
 
-    public bool DoTargetSearch(Vector3 WSMousePos)
+    private SelectableCharacter directing;
+    private SelectableTarget directedTo;
+
+    public bool DoTargetSearch(Vector3 WSMousePos, SelectableCharacter directing)
     {
         ForceCleanupMenu();
+
+        this.directing = directing;
 
         Vector2 mousePos2D = new Vector2(WSMousePos.x, WSMousePos.y);
         RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos2D, Vector2.zero);
@@ -44,48 +47,73 @@ public class CrewTargetDirection : MonoBehaviour
             }
 
             // Found containers and characters to add as direction options
-            if (targets.Count > 0)
+            if (targets.Count > 1)
             {
                 // Open details options menu
-                directionOptionsMenuInstance = Instantiate(directionOptionsMenuPrefab, directionOptionsMenuContainer);
+                directionOptionsPanel = GameController.Instance.panelController.AddPanel(PanelType.DirectionOptions, "Interact with");
 
                 Vector3 screenPos = GameController.Instance.mainCamera.WorldToScreenPoint(targets[0].transform.position);
-                    
-                directionOptionsMenuInstance.transform.position = screenPos;
-                directionOptionsMenuInstance.GetComponent<DirectionOptionsMenu>().InitMenu(targets);
+
+                directionOptionsPanel.GetComponent<DirectionOptionsMenu>().InitMenu(targets);
+            }
+            else if(targets.Count == 1)
+            {
+                DirectToTarget(0);
             }
         }
 
         return clicked;
     }
 
+    public void DirectToTarget(int targetIndex)
+    {
+        ForceCleanUpInventories();
+
+        if (directing != null)
+        {
+            // Open the directing inventory
+            directing.inventory.SetOpen(true);
+        }
+
+        directedTo = targets[targetIndex];
+
+        // Clean up opened DIRECTED TO inventory panel
+        switch (directedTo.TargetSelectionProfile.selectionType)
+        {
+            case SelectionType.Character:
+                SelectableCharacter character = directedTo as SelectableCharacter;
+
+                character.inventory.SetOpen(true);
+                break;
+            case SelectionType.Container:
+                SelectableContainer container = directedTo as SelectableContainer;
+
+                container.container.SetOpen(true);
+                break;
+        }
+    }
+
     public void ForceCleanupMenu()
     {
-        if(directionOptionsMenuInstance != null)
-            Destroy(directionOptionsMenuInstance);
+        // Clean up options panel if it still exists
+        GameController.Instance.panelController.RemovePanel(directionOptionsPanel);
     }
-
-    public bool TestClickedDirectionOptionsMenu()
+    public void ForceCleanUpInventories()
     {
-        if (directionOptionsMenuInstance == null)
-            return false;
-
-        return UIHelperLibrary.QueryScreenPosInUIRectTransform(directionOptionsMenuInstance.GetComponent<RectTransform>());
-    }
-
-    public void SelectTarget(int targetIndex)
-    {
-        SelectableTarget candidate = targets[targetIndex];
-
-        if (candidate != null)
+        if (directedTo != null)
         {
-            switch (candidate.TargetSelectionProfile.selectionType)
+            // Clean up opened DIRECTED TO inventory panel
+            switch (directedTo.TargetSelectionProfile.selectionType)
             {
                 case SelectionType.Character:
+                    SelectableCharacter character = directedTo as SelectableCharacter;
 
+                    character.inventory.SetOpen(false);
                     break;
                 case SelectionType.Container:
+                    SelectableContainer container = directedTo as SelectableContainer;
 
+                    container.container.SetOpen(false);
                     break;
             }
         }

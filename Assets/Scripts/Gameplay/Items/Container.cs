@@ -25,18 +25,19 @@ public class Container : MonoBehaviour
     // Create the inventory panel
     public void CreateInventoryPanel(string inTitle)
     {
-        PanelController panelTracker = GameController.Instance.panelTracker;
+        PanelController panelController = GameController.Instance.panelController;
 
         if (inventoryPanel)
-            panelTracker.RemovePanel(inventoryPanel);
+            panelController.RemovePanel(inventoryPanel);
 
-        inventoryPanel = panelTracker.AddPanel(PanelType.Inventory, inTitle);
+        inventoryPanel = panelController.AddPanel(PanelType.Inventory, inTitle);
+        inventoryPanel.GetComponent<ContainerInventory>().InitContainerPanel(this);
     }
     // Destroy the inventory panel
-    public void DestroyInventoryPanel()
+    protected void DestroyInventoryPanel()
     {
         if (inventoryPanel)
-            GameController.Instance.panelTracker.RemovePanel(inventoryPanel);
+            GameController.Instance.panelController.RemovePanel(inventoryPanel);
     }
 
     // Get the current items array from the given container

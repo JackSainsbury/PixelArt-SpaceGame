@@ -36,6 +36,6 @@ public class SelectionDisplay : MonoBehaviour
 
     public bool TestSelectionButtons()
     {
-        return UIHelperLibrary.QueryScreenPosInUIRectTransform(bagButton);
+        return UIHelperLibrary.QueryScreenPosInUIRectTransform(bagButton, Input.mousePosition);
     }
 }

@@ -10,13 +10,12 @@ public class MainInputHandler : MonoBehaviour
         // Left click try and select target
         if (Input.GetMouseButtonDown(0))
         {
-            if (!GameController.Instance.panelTracker.TestDragWindow())
+            if (!GameController.Instance.panelController.TestDragWindow())
             {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                if (!GameController.Instance.panelTracker.TestClickWindow() && // Test if clicked inventory panel
-                    !GameController.Instance.selectionDisplay.TestSelectionButtons() && // Test if clicked selection buttons
-                    !GameController.Instance.crewTargetDirection.TestClickedDirectionOptionsMenu())
+                if (!GameController.Instance.panelController.TestClickWindow() && // Test if clicked inventory panel
+                    !GameController.Instance.selectionDisplay.TestSelectionButtons()) // Test if clicked selection buttons
                 {
                     // Test if clicked radial menu
                     bool radialClicked = false;
@@ -34,7 +33,7 @@ public class MainInputHandler : MonoBehaviour
 
         if (!Input.GetMouseButton(0))
         {
-            GameController.Instance.panelTracker.ForceStopDrag();
+            GameController.Instance.panelController.ForceStopDrag();
         }
 
         // Right click, direct selected character to target location
@@ -48,27 +47,17 @@ public class MainInputHandler : MonoBehaviour
                 {
                     case SelectionType.Character:
                         {
-                            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                            if (!GameController.Instance.crewTargetDirection.DoTargetSearch(mousePos))
-                            {
-                                SelectableCharacter character = (SelectableCharacter)currentTarget;
+                            SelectableCharacter character = (SelectableCharacter)currentTarget;
 
+                            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                            if (!GameController.Instance.crewTargetDirection.DoTargetSearch(mousePos, character))
+                            {
                                 character.playerCrewAI.NavToMouse();
                             }
                         }
                         break;
-                    case SelectionType.Container:
-                        {
-                            
-                        }
-                        break;
                 }
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            GameController.Instance.panelTracker.ForceDestroyAllPanels();
         }
     }
 

@@ -5,7 +5,8 @@ using UnityEngine;
 // BE SURE THIS SET MATCHES THE PANEL PREFABS ARRAY BELOW!
 public enum PanelType
 {
-    Inventory = 0
+    Inventory = 0,
+    DirectionOptions = 1
 }
 
 public class PanelController : MonoBehaviour
@@ -132,19 +133,11 @@ public class PanelController : MonoBehaviour
     }
     public void RemovePanel(Panel panel)
     {
-        activePanels.Remove(panel);
-        Destroy(panel.gameObject);
-    }
+        if(activePanels.Contains(panel))
+            activePanels.Remove(panel);
 
-    // Force close all panels
-    public void ForceDestroyAllPanels()
-    {
-        foreach(Panel panel in activePanels)
-        {
+        if(panel != null)
             Destroy(panel.gameObject);
-        }
-
-        activePanels = new List<Panel>();
     }
 
     // Search active panels list for panel by id
