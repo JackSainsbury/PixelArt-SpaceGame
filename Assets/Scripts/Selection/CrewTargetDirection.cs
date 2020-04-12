@@ -47,18 +47,16 @@ public class CrewTargetDirection : MonoBehaviour
             }
 
             // Found containers and characters to add as direction options
-            if (targets.Count > 1)
+            if (targets.Count > 0)
             {
                 // Open details options menu
                 directionOptionsPanel = GameController.Instance.panelController.AddPanel(PanelType.DirectionOptions, "Interact with");
 
+                directionOptionsPanel.transform.position = Input.mousePosition;
+
                 Vector3 screenPos = GameController.Instance.mainCamera.WorldToScreenPoint(targets[0].transform.position);
 
-                directionOptionsPanel.GetComponent<DirectionOptionsMenu>().InitMenu(targets);
-            }
-            else if(targets.Count == 1)
-            {
-                DirectToTarget(0);
+                ((DirectionOptionsMenu)directionOptionsPanel).InitMenu(targets);
             }
         }
 

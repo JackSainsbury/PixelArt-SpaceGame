@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DirectionOptionsMenu : MonoBehaviour
+public class DirectionOptionsMenu : Panel
 {
-    public Panel panel;
     public RectTransform OptionsContainer;
     public GameObject OptionPrefab;
 
@@ -37,9 +36,9 @@ public class DirectionOptionsMenu : MonoBehaviour
         // + buffer
         largestWidth += pixelOptionBuffer;
 
-        panel.ResizePanelSafe(new Vector2(largestWidth + pixelMainPanelBuffer, targets.Count * pixelYOffset + pixelMainPanelBuffer * 1.5f));
+        ResizePanelSafe(new Vector2(largestWidth + pixelMainPanelBuffer, targets.Count * pixelYOffset + pixelMainPanelBuffer * 1.5f));
 
-        float minW = panel.WindowDimensions.x - pixelMainPanelBuffer;
+        float minW = WindowDimensions.x - pixelMainPanelBuffer;
 
         for (int i = 0; i < options.Length; ++i)
         {

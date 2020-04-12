@@ -31,7 +31,7 @@ public class Container : MonoBehaviour
             panelController.RemovePanel(inventoryPanel);
 
         inventoryPanel = panelController.AddPanel(PanelType.Inventory, inTitle);
-        inventoryPanel.GetComponent<InventoryManager>().InitContainerPanel(this);
+        ((InventoryManager)inventoryPanel).InitContainerPanel(this);
     }
     // Destroy the inventory panel
     protected void DestroyInventoryPanel()

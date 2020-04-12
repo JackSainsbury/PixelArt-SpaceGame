@@ -320,7 +320,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8099233555777366491}
-  - component: {fileID: 4136157502555232307}
   - component: {fileID: 3373188130903091944}
   m_Layer: 5
   m_Name: PanelInventory
@@ -350,21 +349,6 @@ RectTransform:
   m_AnchoredPosition: {x: 960, y: 0}
   m_SizeDelta: {x: 568.3, y: 503}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4136157502555232307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7451059060865239250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c75617282642b240b1f8f951f461bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titleBoxRectTransform: {fileID: 9064871925665789431}
-  mainBoxRectTransform: {fileID: 7783536445892904655}
-  tmpTitle: {fileID: 1901079223600739794}
 --- !u!114 &3373188130903091944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,14 +361,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33be05685acc40943ad683555949a909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 4136157502555232307}
+  titleBoxRectTransform: {fileID: 9064871925665789431}
+  mainBoxRectTransform: {fileID: 7783536445892904655}
+  tmpTitle: {fileID: 1901079223600739794}
   itemFramePrefab: {fileID: 3210682346666698686, guid: 0727b96da5f4c684da651a00b0d0f0c5,
     type: 3}
   itemObjectPrefab: {fileID: 1475054203935275547, guid: d312c0ffdc92bf9458df2a2970800cb5,
     type: 3}
   rectTransform: {fileID: 7783536445892904655}
-  itemDescriptionPanel: {fileID: 2092725480565062691, guid: 3f656776ec11bef4ab221ceea93f221e,
-    type: 3}
 --- !u!1 &8300474777239994415
 GameObject:
   m_ObjectHideFlags: 0

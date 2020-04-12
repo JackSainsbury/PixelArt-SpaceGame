@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7432987799477129139}
-  - component: {fileID: 8031750995815045545}
   - component: {fileID: 6259123860810921316}
   m_Layer: 5
   m_Name: PanelDirectionOptions
@@ -39,21 +38,6 @@ RectTransform:
   m_AnchoredPosition: {x: 960, y: 0}
   m_SizeDelta: {x: 568.3, y: 503}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8031750995815045545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 706851287163490501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c75617282642b240b1f8f951f461bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titleBoxRectTransform: {fileID: 3522240540488498168}
-  mainBoxRectTransform: {fileID: 8222660644652699693}
-  tmpTitle: {fileID: 8507081585294453406}
 --- !u!114 &6259123860810921316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,7 +50,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6289e7fc0e9dc94687559f103098746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 8031750995815045545}
+  titleBoxRectTransform: {fileID: 3522240540488498168}
+  mainBoxRectTransform: {fileID: 8222660644652699693}
+  tmpTitle: {fileID: 8507081585294453406}
   OptionsContainer: {fileID: 4108490530808047447}
   OptionPrefab: {fileID: 6436876112581586850, guid: 6ba4ba41734d50741ba3f7fae44927ec,
     type: 3}

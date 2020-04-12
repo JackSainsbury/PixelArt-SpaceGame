@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class InventoryManager : MonoBehaviour
+public class InventoryManager : Panel
 {
-    [SerializeField]
-    private Panel panel;
     public GameObject itemFramePrefab;
     public GameObject itemObjectPrefab;
 
@@ -25,10 +23,6 @@ public class InventoryManager : MonoBehaviour
     // Scale window and lay out item frames
     public void InitContainerPanel(Container targetContainer)
     {
-        panel.AddToOnPanelClick(InventoryOnClick);
-        panel.AddToOnHoverPanel(InventoryOnHover);
-        panel.AddToOnPanelRelease(InventoryOnRelease);
-
         this.targetContainer = targetContainer;
         sizeMul = 1.0f / rectTransform.localScale.x;
 
@@ -37,7 +31,7 @@ public class InventoryManager : MonoBehaviour
             targetContainer.inventoryHeight * 100f * sizeMul + (cellSpacing * (targetContainer.inventoryHeight - 1)) + borderSpacing * 2
             );
 
-        panel.ResizePanelSafe(mainPanelDimensions);
+        ResizePanelSafe(mainPanelDimensions);
 
         for (int j = 0; j < targetContainer.inventoryHeight; ++j)
         {
@@ -80,7 +74,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     // Hovering over panel, check to see if we are no longer hovering a specific object
-    public void InventoryOnHover()
+    public override void OnPanelHover()
     {
         ItemObject hoverObject = DoHoverItemChecks();
 
@@ -91,7 +85,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     // Left Clicked panel, check if I clicked an item and begin drag
-    public void InventoryOnClick()
+    public override void OnPanelClick()
     {
         ItemObject hoverObject = DoHoverItemChecks();
 
@@ -108,7 +102,7 @@ public class InventoryManager : MonoBehaviour
 
     // Left click was released over this panel, check to see if I was dragging an object, 
     // if so, set item state and update arrays, then create appropriate retrieval jobs
-    public void InventoryOnRelease()
+    public override void OnPanelReleaseClick()
     {
         DraggingItemTracker dragItemTracker = GameController.Instance.draggingItemTracker;
 
@@ -126,7 +120,7 @@ public class InventoryManager : MonoBehaviour
                 if (targetContainer.TryAddItemFromItemObject(dragItem))
                 {
                     // Parent to new panel
-                    dragItem.transform.SetParent(panel.transform);
+                    dragItem.transform.SetParent(transform);
 
                     // Remove item index from old container
                     dragItem.CurrentOwningInventoryManager.targetContainer.RemoveItemFromByIndex(oldIndex);
@@ -136,6 +130,7 @@ public class InventoryManager : MonoBehaviour
                     // Add ItemObject to this inventory manager
                     itemObjectInstances.Add(dragItem);
 
+                    dragItem.CurrentOwningInventoryManager.RePositionAllItems();
                     dragItem.CurrentOwningInventoryManager = this;
                 }
                 else
@@ -153,6 +148,27 @@ public class InventoryManager : MonoBehaviour
             PositionToFrame(coords.x, coords.y, dragItem.gameObject);
 
             dragItemTracker.SetDragItem(null);
+        }
+    }
+
+    public void RePositionAllItems()
+    {
+        int x = 0;
+        int y = 0;
+        for (int i = 0; i < itemObjectInstances.Count; ++i)
+        {
+            // 1d to 2d coords for layout fill from index 0 wrapped to lines
+            if (x == targetContainer.inventoryWidth)
+            {
+                x = 0;
+                y++;
+            }
+
+            // Position new item
+            PositionToFrame(x, y, itemObjectInstances[i].gameObject);
+            itemObjectInstances[i].PositionInContainerIndex = i;
+
+            x++;
         }
     }
 
@@ -194,13 +210,5 @@ public class InventoryManager : MonoBehaviour
         }
 
         return null;
-    }
-
-    public Panel InventoryPanel
-    {
-        get
-        {
-            return panel;
-        }
     }
 }
