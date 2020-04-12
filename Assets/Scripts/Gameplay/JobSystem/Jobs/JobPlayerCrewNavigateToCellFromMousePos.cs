@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JobPlayerCrewNavigateToCell : CharacterJob
+public class JobPlayerCrewNavigateToCellFromMousePos : CharacterJob
 {
     private CharacterNavigation characterNav;
     private ShipRuntime targetShip;
 
-    public JobPlayerCrewNavigateToCell(string name, params object[] requiredObjects) : base(name, requiredObjects)
+    public JobPlayerCrewNavigateToCellFromMousePos(string name, params object[] requiredObjects) : base(name, requiredObjects)
     {
         characterNav = requiredObjects[0] as CharacterNavigation;
         targetShip = requiredObjects[1] as ShipRuntime;

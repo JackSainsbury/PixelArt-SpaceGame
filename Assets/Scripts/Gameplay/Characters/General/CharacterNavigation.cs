@@ -114,6 +114,12 @@ public class CharacterNavigation : MonoBehaviour
 
         return new Vector2Int(Mathf.RoundToInt(mouseAsShipRelativeWorldPos.x), Mathf.RoundToInt(mouseAsShipRelativeWorldPos.y));
     }
+    public Vector2Int WorldToShipCellPos(Vector3 inWorldPos)
+    {
+        Vector3 mouseAsShipRelativeWorldPos = targetShip.transform.InverseTransformPoint(inWorldPos) / 3.2f;
+
+        return new Vector2Int(Mathf.RoundToInt(mouseAsShipRelativeWorldPos.x), Mathf.RoundToInt(mouseAsShipRelativeWorldPos.y));
+    }
 
     public bool NavToRandom(ShipRuntime targetShip)
     {

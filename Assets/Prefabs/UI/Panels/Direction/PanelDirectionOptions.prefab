@@ -53,6 +53,7 @@ MonoBehaviour:
   titleBoxRectTransform: {fileID: 3522240540488498168}
   mainBoxRectTransform: {fileID: 8222660644652699693}
   tmpTitle: {fileID: 8507081585294453406}
+  walkHereSprite: {fileID: 21300036, guid: 8380abddfac37704da72d46ab5dfca15, type: 3}
   OptionsContainer: {fileID: 4108490530808047447}
   OptionPrefab: {fileID: 6436876112581586850, guid: 6ba4ba41734d50741ba3f7fae44927ec,
     type: 3}

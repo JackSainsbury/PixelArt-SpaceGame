@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DirectionOptionsMenu : Panel
 {
+    public Sprite walkHereSprite;
     public RectTransform OptionsContainer;
     public GameObject OptionPrefab;
 
@@ -15,18 +16,27 @@ public class DirectionOptionsMenu : Panel
     
     public void InitMenu(List<SelectableTarget> targets)
     {
-        options = new DirectionOption[targets.Count];
-        float largestWidth = 0;
+        options = new DirectionOption[targets.Count + 1];
 
-        for(int i = 0; i < targets.Count; ++i)
+        GameObject traverseOption = Instantiate(OptionPrefab, OptionsContainer.transform);
+        traverseOption.transform.localPosition = new Vector3(0, 0, 0);
+        DirectionOption traverseOptionCompenent = traverseOption.GetComponent<DirectionOption>();
+
+        options[0] = traverseOptionCompenent;
+        traverseOptionCompenent.InitOption("Walk Here", walkHereSprite, 0);
+
+        float largestWidth = traverseOptionCompenent.GetTextWidth();
+        for (int i = 0; i < targets.Count; ++i)
         {
+            int adjIndex = i + 1;
+
             GameObject newOptionObject = Instantiate(OptionPrefab, OptionsContainer.transform);
-            newOptionObject.transform.localPosition = new Vector3(0, pixelYOffset * -i, 0);
+            newOptionObject.transform.localPosition = new Vector3(0, pixelYOffset * -adjIndex, 0);
             DirectionOption option = newOptionObject.GetComponent<DirectionOption>();
 
-            options[i] = option;
+            options[adjIndex] = option;
 
-            option.InitOption(targets[i], i);
+            option.InitOption(targets[i], adjIndex);
             
             // Get largest width
             float newWidth = option.GetTextWidth();
@@ -36,7 +46,7 @@ public class DirectionOptionsMenu : Panel
         // + buffer
         largestWidth += pixelOptionBuffer;
 
-        ResizePanelSafe(new Vector2(largestWidth + pixelMainPanelBuffer, targets.Count * pixelYOffset + pixelMainPanelBuffer * 1.5f));
+        ResizePanelSafe(new Vector2(largestWidth + pixelMainPanelBuffer, (targets.Count + 1) * pixelYOffset + pixelMainPanelBuffer * 1.5f));
 
         float minW = WindowDimensions.x - pixelMainPanelBuffer;
 

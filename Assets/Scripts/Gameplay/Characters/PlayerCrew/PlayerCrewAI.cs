@@ -29,6 +29,11 @@ public class PlayerCrewAI : MonoBehaviour
     public void NavToMouse()
     {
         // Add a new job
-        jobController.AddNewJob(new JobPlayerCrewNavigateToCell("Walking.", new object[] { navigationController, targetShip }));
+        jobController.AddNewJob(new JobPlayerCrewNavigateToCellFromMousePos("Walking.", new object[] { navigationController, targetShip }));
+    }
+    public void NavToWorld(Vector3 inWorldPos)
+    {
+        // Add a new job
+        jobController.AddNewJob(new JobPlayerCrewNavigateToCellFromWorldPos("Walking.", new object[] { navigationController, targetShip, inWorldPos }));
     }
 }

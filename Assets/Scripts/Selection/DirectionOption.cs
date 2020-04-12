@@ -28,6 +28,16 @@ public class DirectionOption : MonoBehaviour
         optionImage.GetComponent<RectTransform>().sizeDelta = new Vector2(rect.width, rect.height);
     }
 
+    public void InitOption(string title, Sprite sprite, int index)
+    {
+        this.index = index;
+        optionText.text = title;
+        optionImage.sprite = sprite;
+
+        Rect rect = sprite.rect;
+        optionImage.GetComponent<RectTransform>().sizeDelta = new Vector2(rect.width, rect.height);
+    }
+
     public void ResizeOption(float newWidth)
     {
         mainPanelRectTransform.sizeDelta = new Vector2(newWidth, mainPanelRectTransform.rect.height);

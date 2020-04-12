@@ -20,6 +20,7 @@ TextureImporter:
     21300030: GameplayUI_15
     21300032: GameplayUI_16
     21300034: GameplayUI_17
+    21300036: GameplayUI_18
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -457,6 +458,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e15fee35a0a386042a2f6b648dbee57b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GameplayUI_18
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 076e2b012c47804459e352ede6d25bc2
       vertices: []
       indices: 
       edges: []

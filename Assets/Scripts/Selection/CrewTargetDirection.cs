@@ -65,29 +65,38 @@ public class CrewTargetDirection : MonoBehaviour
 
     public void DirectToTarget(int targetIndex)
     {
-        ForceCleanUpInventories();
-
-        if (directing != null)
+        if (targetIndex == 0)
         {
-            // Open the directing inventory
-            directing.inventory.SetOpen(true);
+            directing.playerCrewAI.NavToWorld(targets[0].transform.position);
         }
-
-        directedTo = targets[targetIndex];
-
-        // Clean up opened DIRECTED TO inventory panel
-        switch (directedTo.TargetSelectionProfile.selectionType)
+        else
         {
-            case SelectionType.Character:
-                SelectableCharacter character = directedTo as SelectableCharacter;
+            targetIndex--;
 
-                character.inventory.SetOpen(true);
-                break;
-            case SelectionType.Container:
-                SelectableContainer container = directedTo as SelectableContainer;
+            ForceCleanUpInventories();
 
-                container.container.SetOpen(true);
-                break;
+            if (directing != null)
+            {
+                // Open the directing inventory
+                directing.inventory.SetOpen(true);
+            }
+
+            directedTo = targets[targetIndex];
+
+            // Clean up opened DIRECTED TO inventory panel
+            switch (directedTo.TargetSelectionProfile.selectionType)
+            {
+                case SelectionType.Character:
+                    SelectableCharacter character = directedTo as SelectableCharacter;
+
+                    character.inventory.SetOpen(true);
+                    break;
+                case SelectionType.Container:
+                    SelectableContainer container = directedTo as SelectableContainer;
+
+                    container.container.SetOpen(true);
+                    break;
+            }
         }
     }
 
