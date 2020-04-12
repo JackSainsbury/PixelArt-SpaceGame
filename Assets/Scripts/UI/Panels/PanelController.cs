@@ -15,67 +15,71 @@ public class PanelController : MonoBehaviour
     public GameObject[] PanelPrefabs;
     private List<Panel> activePanels = new List<Panel>();
 
-    private Panel dragWindow;
+    private Panel dragPanel;
     private Vector3 baseDragOffset = Vector3.zero;
+
+    private bool isDragging = false;
 
     void Update()
     {
-        // If we have a drag window, do drag based on offset and mousepos
-        if(dragWindow != null)
+        if(isDragging)
         {
-            Vector3 newPos = Input.mousePosition + baseDragOffset;
+            // If we have a drag window, do drag based on offset and mousepos
+            if (dragPanel != null)
+            {
+                Vector3 newPos = Input.mousePosition + baseDragOffset;
+                
 
-            Vector2 windowDims = dragWindow.WindowDimensions;
-            Vector2 titleDims = dragWindow.TitleDimensions;
+                Vector2 windowDims = dragPanel.WindowDimensions;
+                Vector2 titleDims = dragPanel.TitleDimensions;
 
-            newPos.x = Mathf.Clamp(newPos.x, windowDims.x / 2.0f, Screen.width - windowDims.x / 2.0f);
-            newPos.y = Mathf.Clamp(newPos.y, windowDims.y / 2.0f, Screen.height - (windowDims.y / 2.0f + (titleDims.y + UIHelperLibrary.pixelOffsetTitleBar.y)));
+                newPos.x = Mathf.Clamp(newPos.x, windowDims.x / 2.0f, Screen.width - windowDims.x / 2.0f);
+                newPos.y = Mathf.Clamp(newPos.y, windowDims.y / 2.0f, Screen.height - (windowDims.y / 2.0f + (titleDims.y + UIHelperLibrary.pixelOffsetTitleBar.y)));
 
-            dragWindow.transform.position = newPos;
+                dragPanel.transform.position = newPos;
+            }
         }
+
     }
 
     public void ForceStopDrag()
     {
-        dragWindow = null;
+        isDragging = false;
     }
 
-    public bool TestDragWindow()
+    public void StartDrag()
     {
-        bool dragging = false;
+        baseDragOffset = dragPanel.transform.position - Input.mousePosition;
 
-        foreach (Panel panel in activePanels)
-        {
-            if (panel.TestDragWindow())
-            {
-                baseDragOffset = panel.transform.position - Input.mousePosition;
-                dragging = true;
-                dragWindow = panel;
-                BringToFront(panel);
-                break;
-            }
-        }
-
-        if (!dragging)
-            dragWindow = null;
-
-        return dragging;
+        isDragging = true;
     }
 
-    public bool TestClickWindow()
+    public Panel TestOverPanel(out bool topBar)
     {
-        bool clicked = false;
+        Panel outPanel = null;
+        topBar = false;
 
-        foreach (Panel panel in activePanels)
+        if (!isDragging)
         {
-            if (panel.QueryMouseClickPanel())
+            foreach (Panel panel in activePanels)
             {
-                clicked = true;
-                break;
+                bool overPanel = panel.QueryMouseOverPanel();
+                bool overDragBar = panel.TestDragWindow();
+                if (overPanel || overDragBar)
+                {
+                    outPanel = panel;
+
+                    // Store dragging
+                    if (overDragBar)
+                    {
+                        dragPanel = panel;
+                        topBar = true;
+                    }
+                    break;
+                }
             }
         }
-
-        return clicked;
+        return outPanel;
     }
 
     public void BringToFront(Panel panel)
@@ -110,7 +114,7 @@ public class PanelController : MonoBehaviour
 
         Panel newPanel = Instantiate(PanelPrefabs[(int)panelType], panelContainer).GetComponent<Panel>();
 
-        newPanel.Init(newID, title);
+        newPanel.Init(newID, title, panelType);
         newPanel.transform.localPosition = Vector3.zero;
 
         activePanels.Insert(0, newPanel);

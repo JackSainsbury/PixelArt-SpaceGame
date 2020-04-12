@@ -7,15 +7,37 @@ public class MainInputHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool overBar;
+        Panel panelHover = GameController.Instance.panelController.TestOverPanel(out overBar);
+
+        if (panelHover != null)
+        {
+            if (panelHover.PanelInstanceType == PanelType.Inventory)
+            {
+                if(!panelHover.GetComponent<ContainerInventory>().DoHoverItemChecks())
+                {
+                    GameController.Instance.itemInspectorController.RemoveDetailsPanel();
+                }
+            }
+        }
+
         // Left click try and select target
         if (Input.GetMouseButtonDown(0))
         {
-            if (!GameController.Instance.panelController.TestDragWindow())
+            // hoverring main panel and clicked, bring to front
+            if (panelHover != null)
+            {
+                GameController.Instance.panelController.BringToFront(panelHover);
+                if(overBar)
+                {
+                    GameController.Instance.panelController.StartDrag();
+                }
+            }
+            else
             {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                if (!GameController.Instance.panelController.TestClickWindow() && // Test if clicked inventory panel
-                    !GameController.Instance.selectionDisplay.TestSelectionButtons()) // Test if clicked selection buttons
+                if (!GameController.Instance.selectionDisplay.TestSelectionButtons()) // Test if clicked selection buttons
                 {
                     // Test if clicked radial menu
                     bool radialClicked = false;

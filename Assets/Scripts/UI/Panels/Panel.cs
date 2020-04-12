@@ -12,10 +12,13 @@ public class Panel : MonoBehaviour
 
     private uint uid = 0;
 
-    public void Init(uint uid, string title)
+    private PanelType panelInstanceType;
+
+    public void Init(uint uid, string title, PanelType panelInstanceType)
     {
         this.uid = uid;
         tmpTitle.text = title;
+        this.panelInstanceType = panelInstanceType;
 
         UIHelperLibrary.SetUpPanel(titleBoxRectTransform, tmpTitle, mainBoxRectTransform, new Vector2(300, 300));
         titleBoxRectTransform.transform.SetParent(mainBoxRectTransform);
@@ -34,11 +37,11 @@ public class Panel : MonoBehaviour
     }
 
     // Straight bool query
-    public bool QueryMouseClickPanel()
+    public bool QueryMouseOverPanel()
     {
-        bool panelClick = UIHelperLibrary.QueryScreenPosInUIRectTransform(mainBoxRectTransform, Input.mousePosition);
+        bool overPanel = UIHelperLibrary.QueryScreenPosInUIRectTransform(mainBoxRectTransform, Input.mousePosition);
 
-        return panelClick;
+        return overPanel;
     }
 
     public uint UID
@@ -62,6 +65,13 @@ public class Panel : MonoBehaviour
         get
         {
             return new Vector2(titleBoxRectTransform.rect.width, titleBoxRectTransform.rect.height);
+        }
+    }
+    public PanelType PanelInstanceType
+    {
+        get
+        {
+            return panelInstanceType;
         }
     }
 }

@@ -19,11 +19,7 @@ public class ContainerInventory : MonoBehaviour
 
     private Container targetContainer;
 
-
-    public GameObject itemDescriptionPanel;
-    private ItemInspectorDisplay detailsPanelInstance;
-    private int newIndex = -1;
-    private Transform detailsPanelItemObjectTransform;
+    private ItemObject[] itemObjectInstances;
 
     // Scale window and lay out item frames
     public void InitContainerPanel(Container targetContainer)
@@ -48,10 +44,13 @@ public class ContainerInventory : MonoBehaviour
             }
         }
 
+        itemObjectInstances = new ItemObject[targetContainer.CurrentItems.Length];
+
         int x = 0;
         int y = 0;
-        foreach(int itemIndex in targetContainer.CurrentItems)
+        for (int i = 0; i < targetContainer.CurrentItems.Length; ++i)
         {
+            int itemIndex = targetContainer.CurrentItems[i];
             GameObject newItem = Instantiate(itemObjectPrefab, transform);
 
             // 1d to 2d coords for layout fill from index 0 wrapped to lines
@@ -66,7 +65,10 @@ public class ContainerInventory : MonoBehaviour
 
             // Based on the indices, pull the menu sprite from our static item database interface library (from its item profile).
             newItem.GetComponent<Image>().sprite = ItemDatabaseInterface.Instance.items[itemIndex].MenuSprite;
-            newItem.GetComponent<ItemObject>().Init(itemIndex, this);
+            ItemObject newItemObject = newItem.GetComponent<ItemObject>();
+            newItemObject.Init(itemIndex, panel);
+
+            itemObjectInstances[i] = newItemObject;
 
             x++;
         }
@@ -82,27 +84,21 @@ public class ContainerInventory : MonoBehaviour
             );
     }
 
+    // Check if I'm hovering any of the items
+    public bool DoHoverItemChecks()
+    {
+        bool isHoveringItem = false;
 
-    // Add a details panel to the game (inventory extension)
-    public void AddDetailsPanel(int itemIndex, Transform itemObjectTransform)
-    {
-        newIndex = itemIndex;
-        detailsPanelItemObjectTransform = itemObjectTransform;
-    }
-    public void RemoveDetailsPanel()
-    {
-        if (detailsPanelInstance != null)
+        foreach(ItemObject itemObject in itemObjectInstances)
         {
-            detailsPanelInstance.DestroyDisplayPanel();
+            if(itemObject.TestMouseOver())
+            {
+                GameController.Instance.itemInspectorController.AddDetailsPanel(itemObject);
+                isHoveringItem = true;
+                break;
+            }
         }
-    }
-    private void LateUpdate()
-    {
-        if (newIndex != -1)
-        {
-            detailsPanelInstance = Instantiate(itemDescriptionPanel, transform).GetComponent<ItemInspectorDisplay>();
-            detailsPanelInstance.InitDetailsPanel(newIndex, detailsPanelItemObjectTransform);
-            newIndex = -1;
-        }
+
+        return isHoveringItem;
     }
 }

@@ -888,6 +888,7 @@ RectTransform:
   - {fileID: 1608261986}
   - {fileID: 992282082}
   - {fileID: 1853930073}
+  - {fileID: 906159227}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1938,6 +1939,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &906159226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 906159227}
+  m_Layer: 0
+  m_Name: AbovePanelUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &906159227
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906159226}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.421875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 226270486}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -964.0274, y: -539.4797}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &915308690
 GameObject:
   m_ObjectHideFlags: 0
@@ -2207,6 +2243,52 @@ Transform:
   m_Father: {fileID: 1688634964}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 50.571003}
+--- !u!1 &926836641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 926836642}
+  - component: {fileID: 926836643}
+  m_Layer: 0
+  m_Name: InventoryUIController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &926836642
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926836641}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.5812045, y: -0.8979792, z: 0.421875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1867999688}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &926836643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926836641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5b9ca9198756cd4cab067b71f9e59a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detailsUIContainer: {fileID: 906159227}
+  itemDescriptionPanel: {fileID: 2092725480565062691, guid: 3f656776ec11bef4ab221ceea93f221e,
+    type: 3}
 --- !u!1 &929809677
 GameObject:
   m_ObjectHideFlags: 0
@@ -3236,8 +3318,23 @@ PrefabInstance:
       objectReference: {fileID: 1610915406}
     - target: {fileID: 3531870359398631066, guid: e8891fc661a28f34f9cf487b93ea4578,
         type: 3}
+      propertyPath: currentItems.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531870359398631066, guid: e8891fc661a28f34f9cf487b93ea4578,
+        type: 3}
       propertyPath: inventoryWidth
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531870359398631066, guid: e8891fc661a28f34f9cf487b93ea4578,
+        type: 3}
+      propertyPath: currentItems.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531870359398631066, guid: e8891fc661a28f34f9cf487b93ea4578,
+        type: 3}
+      propertyPath: currentItems.Array.data[2]
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8232510166141913267, guid: e8891fc661a28f34f9cf487b93ea4578, type: 3}
@@ -3836,6 +3933,7 @@ MonoBehaviour:
   targetSelection: {fileID: 1736338371}
   mainInputHandler: {fileID: 25456986}
   crewTargetDirection: {fileID: 1736338372}
+  itemInspectorController: {fileID: 926836643}
 --- !u!1 &1852745652
 GameObject:
   m_ObjectHideFlags: 0
@@ -4172,6 +4270,7 @@ Transform:
   - {fileID: 1736338370}
   - {fileID: 25456985}
   - {fileID: 624216271}
+  - {fileID: 926836642}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

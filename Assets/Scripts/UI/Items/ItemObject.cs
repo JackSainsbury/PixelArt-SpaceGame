@@ -5,42 +5,35 @@ using UnityEngine.UI;
 
 public class ItemObject : MonoBehaviour
 {
-    private RectTransform panelRT;
-
-    private bool mouseOver = false;
-    private bool wasMouseOver = false;
+    private RectTransform itemObjectRT;
 
     private int itemIndex;
 
-    private ContainerInventory inventory;
+    private Panel inventoryPanel;
 
-    public void Init(int itemIndex, ContainerInventory inventory)
+    public void Init(int itemIndex, Panel inventoryPanel)
     {
         this.itemIndex = itemIndex;
-        this.inventory = inventory;
-        panelRT = GetComponent<RectTransform>();
+        this.inventoryPanel = inventoryPanel;
+        itemObjectRT = GetComponent<RectTransform>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool TestMouseOver()
     {
-        mouseOver = UIHelperLibrary.QueryScreenPosInUIRectTransform(panelRT, Input.mousePosition);
-
-        if (mouseOver)
+        return UIHelperLibrary.QueryScreenPosInUIRectTransform(itemObjectRT, Input.mousePosition);
+    }
+    public int ItemIndex
+    {
+        get
         {
-            if (!wasMouseOver)
-            {
-                inventory.AddDetailsPanel(itemIndex, panelRT);
-            }
+            return itemIndex;
         }
-        else
+    }
+    public RectTransform ItemRectTrasform
+    {
+        get
         {
-            if(wasMouseOver)
-            {
-                inventory.RemoveDetailsPanel();
-            }
+            return itemObjectRT;
         }
-
-        wasMouseOver = mouseOver;
     }
 }
