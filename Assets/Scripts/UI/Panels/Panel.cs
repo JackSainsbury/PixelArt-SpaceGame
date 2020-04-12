@@ -4,11 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public delegate void UpdateDelegates();
+
 public class Panel : MonoBehaviour
 {
     public RectTransform titleBoxRectTransform;
     public RectTransform mainBoxRectTransform;
     public TextMeshProUGUI tmpTitle;
+
+    // Create a delegate for our panel update
+    private UpdateDelegates clickDelegate;
+    private UpdateDelegates updateDelegate;
+    private UpdateDelegates releaseDelegate;
 
     private uint uid = 0;
 
@@ -44,6 +51,45 @@ public class Panel : MonoBehaviour
         return overPanel;
     }
 
+
+    // Add a delegate to the on hover event
+    public void AddToOnHoverPanel(UpdateDelegates updateDelegate)
+    {
+        this.updateDelegate = updateDelegate;
+    }
+    // Do the on panel hover event
+    public void OnPanelHover()
+    {
+        if (updateDelegate != null)
+            updateDelegate();
+    }
+
+    // Add a delegate to the on panel click event
+    public void AddToOnPanelClick(UpdateDelegates clickDelegate)
+    {
+        this.clickDelegate = clickDelegate;
+    }
+    // Do the on panel click event
+    public void OnPanelClick()
+    {
+        if (clickDelegate != null)
+            clickDelegate();
+    }
+
+    // Add a delegate to the on panel release event
+    public void AddToOnPanelRelease(UpdateDelegates releaseDelegate)
+    {
+        this.releaseDelegate = releaseDelegate;
+    }
+    // Do the on panel release event
+    public void OnPanelReleaseClick()
+    {
+        if(releaseDelegate != null)
+            releaseDelegate();
+    }
+
+
+    // Properties
     public uint UID
     {
         get

@@ -10,7 +10,9 @@ public class GameController : MonoBehaviour
     public TargetSelection targetSelection;
     public MainInputHandler mainInputHandler;
     public CrewTargetDirection crewTargetDirection;
+
     public ItemInspectorController itemInspectorController;
+    public DraggingItemTracker draggingItemTracker;
 
     // Singleton
     private static GameController instance;

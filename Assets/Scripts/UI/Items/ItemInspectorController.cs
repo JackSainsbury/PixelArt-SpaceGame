@@ -14,14 +14,17 @@ public class ItemInspectorController : MonoBehaviour
     // Add a details panel to the game (inventory extension)
     public void AddDetailsPanel(ItemObject itemObjectHoverring)
     {
-        if (this.itemObjectHoverring != itemObjectHoverring)
+        if (GameController.Instance.draggingItemTracker.DragItem == null)
         {
-            RemoveDetailsPanel();
+            if (this.itemObjectHoverring != itemObjectHoverring)
+            {
+                RemoveDetailsPanel();
 
-            this.itemObjectHoverring = itemObjectHoverring;
+                this.itemObjectHoverring = itemObjectHoverring;
 
-            detailsPanelInstance = Instantiate(itemDescriptionPanel, detailsUIContainer).GetComponent<ItemInspectorDisplay>();
-            detailsPanelInstance.InitDetailsPanel(itemObjectHoverring.ItemIndex, itemObjectHoverring.transform);
+                detailsPanelInstance = Instantiate(itemDescriptionPanel, detailsUIContainer).GetComponent<ItemInspectorDisplay>();
+                detailsPanelInstance.InitDetailsPanel(itemObjectHoverring.ItemIndex, itemObjectHoverring.transform);
+            }
         }
     }
     public void RemoveDetailsPanel()

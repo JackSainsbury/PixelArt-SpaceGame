@@ -12,13 +12,7 @@ public class MainInputHandler : MonoBehaviour
 
         if (panelHover != null)
         {
-            if (panelHover.PanelInstanceType == PanelType.Inventory)
-            {
-                if(!panelHover.GetComponent<ContainerInventory>().DoHoverItemChecks())
-                {
-                    GameController.Instance.itemInspectorController.RemoveDetailsPanel();
-                }
-            }
+            panelHover.OnPanelHover();
         }
 
         // Left click try and select target
@@ -28,9 +22,14 @@ public class MainInputHandler : MonoBehaviour
             if (panelHover != null)
             {
                 GameController.Instance.panelController.BringToFront(panelHover);
-                if(overBar)
+
+                if(overBar) // Clicked a drag bar of panel
                 {
                     GameController.Instance.panelController.StartDrag();
+                }
+                else // Clicked a window of panel
+                {
+                    panelHover.OnPanelClick();
                 }
             }
             else
@@ -56,6 +55,21 @@ public class MainInputHandler : MonoBehaviour
         if (!Input.GetMouseButton(0))
         {
             GameController.Instance.panelController.ForceStopDrag();
+        }
+
+        // Left mouse button UP do release logic on target window
+        if (Input.GetMouseButtonUp(0))
+        {
+            // hoverring main panel and released, bring to front
+            if (panelHover != null)
+            {
+                GameController.Instance.panelController.BringToFront(panelHover);
+
+                if (!overBar) // Released on main window, not bar
+                {
+                    panelHover.OnPanelReleaseClick();
+                }
+            }
         }
 
         // Right click, direct selected character to target location
