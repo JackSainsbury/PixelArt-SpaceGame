@@ -8,14 +8,14 @@ public class CrewTargetDirection : MonoBehaviour
 
     private Panel directionOptionsPanel;
 
-    private SelectableCharacter directing;
-    private SelectableTarget directedTo;
+    private SelectableCharacter selectedDirecting;
+    private List<SelectableTarget> directedTo = new List<SelectableTarget>();
 
-    public bool DoTargetSearch(Vector3 WSMousePos, SelectableCharacter directing)
+    public bool DoTargetSearch(Vector3 WSMousePos, SelectableCharacter selectedDirecting)
     {
         ForceCleanupMenu();
 
-        this.directing = directing;
+        this.selectedDirecting = selectedDirecting;
 
         Vector2 mousePos2D = new Vector2(WSMousePos.x, WSMousePos.y);
         RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos2D, Vector2.zero);
@@ -67,35 +67,26 @@ public class CrewTargetDirection : MonoBehaviour
     {
         if (targetIndex == 0)
         {
-            directing.playerCrewAI.NavToWorld(targets[0].transform.position);
+            // Simple pathfinding job
+            if (selectedDirecting != null)
+            {
+                selectedDirecting.playerCrewAI.NavToWorld(targets[0].transform.position);
+            }
         }
         else
         {
+            // Pathfind and open inventory on arrival
             targetIndex--;
 
-            ForceCleanUpInventories();
-
-            if (directing != null)
+            if (selectedDirecting != null)
             {
-                // Open the directing inventory
-                directing.inventory.SetOpen(true);
-            }
+                List<CharacterJob> openJob = new List<CharacterJob>();
+                openJob.Add(new JobOpenTransferInventoriesDirection("Opening container.", new object[] { selectedDirecting, targets[targetIndex] }));
 
-            directedTo = targets[targetIndex];
+                // Store the new target for clean up call
+                directedTo.Add(targets[targetIndex]);
 
-            // Clean up opened DIRECTED TO inventory panel
-            switch (directedTo.TargetSelectionProfile.selectionType)
-            {
-                case SelectionType.Character:
-                    SelectableCharacter character = directedTo as SelectableCharacter;
-
-                    character.inventory.SetOpen(true);
-                    break;
-                case SelectionType.Container:
-                    SelectableContainer container = directedTo as SelectableContainer;
-
-                    container.container.SetOpen(true);
-                    break;
+                selectedDirecting.playerCrewAI.NavToWorld(targets[targetIndex].transform.position, openJob);
             }
         }
     }
@@ -107,21 +98,24 @@ public class CrewTargetDirection : MonoBehaviour
     }
     public void ForceCleanUpInventories()
     {
-        if (directedTo != null)
+        if (directedTo.Count > 0)
         {
-            // Clean up opened DIRECTED TO inventory panel
-            switch (directedTo.TargetSelectionProfile.selectionType)
+            foreach (SelectableTarget directables in directedTo)
             {
-                case SelectionType.Character:
-                    SelectableCharacter character = directedTo as SelectableCharacter;
+                // Clean up opened DIRECTED TO inventory panel
+                switch (directables.TargetSelectionProfile.selectionType)
+                {
+                    case SelectionType.Character:
+                        SelectableCharacter character = directables as SelectableCharacter;
 
-                    character.inventory.SetOpen(false);
-                    break;
-                case SelectionType.Container:
-                    SelectableContainer container = directedTo as SelectableContainer;
+                        character.inventory.SetOpen(false);
+                        break;
+                    case SelectionType.Container:
+                        SelectableContainer container = directables as SelectableContainer;
 
-                    container.container.SetOpen(false);
-                    break;
+                        container.container.SetOpen(false);
+                        break;
+                }
             }
         }
     }

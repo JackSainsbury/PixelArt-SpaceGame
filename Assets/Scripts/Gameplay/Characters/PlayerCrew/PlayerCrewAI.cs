@@ -36,4 +36,10 @@ public class PlayerCrewAI : MonoBehaviour
         // Add a new job
         jobController.AddNewJob(new JobPlayerCrewNavigateToCellFromWorldPos("Walking.", new object[] { navigationController, targetShip, inWorldPos }));
     }
+    public void NavToWorld(Vector3 inWorldPos, List<CharacterJob> postArrivalJobs)
+    {
+        postArrivalJobs.Add(new JobPlayerCrewNavigateToCellFromWorldPos("Walking.", new object[] { navigationController, targetShip, inWorldPos }));
+
+        jobController.AddNewJob(postArrivalJobs);
+    }
 }

@@ -100,10 +100,7 @@ public class TargetSelection : MonoBehaviour
         {
             SetTarget(null);
             GameController.Instance.selectionDisplay.SetSelection(null);
-        }
 
-        if (currentTarget != null)
-        {
             GameController.Instance.crewTargetDirection.ForceCleanupMenu();
             GameController.Instance.crewTargetDirection.ForceCleanUpInventories();
         }

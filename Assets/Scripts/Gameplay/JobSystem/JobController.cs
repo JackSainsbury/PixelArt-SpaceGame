@@ -27,13 +27,9 @@ public class JobController : MonoBehaviour
         activeJobsList.Add(newJob);
         AssignCurrentJob();
     }
-    public void AddNewJob(CharacterJob[] newJobs)
+    public void AddNewJob(List<CharacterJob> newJobs)
     {
-        activeJobsList = new List<CharacterJob>();
-        foreach (CharacterJob newJob in newJobs)
-        {
-            activeJobsList.Add(newJob);
-        }
+        activeJobsList = newJobs;
 
         AssignCurrentJob();
     }
@@ -41,6 +37,7 @@ public class JobController : MonoBehaviour
     // Trigger interrupt of out dated current job, assign and start new current job
     void AssignCurrentJob()
     {
+
         // Get the next candidate job
         CharacterJob candidateNewJob = null;
         if (activeJobsList.Count == 0 && idleJob != null)
